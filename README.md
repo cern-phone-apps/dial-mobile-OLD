@@ -1,3 +1,13 @@
+
+## Master
+
+[![Build Status](https://travis-ci.org/cern-dialtone/phone-mobile.svg?branch=master)](https://travis-ci.org/cern-dialtone/phone-mobile)
+
+## Dev
+
+[![Build Status](https://travis-ci.org/cern-dialtone/phone-mobile.svg?branch=dev)](https://travis-ci.org/cern-dialtone/phone-mobile) [![Maintainability](https://api.codeclimate.com/v1/badges/4ded9179cf42cb1ddb76/maintainability)](https://codeclimate.com/github/cern-dialtone/phone-mobile/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/4ded9179cf42cb1ddb76/test_coverage)](https://codeclimate.com/github/cern-dialtone/phone-mobile/test_coverage)
+
+
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
 Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
