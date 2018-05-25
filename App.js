@@ -1,50 +1,66 @@
 import React from 'react'
-import { Text, View } from 'react-native'
-import { PropTypes } from 'prop-types'
-import { createBottomTabNavigator, createStackNavigator } from 'react-navigation'
+import { Text, View, Button, Platform, StatusBar } from 'react-native'
+import { createBottomTabNavigator, createMaterialTopTabNavigator, SafeAreaView } from 'react-navigation' // 1.0.0-beta.11
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import { Constants } from 'expo'
 
 class HomeScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Welcome'
+  }
+
   render () {
+    const {navigate} = this.props.navigation
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text>Home!</Text>
-      </View>
-    )
+      <SafeAreaView>
+        <Button
+          onPress={() => navigate('Second')}
+          title="Click here"
+        />
+      </SafeAreaView>)
   }
 }
 
-class SettingsScreen extends React.Component {
+class SecondScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Details'
+  }
+
   render () {
-    return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        <Text>Settings</Text>
-      </View>
-    )
+    return <SafeAreaView><Text>It works!</Text></SafeAreaView>
   }
 }
 
-const tabNavigator = createBottomTabNavigator({
-  Home: HomeScreen,
-  Settings: SettingsScreen,
+const IosApp = createBottomTabNavigator({
+  Home: {screen: HomeScreen},
+  Second: {screen: SecondScreen}
 })
 
-const MyStack = createStackNavigator(
-  {
-    Root: tabNavigator
-  },
-  {
-    headerMode: 'none'
-  }
-)
+const AndroidApp = createMaterialTopTabNavigator({
+  Home: {screen: HomeScreen},
+  Second: {screen: SecondScreen}
+})
 
-class CustomNavigator extends React.Component {
-  static router = MyStack.router
+export default class App extends React.Component {
+  componentDidMount () {
+    console.log(Constants.statusBarHeight)
+  }
 
   render () {
-    const {navigation} = this.props
-
-    return <MyStack navigation={navigation}/>
+    console.debug(this.props)
+    return (
+      <View style={{flex: 1}}>
+        <View style={{height: Constants.statusBarHeight}}>
+          <StatusBar/>
+        </View>
+        <Provider store={createStore(() => {})}>
+          {Platform.OS === 'ios'
+            ? <IosApp/>
+            : <AndroidApp/>
+          }
+        </Provider>
+      </View>
+    )
   }
 }
-
-export default CustomNavigator
