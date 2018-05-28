@@ -1,22 +1,15 @@
 import React from 'react'
 import { createBottomTabNavigator } from 'react-navigation'
-import { Platform } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import RecentCallsScreen from '../screens/RecentCallsScreen'
-import ContactsScreen from '../screens/ContactsScreen'
-import KeypadScreen from '../screens/KeypadScreen'
-import SettingsScreen from '../screens/SettingsScreen'
+import RecentCallsScreen from 'screens/RecentCallsScreen'
+import ContactsScreen from 'screens/ContactsScreen'
+import KeypadScreen from 'screens/KeypadScreen'
+import SettingsScreen from 'screens/SettingsScreen'
 
 function getIosIcon (routeName, expectedName, iconName, focused, tintColor = '#2185d0') {
   iconName = `ios-${iconName}${focused ? '' : '-outline'}`
   return <Ionicons name={iconName} size={25} color={tintColor}/>
-}
-
-function getAndroidIcon (routeName, expectedName, iconName, tintColor = 'white') {
-  iconName = `${iconName}`
-  return <MaterialCommunityIcons name={iconName} size={25} color={tintColor}/>
 }
 
 const RecentCallsScreenOptions = ({navigation}) => {
@@ -27,11 +20,8 @@ const RecentCallsScreenOptions = ({navigation}) => {
       const {routeName} = navigation.state
       const expectedName = 'RecentCalls'
 
-      if (Platform.OS === 'ios') {
-        icon = getIosIcon(routeName, expectedName, iconName, focused)
-      } else {
-        icon = getAndroidIcon(routeName, expectedName, iconName)
-      }
+      icon = getIosIcon(routeName, expectedName, iconName, focused)
+
       return icon
     },
     tabBarLabel: 'Recent',

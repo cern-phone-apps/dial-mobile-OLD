@@ -1,13 +1,11 @@
 import React from 'react'
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
-import { Platform } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
-import RecentCallsScreen from '../screens/RecentCallsScreen'
-import ContactsScreen from '../screens/ContactsScreen'
-import KeypadScreen from '../screens/KeypadScreen'
-import SettingsScreen from '../screens/SettingsScreen'
+import RecentCallsScreen from 'screens/RecentCallsScreen'
+import ContactsScreen from 'screens/ContactsScreen'
+import KeypadScreen from 'screens/KeypadScreen'
+import SettingsScreen from 'screens/SettingsScreen'
 
 function getAndroidIcon (routeName, expectedName, iconName, tintColor = 'white') {
   return <Ionicons name={iconName} size={25} color={tintColor}/>
