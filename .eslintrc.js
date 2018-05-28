@@ -3,6 +3,13 @@ module.exports = {
     "es6": true,
     "jest": true
   },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["./src"]
+      }
+    }
+  },
   'extends': [
     'eslint:recommended',
     'plugin:react/recommended',
