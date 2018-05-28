@@ -1,9 +1,9 @@
 import React from 'react'
-import SettingsScreen from './SettingsScreen'
+import RecentCallsScreen from 'screens/RecentCallsScreen'
 
 import renderer from 'react-test-renderer'
 
 it('renders without crashing', () => {
-  const rendered = renderer.create(<SettingsScreen />).toJSON()
+  const rendered = renderer.create(<RecentCallsScreen />).toJSON()
   expect(rendered).toBeTruthy()
 })

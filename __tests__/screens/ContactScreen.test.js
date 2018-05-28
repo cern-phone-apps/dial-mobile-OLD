@@ -1,9 +1,9 @@
 import React from 'react'
-import KeypadScreen from './KeypadScreen'
+import ContactsScreen from 'screens/ContactsScreen'
 
 import renderer from 'react-test-renderer'
 
 it('renders without crashing', () => {
-  const rendered = renderer.create(<KeypadScreen />).toJSON()
+  const rendered = renderer.create(<ContactsScreen />).toJSON()
   expect(rendered).toBeTruthy()
 })

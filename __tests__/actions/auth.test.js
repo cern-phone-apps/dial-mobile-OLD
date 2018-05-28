@@ -2,9 +2,9 @@ import configureMockStore from 'redux-mock-store'
 import {apiMiddleware} from 'redux-api-middleware'
 import thunk from 'redux-thunk'
 import fetchMock from 'fetch-mock'
-import {REACT_APP_AUTH_LOGIN_ENDPOINT} from '../settings'
+import {REACT_APP_AUTH_LOGIN_ENDPOINT} from '../../src/settings'
 
-import * as actions from './auth'
+import * as actions from 'actions/auth'
 
 const middlewares = [thunk, apiMiddleware]
 const mockStore = configureMockStore(middlewares)

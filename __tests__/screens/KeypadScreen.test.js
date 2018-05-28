@@ -1,9 +1,9 @@
 import React from 'react'
-import RecentCallsScreen from './RecentCallsScreen'
+import KeypadScreen from 'screens/KeypadScreen'
 
 import renderer from 'react-test-renderer'
 
 it('renders without crashing', () => {
-  const rendered = renderer.create(<RecentCallsScreen />).toJSON()
+  const rendered = renderer.create(<KeypadScreen />).toJSON()
   expect(rendered).toBeTruthy()
 })
