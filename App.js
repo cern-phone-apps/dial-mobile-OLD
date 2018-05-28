@@ -3,9 +3,9 @@ import { View, Platform, StatusBar } from 'react-native'
 import { Provider } from 'react-redux'
 import { Constants } from 'expo'
 
-import IosApp from './src/navigators/AppNavigator.ios'
-import AndroidApp from './src/navigators/AppNavigator.android'
-import configureStore from './store'
+import IosApp from 'navigators/AppNavigator.ios'
+import AndroidApp from 'navigators/AppNavigator.android'
+import configureStore from './src/store'
 
 const {store, persistor} = configureStore()
 
