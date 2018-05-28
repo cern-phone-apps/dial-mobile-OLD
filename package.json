@@ -4,13 +4,13 @@
   "private": true,
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
-    "start": "react-native-scripts start",
-    "eject": "react-native-scripts eject",
-    "android": "react-native-scripts android",
-    "ios": "react-native-scripts ios",
-    "test": "./node_modules/.bin/jest",
-    "precommit": "lint-staged",
-    "test:staged": "cross-env CI=true jest --findRelatedTests"
+    "start": "NODE_PATH=./src react-native-scripts start",
+    "eject": "NODE_PATH=./src react-native-scripts eject",
+    "android": "NODE_PATH=./src react-native-scripts android",
+    "ios": "NODE_PATH=./src react-native-scripts ios",
+    "test": "NODE_PATH=./src ./node_modules/.bin/jest",
+    "precommit": "NODE_PATH=./src lint-staged",
+    "test:staged": "NODE_PATH=./src cross-env CI=true jest --findRelatedTests"
   },
   "lint-staged": {
     "./**/*.js": [
@@ -24,17 +24,22 @@
   },
   "dependencies": {
     "expo": "^27.0.1",
+    "js-cookie": "^2.2.0",
     "prop-types": "^15.6.1",
     "react": "16.3.1",
     "react-native": "~0.55.2",
     "react-navigation": "^2.0.2",
     "react-navigation-material-bottom-tabs": "^0.2.0",
     "react-redux": "^5.0.7",
-    "redux": "^4.0.0"
+    "redux": "^4.0.0",
+    "redux-persist": "^5.9.1",
+    "redux-persist-transform-filter": "0.0.17",
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",
     "cross-env": "^5.1.6",
+    "enzyme": "^3.3.0",
     "eslint": "^4.19.1",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-babel": "^5.1.0",
@@ -43,11 +48,14 @@
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-react": "^7.8.2",
     "eslint-plugin-standard": "^3.1.0",
+    "fetch-mock": "^6.4.2",
     "husky": "^0.14.3",
     "jest-expo": "~27.0.0",
     "lint-staged": "^7.1.2",
     "react-native-scripts": "1.14.0",
     "react-test-renderer": "16.3.1",
+    "redux-api-middleware": "^2.3.0",
+    "redux-mock-store": "^1.5.1",
     "standard": "^11.0.1"
   }
 }
