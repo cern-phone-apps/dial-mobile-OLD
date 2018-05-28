@@ -4,10 +4,10 @@
   "private": true,
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
-    "start": "NODE_PATH=./src react-native-scripts start",
-    "eject": "NODE_PATH=./src react-native-scripts eject",
-    "android": "NODE_PATH=./src react-native-scripts android",
-    "ios": "NODE_PATH=./src react-native-scripts ios",
+    "start": "react-native-scripts start",
+    "eject": "react-native-scripts eject",
+    "android": "react-native-scripts android",
+    "ios": "react-native-scripts ios",
     "test": "NODE_PATH=./src ./node_modules/.bin/jest",
     "precommit": "NODE_PATH=./src lint-staged",
     "test:staged": "NODE_PATH=./src cross-env CI=true jest --findRelatedTests"
@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",
+    "babel-plugin-module-resolver": "^3.1.1",
     "cross-env": "^5.1.6",
     "enzyme": "^3.3.0",
     "eslint": "^4.19.1",
