@@ -20,6 +20,9 @@
   },
   "jest": {
     "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!react-native|react-router-native|fetch-mock)/"
+    ],
     "setupTestFrameworkScriptFile": "./setupJest"
   },
   "dependencies": {
@@ -31,6 +34,7 @@
     "react-navigation": "^2.0.2",
     "react-navigation-material-bottom-tabs": "^0.2.0",
     "react-redux": "^5.0.7",
+    "react-router-native": "^4.2.0",
     "redux": "^4.0.0",
     "redux-persist": "^5.9.1",
     "redux-persist-transform-filter": "0.0.17",
@@ -39,6 +43,7 @@
   "devDependencies": {
     "babel-eslint": "^8.2.3",
     "babel-plugin-module-resolver": "^3.1.1",
+    "babel-preset-env": "^1.7.0",
     "cross-env": "^5.1.6",
     "enzyme": "^3.3.0",
     "eslint": "^4.19.1",
