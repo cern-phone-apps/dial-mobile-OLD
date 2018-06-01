@@ -3,18 +3,7 @@
   "env": {
     "development": {
       "plugins": [
-        "transform-react-jsx-source",
-        ["module-resolver", {
-          "root": ["./src"],
-          "alias": {
-            "reducers": "./src/reducers",
-            "components": "./src/components",
-            "containers": "./src/containers",
-            "actions": "./src/actions",
-            "screens": "./src/screens",
-            "navigators": "./src/navigators"
-          }
-        }]
+        "transform-react-jsx-source"
       ]
     }
   }

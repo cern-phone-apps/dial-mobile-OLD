@@ -1,4 +1,4 @@
-import * as authActions from 'actions/auth'
+import * as authActions from '../actions/auth'
 import Cookies from 'js-cookie'
 
 const initialState = {
@@ -73,14 +73,14 @@ export default (state = initialState, action) => {
         refresh: false,
         loggedIn: false,
         loginInProgress: false,
-        errors: action.payload.response || {'non_field_errors': action.payload.statusText}
+        errors: action.payload.response || { 'non_field_errors': action.payload.statusText }
       }
     case authActions.TOKEN_FAILURE:
       return {
         ...state,
         refresh: false,
         loggedIn: false,
-        errors: action.payload.response || {'non_field_errors': action.payload.statusText}
+        errors: action.payload.response || { 'non_field_errors': action.payload.statusText }
       }
     case authActions.LOGOUT_SUCCESS:
       return {

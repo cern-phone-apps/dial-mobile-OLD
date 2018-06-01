@@ -1,9 +1,9 @@
-import {applyMiddleware, createStore, compose} from 'redux'
-import {persistReducer, persistStore} from 'redux-persist'
+import { applyMiddleware, createStore, compose } from 'redux'
+import { persistReducer, persistStore } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import {createBlacklistFilter} from 'redux-persist-transform-filter'
+import { createBlacklistFilter } from 'redux-persist-transform-filter'
 
-import rootReducer from 'reducers'
+import rootReducer from './reducers'
 import apiMiddleware from './middleware'
 
 const createCustomStore = () => {
@@ -40,5 +40,5 @@ const createCustomStore = () => {
 export default () => {
   let store = createCustomStore()
   let persistor = persistStore(store)
-  return {store, persistor}
+  return { store, persistor }
 }

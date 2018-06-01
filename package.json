@@ -36,13 +36,13 @@
     "react-redux": "^5.0.7",
     "react-router-native": "^4.2.0",
     "redux": "^4.0.0",
+    "redux-api-middleware": "^2.3.0",
     "redux-persist": "^5.9.1",
     "redux-persist-transform-filter": "0.0.17",
     "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",
-    "babel-plugin-module-resolver": "^3.1.1",
     "babel-preset-env": "^1.7.0",
     "cross-env": "^5.1.6",
     "enzyme": "^3.3.0",
@@ -60,7 +60,6 @@
     "lint-staged": "^7.1.2",
     "react-native-scripts": "1.14.0",
     "react-test-renderer": "16.3.1",
-    "redux-api-middleware": "^2.3.0",
     "redux-mock-store": "^1.5.1",
     "standard": "^11.0.1"
   }

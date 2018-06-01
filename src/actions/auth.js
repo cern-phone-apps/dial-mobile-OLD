@@ -1,10 +1,10 @@
 import { RSAA } from 'redux-api-middleware'
-import { withAuth, withRefresh } from 'reducers/auth'
+import { withAuth, withRefresh } from '../reducers/auth'
 import {
   REACT_APP_AUTH_LOGIN_ENDPOINT,
   REACT_APP_AUTH_LOGOUT_ENDPOINT,
   REACT_APP_AUTH_REFRESH_ENDPOINT
-} from 'settings'
+} from '../settings'
 
 export const LOGIN_REQUEST = '@@auth/LOGIN_REQUEST'
 export const LOGIN_SUCCESS = '@@auth/LOGIN_SUCCESS'
@@ -22,9 +22,9 @@ export const login = (code) => ({
   [RSAA]: {
     endpoint: REACT_APP_AUTH_LOGIN_ENDPOINT,
     method: 'POST',
-    body: JSON.stringify({code}),
+    body: JSON.stringify({ code }),
     credentials: 'include',
-    headers: {'Content-Type': 'application/json'},
+    headers: { 'Content-Type': 'application/json' },
     types: [
       LOGIN_REQUEST,
       LOGIN_SUCCESS,
@@ -38,7 +38,7 @@ export const logout = () => ({
     endpoint: REACT_APP_AUTH_LOGOUT_ENDPOINT,
     method: 'DELETE',
     credentials: 'include',
-    headers: withAuth({'Content-Type': 'application/json'}),
+    headers: withAuth({ 'Content-Type': 'application/json' }),
     types: [
       LOGOUT_REQUEST,
       LOGOUT_SUCCESS,
@@ -52,7 +52,7 @@ export const refreshAccessToken = () => ({
     endpoint: REACT_APP_AUTH_REFRESH_ENDPOINT,
     method: 'POST',
     credentials: 'include',
-    headers: withRefresh({'Content-Type': 'application/json'}),
+    headers: withRefresh({ 'Content-Type': 'application/json' }),
     types: [
       TOKEN_REQUEST,
       TOKEN_RECEIVED,
