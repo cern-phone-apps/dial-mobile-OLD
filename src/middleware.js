@@ -1,13 +1,13 @@
 import { isRSAA, apiMiddleware } from 'redux-api-middleware'
 
 import { TOKEN_RECEIVED, refreshAccessToken } from './actions/auth'
-import { getRefreshToken, isAccessTokenExpired } from './reducers/auth'
+import { refreshToken, isAccessTokenExpired } from './reducers/auth'
 
 export function createApiMiddleware () {
   const postponedRSAAs = []
 
-  return ({ dispatch, getState }) => {
-    const rsaaMiddleware = apiMiddleware({ dispatch, getState })
+  return ({dispatch, getState}) => {
+    const rsaaMiddleware = apiMiddleware({dispatch, getState})
 
     return (next) => (action) => {
       const nextCheckPostponed = (nextAction) => {
@@ -26,9 +26,10 @@ export function createApiMiddleware () {
 
       if (isRSAA(action)) {
         console.debug('Is RSAA -> True')
-        const refreshToken = getRefreshToken()
+        const state = getState()
+        const token = refreshToken(state)
 
-        if (refreshToken && isAccessTokenExpired()) {
+        if (token && isAccessTokenExpired(state)) {
           console.debug('Access token is expired but we have refresh token')
           postponedRSAAs.push(action)
           console.debug('postponed RSAAs: ', postponedRSAAs)

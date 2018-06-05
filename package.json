@@ -10,7 +10,8 @@
     "ios": "react-native-scripts ios",
     "test": "NODE_PATH=./src ./node_modules/.bin/jest",
     "precommit": "NODE_PATH=./src lint-staged",
-    "test:staged": "NODE_PATH=./src cross-env CI=true jest --findRelatedTests"
+    "test:staged": "NODE_PATH=./src cross-env CI=true jest --findRelatedTests",
+    "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=19000'"
   },
   "lint-staged": {
     "./**/*.js": [
@@ -28,6 +29,7 @@
   "dependencies": {
     "expo": "^27.0.1",
     "js-cookie": "^2.2.0",
+    "jwt-decode": "^2.2.0",
     "prop-types": "^15.6.1",
     "react": "16.3.1",
     "react-native": "~0.55.2",
@@ -58,6 +60,7 @@
     "husky": "^0.14.3",
     "jest-expo": "~27.0.0",
     "lint-staged": "^7.1.2",
+    "react-native-debugger-open": "^0.3.17",
     "react-native-scripts": "1.14.0",
     "react-test-renderer": "16.3.1",
     "redux-mock-store": "^1.5.1",

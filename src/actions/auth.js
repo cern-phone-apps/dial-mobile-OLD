@@ -23,7 +23,6 @@ export const login = (code) => ({
     endpoint: REACT_APP_AUTH_LOGIN_ENDPOINT,
     method: 'POST',
     body: JSON.stringify({ code }),
-    credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     types: [
       LOGIN_REQUEST,
@@ -33,11 +32,11 @@ export const login = (code) => ({
   }
 })
 
-export const logout = () => ({
+export const logout = (code) => ({
   [RSAA]: {
     endpoint: REACT_APP_AUTH_LOGOUT_ENDPOINT,
     method: 'DELETE',
-    credentials: 'include',
+    body: (action, state) => (JSON.stringify({ 'token': action.auth.refresh.token })),
     headers: withAuth({ 'Content-Type': 'application/json' }),
     types: [
       LOGOUT_REQUEST,
@@ -51,7 +50,7 @@ export const refreshAccessToken = () => ({
   [RSAA]: {
     endpoint: REACT_APP_AUTH_REFRESH_ENDPOINT,
     method: 'POST',
-    credentials: 'include',
+    body: '',
     headers: withRefresh({ 'Content-Type': 'application/json' }),
     types: [
       TOKEN_REQUEST,

@@ -16,14 +16,13 @@ export default class App extends React.Component {
   }
 
   render () {
-    console.debug(this.props)
     return (
       <View style={{ flex: 1 }}>
         <View style={{ height: Constants.statusBarHeight }}>
           <StatusBar />
         </View>
         <Provider store={store}>
-          <LoginScreen/>
+          <LoginScreen />
           {/*{Platform.OS === 'ios'*/}
             {/*? <IosApp />*/}
             {/*: <AndroidApp />*/}

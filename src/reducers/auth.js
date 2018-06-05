@@ -1,50 +1,54 @@
+import jwtDecode from 'jwt-decode'
 import * as authActions from '../actions/auth'
-import Cookies from 'js-cookie'
 
 const initialState = {
-  refresh: false,
   loggedIn: false,
   loginInProgress: false,
+  access: undefined,
+  refresh: undefined,
   errors: {}
 }
 
-export function getAccessToken () {
-  return Cookies.get('csrf_access_token')
+export function accessToken (state) {
+  console.log(`Authenticating with access token: ${state.auth.access.token}`)
+  if (state.auth.access.token) {
+    return state.auth.access.token
+  }
 }
 
-export function isAccessTokenExpired () {
-  console.debug('isAccessTokenExpired?: ', !getAccessToken())
-  return !getAccessToken()
+export function isAccessTokenExpired (state) {
+  if (state.access && state.access.exp) {
+    return 1000 * state.auth.access.exp - (new Date()).getTime() < 5000
+  }
+  return true
 }
 
-export function getRefreshToken () {
-  return Cookies.get('csrf_refresh_token')
+export function refreshToken (state) {
+  if (state.refresh) {
+    return state.auth.refresh.token
+  }
 }
 
-export function isRefreshTokenExpired () {
-  console.debug('isRefreshTokenExpired?: ', !getRefreshToken())
-  return !getRefreshToken()
+export function isRefreshTokenExpired (state) {
+  if (state.auth.refresh && state.auth.refresh.exp) {
+    return 1000 * state.auth.refresh.exp - (new Date()).getTime() < 5000
+  }
+  return true
 }
 
-export function isAuthenticated () {
-  return !isRefreshTokenExpired()
+export function isAuthenticated (state) {
+  return !isRefreshTokenExpired(state)
 }
 
 export function errors (state) {
-  return state.errors
+  return state.auth.errors
 }
 
 export function withAuth (headers = {}) {
+  console.log('Calling withAuth')
   return (state) => ({
     ...headers,
-    'X-CSRF-TOKEN': getAccessToken()
-  })
-}
-
-export function withRefresh (headers = {}) {
-  return (state) => ({
-    ...headers,
-    'X-CSRF-TOKEN': getRefreshToken()
+    'Authorization': `Bearer ${accessToken(state)}`
   })
 }
 
@@ -56,8 +60,16 @@ export default (state = initialState, action) => {
         loginInProgress: true
       }
     case authActions.LOGIN_SUCCESS:
+      console.log(action.payload)
       return {
-        ...state,
+        access: {
+          token: action.payload.access_token,
+          ...jwtDecode(action.payload.access_token)
+        },
+        refresh: {
+          token: action.payload.refresh_token,
+          ...jwtDecode(action.payload.refresh_token)
+        },
         loggedIn: action.payload.login,
         loginInProgress: false,
         errors: {}
@@ -65,27 +77,33 @@ export default (state = initialState, action) => {
     case authActions.TOKEN_RECEIVED:
       return {
         ...state,
-        refresh: action.payload.refresh
+        access: {
+          token: action.payload.access_token,
+          ...jwtDecode(action.payload.access_token)
+        }
       }
     case authActions.LOGIN_FAILURE:
       return {
         ...state,
-        refresh: false,
+        access: undefined,
+        refresh: undefined,
         loggedIn: false,
         loginInProgress: false,
-        errors: action.payload.response || { 'non_field_errors': action.payload.statusText }
+        errors: action.payload.response || {'non_field_errors': action.payload.statusText}
       }
     case authActions.TOKEN_FAILURE:
       return {
         ...state,
-        refresh: false,
+        access: undefined,
+        refresh: undefined,
         loggedIn: false,
-        errors: action.payload.response || { 'non_field_errors': action.payload.statusText }
+        errors: action.payload.response || {'non_field_errors': action.payload.statusText}
       }
     case authActions.LOGOUT_SUCCESS:
       return {
         ...state,
-        refresh: false,
+        access: undefined,
+        refresh: undefined,
         loggedIn: false,
         errors: {}
       }
