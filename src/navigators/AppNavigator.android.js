@@ -7,7 +7,7 @@ import ContactsScreen from '../screens/ContactsScreen'
 import KeypadScreen from '../screens/KeypadScreen'
 import SettingsScreen from '../containers/screens/SettingsScreen'
 
-function getAndroidIcon (routeName, iconName, tintColor = 'white') {
+function getAndroidIcon (iconName, tintColor = 'white') {
   return <Ionicons name={iconName} size={25} color={tintColor} />
 }
 
@@ -27,15 +27,10 @@ const RecentCallsScreenOptions = ({ navigation }) => {
   }
 }
 
-const ContactsScreenOptions = ({ navigation }) => {
+const ContactsScreenOptions = () => {
   return {
-    tabBarIcon: ({ focused, tintColor }) => {
-      let icon
-      const iconName = 'md-contacts'
-      const { routeName } = navigation.state
-
-      icon = getAndroidIcon(routeName, iconName)
-      return icon
+    tabBarIcon: () => {
+      return getAndroidIcon('md-contacts')
     },
     tabBarLabel: 'Contacts',
     title: 'Contacts',
@@ -43,16 +38,10 @@ const ContactsScreenOptions = ({ navigation }) => {
   }
 }
 
-const KeypadScreenOptions = ({ navigation }) => {
+const KeypadScreenOptions = () => {
   return {
-    tabBarIcon: ({ focused, tintColor }) => {
-      let icon
-      const iconName = 'md-keypad'
-      const { routeName } = navigation.state
-
-      icon = getAndroidIcon(routeName, iconName)
-
-      return icon
+    tabBarIcon: () => {
+      return getAndroidIcon('md-keypad')
     },
     tabBarLabel: 'Keypad',
     title: 'Keypad',
@@ -60,17 +49,10 @@ const KeypadScreenOptions = ({ navigation }) => {
   }
 }
 
-const SettingsScreenOptions = ({ navigation }) => {
+const SettingsScreenOptions = () => {
   return {
-    tabBarIcon: ({ focused, tintColor }) => {
-      let icon
-      const iconName = 'md-settings'
-      const { routeName } = navigation.state
-      const expectedName = 'RecentCalls'
-
-      icon = getAndroidIcon(routeName, expectedName, iconName)
-
-      return icon
+    tabBarIcon: () => {
+      return getAndroidIcon('md-settings')
     },
     tabBarLabel: 'Settings',
     title: 'Settings',
