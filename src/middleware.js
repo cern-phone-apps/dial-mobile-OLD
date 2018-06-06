@@ -3,6 +3,24 @@ import { isRSAA, apiMiddleware } from 'redux-api-middleware'
 import { TOKEN_RECEIVED, refreshAccessToken } from './actions/auth'
 import { refreshToken, isAccessTokenExpired } from './reducers/auth'
 
+function checkNextAction (next, postponedRSAAs, rsaaMiddleware) {
+  const nextCheckPostponed = (nextAction) => {
+    // Run postponed actions after token refresh
+    if (nextAction.type === TOKEN_RECEIVED) {
+      console.log('nextCheckPostponed')
+      console.log(nextAction.type)
+      next(nextAction)
+      postponedRSAAs.forEach((postponed) => {
+        rsaaMiddleware(next)(postponed)
+      })
+    } else {
+      console.log('nextAction')
+      next(nextAction)
+    }
+  }
+  return nextCheckPostponed
+}
+
 export function createApiMiddleware () {
   const postponedRSAAs = []
 
@@ -10,20 +28,7 @@ export function createApiMiddleware () {
     const rsaaMiddleware = apiMiddleware({dispatch, getState})
 
     return (next) => (action) => {
-      const nextCheckPostponed = (nextAction) => {
-        // Run postponed actions after token refresh
-        if (nextAction.type === TOKEN_RECEIVED) {
-          console.log('nextCheckPostponed')
-          console.log(nextAction.type)
-          next(nextAction)
-          postponedRSAAs.forEach((postponed) => {
-            rsaaMiddleware(next)(postponed)
-          })
-        } else {
-          console.log('nextAction')
-          next(nextAction)
-        }
-      }
+      const nextCheckPostponed = checkNextAction(next, postponedRSAAs, rsaaMiddleware)
 
       if (isRSAA(action)) {
         console.log('Is RSAA -> True')
@@ -31,7 +36,6 @@ export function createApiMiddleware () {
         const token = refreshToken(state)
 
         if (token && isAccessTokenExpired(state)) {
-          console.log('Access token is expired but we have refresh token')
           postponedRSAAs.push(action)
           console.log('postponed RSAAs: ', postponedRSAAs)
           if (postponedRSAAs.length > 0) {
@@ -41,7 +45,6 @@ export function createApiMiddleware () {
             return
           }
         }
-        console.log(action)
         return rsaaMiddleware(next)(action)
       }
       return next(action)
