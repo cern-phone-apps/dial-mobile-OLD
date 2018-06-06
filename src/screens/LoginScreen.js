@@ -27,7 +27,6 @@ export class LoginScreen extends React.Component {
   }
 
   render () {
-    console.log(`Logged in: ${this.props.loggedIn}`)
     if (this.props.loggedIn) {
       if (Platform.OS === 'ios') {
         return <IosApp/>

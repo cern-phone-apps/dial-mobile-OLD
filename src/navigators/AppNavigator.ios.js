@@ -7,7 +7,7 @@ import ContactsScreen from '../screens/ContactsScreen'
 import KeypadScreen from '../screens/KeypadScreen'
 import SettingsScreen from '../containers/screens/SettingsScreen'
 
-function getIosIcon (routeName, expectedName, iconName, focused, tintColor = '#2185d0') {
+function getIosIcon (routeName, iconName, focused, tintColor = '#2185d0') {
   iconName = `ios-${iconName}${focused ? '' : '-outline'}`
   return <Ionicons name={iconName} size={25} color={tintColor} />
 }
@@ -18,9 +18,8 @@ const RecentCallsScreenOptions = ({ navigation }) => {
       let icon
       const iconName = 'clock'
       const { routeName } = navigation.state
-      const expectedName = 'RecentCalls'
 
-      icon = getIosIcon(routeName, expectedName, iconName, focused)
+      icon = getIosIcon(routeName, iconName, focused)
 
       return icon
     },
@@ -35,9 +34,8 @@ const ContactsScreenOptions = ({ navigation }) => {
       let icon
       const iconName = 'contacts'
       const { routeName } = navigation.state
-      const expectedName = 'RecentCalls'
 
-      icon = getIosIcon(routeName, expectedName, iconName, focused)
+      icon = getIosIcon(routeName, iconName, focused)
 
       return icon
     },
@@ -52,9 +50,8 @@ const KeypadScreenOptions = ({ navigation }) => {
       let icon
       const iconName = 'keypad'
       const { routeName } = navigation.state
-      const expectedName = 'RecentCalls'
 
-      icon = getIosIcon(routeName, expectedName, iconName, focused)
+      icon = getIosIcon(routeName, iconName, focused)
 
       return icon
     },
@@ -69,9 +66,8 @@ const SettingsScreenOptions = ({ navigation }) => {
       let icon
       const iconName = 'options'
       const { routeName } = navigation.state
-      const expectedName = 'RecentCalls'
 
-      icon = getIosIcon(routeName, expectedName, iconName, focused)
+      icon = getIosIcon(routeName, iconName, focused)
 
       return icon
     },

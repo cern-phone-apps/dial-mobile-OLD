@@ -7,7 +7,7 @@ import ContactsScreen from '../screens/ContactsScreen'
 import KeypadScreen from '../screens/KeypadScreen'
 import SettingsScreen from '../containers/screens/SettingsScreen'
 
-function getAndroidIcon (routeName, expectedName, iconName, tintColor = 'white') {
+function getAndroidIcon (routeName, iconName, tintColor = 'white') {
   return <Ionicons name={iconName} size={25} color={tintColor} />
 }
 
@@ -17,9 +17,8 @@ const RecentCallsScreenOptions = ({ navigation }) => {
       let icon
       const iconName = 'md-clock'
       const { routeName } = navigation.state
-      const expectedName = 'RecentCalls'
 
-      icon = getAndroidIcon(routeName, expectedName, iconName)
+      icon = getAndroidIcon(routeName, iconName)
       return icon
     },
     tabBarLabel: 'Recent',
@@ -34,9 +33,8 @@ const ContactsScreenOptions = ({ navigation }) => {
       let icon
       const iconName = 'md-contacts'
       const { routeName } = navigation.state
-      const expectedName = 'RecentCalls'
 
-      icon = getAndroidIcon(routeName, expectedName, iconName)
+      icon = getAndroidIcon(routeName, iconName)
       return icon
     },
     tabBarLabel: 'Contacts',
@@ -51,9 +49,8 @@ const KeypadScreenOptions = ({ navigation }) => {
       let icon
       const iconName = 'md-keypad'
       const { routeName } = navigation.state
-      const expectedName = 'RecentCalls'
 
-      icon = getAndroidIcon(routeName, expectedName, iconName)
+      icon = getAndroidIcon(routeName, iconName)
 
       return icon
     },
