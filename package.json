@@ -8,15 +8,20 @@
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
     "ios": "react-native-scripts ios",
-    "test": "NODE_PATH=./src ./node_modules/.bin/jest",
-    "precommit": "NODE_PATH=./src lint-staged",
-    "test:staged": "NODE_PATH=./src cross-env CI=true jest --findRelatedTests",
+    "test": "NODE_PATH=./ ./node_modules/.bin/jest",
+    "precommit": "NODE_PATH=./ lint-staged",
+    "test:staged": "NODE_PATH=./ cross-env CI=true jest --findRelatedTests",
     "debug": "open 'rndebugger://set-debugger-loc?host=localhost&port=19000'"
   },
   "lint-staged": {
     "./**/*.js": [
       "npm run test:staged --",
       "git add"
+    ]
+  },
+  "standard": {
+    "env": [
+      "jest"
     ]
   },
   "jest": {
@@ -27,6 +32,7 @@
     "setupTestFrameworkScriptFile": "./setupJest"
   },
   "dependencies": {
+    "babel-plugin-module-resolver": "^3.1.1",
     "expo": "^27.0.1",
     "js-cookie": "^2.2.0",
     "jwt-decode": "^2.2.0",
