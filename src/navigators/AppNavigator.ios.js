@@ -1,11 +1,11 @@
 import React from 'react'
 import { createBottomTabNavigator } from 'react-navigation'
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import {Ionicons} from '@expo/vector-icons'
 
 import RecentCallsScreen from '../screens/RecentCallsScreen'
 import ContactsScreen from '../screens/ContactsScreen'
 import KeypadScreen from '../screens/KeypadScreen'
-import SettingsScreen from '../screens/SettingsScreen'
+import SettingsScreen from '../containers/screens/SettingsScreen'
 
 function getIosIcon (routeName, expectedName, iconName, focused, tintColor = '#2185d0') {
   iconName = `ios-${iconName}${focused ? '' : '-outline'}`

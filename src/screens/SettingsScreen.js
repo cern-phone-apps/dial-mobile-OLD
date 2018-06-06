@@ -1,12 +1,24 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, Button } from 'react-native'
+import PropTypes from 'prop-types'
 
-export default class SettingsScreen extends Component {
+export class SettingsScreen extends Component {
+
+  static propTypes = {
+    logout: PropTypes.func.isRequired,
+  }
+
+  _handlePressAsync = () => {
+    this.props.logout()
+  }
+
   render () {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         <Text>Settings!!!</Text>
+        <Button title="Logout" color={'red'} onPress={this._handlePressAsync}/>
       </View>
     )
   }
 }
+

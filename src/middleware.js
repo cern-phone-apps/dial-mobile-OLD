@@ -13,33 +13,35 @@ export function createApiMiddleware () {
       const nextCheckPostponed = (nextAction) => {
         // Run postponed actions after token refresh
         if (nextAction.type === TOKEN_RECEIVED) {
-          console.debug('nextCheckPostponed')
-          console.debug(nextAction.type)
+          console.log('nextCheckPostponed')
+          console.log(nextAction.type)
           next(nextAction)
           postponedRSAAs.forEach((postponed) => {
             rsaaMiddleware(next)(postponed)
           })
         } else {
+          console.log('nextAction')
           next(nextAction)
         }
       }
 
       if (isRSAA(action)) {
-        console.debug('Is RSAA -> True')
+        console.log('Is RSAA -> True')
         const state = getState()
         const token = refreshToken(state)
 
         if (token && isAccessTokenExpired(state)) {
-          console.debug('Access token is expired but we have refresh token')
+          console.log('Access token is expired but we have refresh token')
           postponedRSAAs.push(action)
-          console.debug('postponed RSAAs: ', postponedRSAAs)
+          console.log('postponed RSAAs: ', postponedRSAAs)
           if (postponedRSAAs.length > 0) {
             return rsaaMiddleware(nextCheckPostponed)(refreshAccessToken())
           } else {
+            console.log(`postponedRSAAs.length: ${postponedRSAAs.length}`)
             return
           }
         }
-
+        console.log(action)
         return rsaaMiddleware(next)(action)
       }
       return next(action)

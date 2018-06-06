@@ -1,14 +1,14 @@
 import React from 'react'
-import { View, Platform, StatusBar } from 'react-native'
+import { View, StatusBar } from 'react-native'
 import { Provider } from 'react-redux'
 import { Constants } from 'expo'
 
-import IosApp from './src/navigators/AppNavigator.ios'
-import AndroidApp from './src/navigators/AppNavigator.android'
-import configureStore from './src/store'
-import LoginScreen from './src/screens/LoginScreen'
+import { NativeRouter } from 'react-router-native'
 
-const { store, persistor } = configureStore()
+import configureStore from './src/store'
+import LoginScreen from './src/containers/screens/LoginScreen'
+
+const {store, persistor} = configureStore()
 
 export default class App extends React.Component {
   componentDidMount () {
@@ -17,16 +17,14 @@ export default class App extends React.Component {
 
   render () {
     return (
-      <View style={{ flex: 1 }}>
-        <View style={{ height: Constants.statusBarHeight }}>
+      <View style={{flex: 1}}>
+        <View style={{height: Constants.statusBarHeight}}>
           <StatusBar />
         </View>
         <Provider store={store}>
-          <LoginScreen />
-          {/*{Platform.OS === 'ios'*/}
-            {/*? <IosApp />*/}
-            {/*: <AndroidApp />*/}
-          {/*}*/}
+          <NativeRouter>
+            <LoginScreen />
+          </NativeRouter>
         </Provider>
       </View>
     )

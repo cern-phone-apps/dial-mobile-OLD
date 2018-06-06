@@ -17,14 +17,15 @@ export function accessToken (state) {
 }
 
 export function isAccessTokenExpired (state) {
-  if (state.access && state.access.exp) {
-    return 1000 * state.auth.access.exp - (new Date()).getTime() < 5000
+  if (state.auth.access && state.auth.access.exp) {
+    const expired = 1000 * state.auth.access.exp - (new Date()).getTime() < 5000
+    return expired
   }
   return true
 }
 
 export function refreshToken (state) {
-  if (state.refresh) {
+  if (state.auth.refresh) {
     return state.auth.refresh.token
   }
 }
@@ -33,6 +34,7 @@ export function isRefreshTokenExpired (state) {
   if (state.auth.refresh && state.auth.refresh.exp) {
     return 1000 * state.auth.refresh.exp - (new Date()).getTime() < 5000
   }
+  console.log('Refresh token expired')
   return true
 }
 
@@ -49,6 +51,14 @@ export function withAuth (headers = {}) {
   return (state) => ({
     ...headers,
     'Authorization': `Bearer ${accessToken(state)}`
+  })
+}
+
+export function withRefresh (headers = {}) {
+  console.log('Calling withrefresh')
+  return (state) => ({
+    ...headers,
+    'Authorization': `Bearer ${refreshToken(state)}`
   })
 }
 
