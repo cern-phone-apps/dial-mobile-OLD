@@ -5,6 +5,7 @@ cache:
   directories:
     - node_modules
 script:
+  - cp src/config.development.sample.js config.development.js
   - npm test -- --coverage
 after_script:
   #
