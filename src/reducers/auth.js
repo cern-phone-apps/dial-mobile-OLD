@@ -10,7 +10,6 @@ const initialState = {
 }
 
 export function accessToken (state) {
-  console.log(`Authenticating with access token: ${state.auth.access.token}`)
   if (state.auth.access.token) {
     return state.auth.access.token
   }
@@ -47,7 +46,6 @@ export function errors (state) {
 }
 
 export function withAuth (headers = {}) {
-  console.log('Calling withAuth')
   return (state) => ({
     ...headers,
     'Authorization': `Bearer ${accessToken(state)}`
@@ -55,7 +53,6 @@ export function withAuth (headers = {}) {
 }
 
 export function withRefresh (headers = {}) {
-  console.log('Calling withrefresh')
   return (state) => ({
     ...headers,
     'Authorization': `Bearer ${refreshToken(state)}`
