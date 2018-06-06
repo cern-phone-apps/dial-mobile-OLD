@@ -1,5 +1,5 @@
 import React from 'react'
-import ContactsScreen from 'screens/ContactsScreen'
+import ContactsScreen from 'src/screens/ContactsScreen'
 
 import renderer from 'react-test-renderer'
 

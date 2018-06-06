@@ -1,5 +1,5 @@
 import React from 'react'
-import KeypadScreen from 'screens/KeypadScreen'
+import KeypadScreen from 'src/screens/KeypadScreen'
 
 import renderer from 'react-test-renderer'
 

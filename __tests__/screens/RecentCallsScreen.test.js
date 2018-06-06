@@ -1,5 +1,5 @@
 import React from 'react'
-import RecentCallsScreen from 'screens/RecentCallsScreen'
+import RecentCallsScreen from 'src/screens/RecentCallsScreen'
 
 import renderer from 'react-test-renderer'
 
