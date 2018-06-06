@@ -1,12 +1,12 @@
 module.exports = {
-  "env": {
-    "es6": true,
-    "jest": true
+  'env': {
+    'es6': true,
+    'jest': true
   },
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "paths": ["./src"]
+  'settings': {
+    'import/resolver': {
+      'node': {
+        'paths': ['./']
       }
     }
   },
@@ -15,25 +15,26 @@ module.exports = {
     'plugin:react/recommended',
     'standard'
   ],
-  "plugins": [
-    "react",
-    "babel"
+  'plugins': [
+    'react',
+    'babel',
+    'jest'
   ],
-  "parser": "babel-eslint",
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true,
-      "jsx": true
+  'parser': 'babel-eslint',
+  'parserOptions': {
+    'ecmaVersion': 6,
+    'ecmaFeatures': {
+      'experimentalObjectRestSpread': true,
+      'jsx': true
     },
-    "sourceType": "module"
+    'sourceType': 'module'
   },
-  "rules": {
-    "linebreak-style": [
-      "error",
-      "unix"
+  'rules': {
+    'linebreak-style': [
+      'error',
+      'unix'
     ],
-    "no-console": 0,
-    "babel/no-invalid-this": 1
+    'no-console': 0,
+    'babel/no-invalid-this': 1
   }
 }
