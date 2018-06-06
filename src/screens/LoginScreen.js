@@ -1,19 +1,24 @@
-import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { bindActionCreators } from 'redux'
 import React from 'react'
 import { Button, StyleSheet, Text, View, Platform } from 'react-native'
 import { AuthSession } from 'expo'
 
-import * as authActionCreators from '../actions/auth'
-import * as meActionCreators from '../actions/user/me'
 import IosApp from '../navigators/AppNavigator.ios'
 import AndroidApp from '../navigators/AppNavigator.android'
 
 import {
   REACT_APP_OAUTH_CLIENT_ID,
   REACT_APP_OAUTH_AUTHORIZATION_URL
-} from '../settings'
+} from 'src/settings'
+
+const MobileApp = () => {
+  if (Platform.OS === 'ios') {
+    return <IosApp/>
+  } else {
+    return <AndroidApp/>
+  }
+}
+
 
 export class LoginScreen extends React.Component {
   static propTypes = {
@@ -28,11 +33,7 @@ export class LoginScreen extends React.Component {
 
   render () {
     if (this.props.loggedIn) {
-      if (Platform.OS === 'ios') {
-        return <IosApp/>
-      } else {
-        return <AndroidApp/>
-      }
+      return <MobileApp />
     } else {
       return (
         <View style={styles.container}>
