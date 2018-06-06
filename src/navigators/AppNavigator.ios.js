@@ -1,75 +1,51 @@
 import React from 'react'
 import { createBottomTabNavigator } from 'react-navigation'
-import {Ionicons} from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons'
 
 import RecentCallsScreen from '../screens/RecentCallsScreen'
 import ContactsScreen from '../screens/ContactsScreen'
 import KeypadScreen from '../screens/KeypadScreen'
 import SettingsScreen from '../containers/screens/SettingsScreen'
 
-function getIosIcon (routeName, iconName, focused, tintColor = '#2185d0') {
+function getIosIcon (iconName, focused, tintColor = '#2185d0') {
   iconName = `ios-${iconName}${focused ? '' : '-outline'}`
   return <Ionicons name={iconName} size={25} color={tintColor} />
 }
 
-const RecentCallsScreenOptions = ({ navigation }) => {
+const RecentCallsScreenOptions = () => {
   return {
-    tabBarIcon: ({ focused, tintColor }) => {
-      let icon
-      const iconName = 'clock'
-      const { routeName } = navigation.state
-
-      icon = getIosIcon(routeName, iconName, focused)
-
-      return icon
+    tabBarIcon: ({focused}) => {
+      return getIosIcon('clock', focused)
     },
     tabBarLabel: 'Recent',
     title: 'Recent Calls'
   }
 }
 
-const ContactsScreenOptions = ({ navigation }) => {
+const ContactsScreenOptions = () => {
   return {
-    tabBarIcon: ({ focused, tintColor }) => {
-      let icon
-      const iconName = 'contacts'
-      const { routeName } = navigation.state
-
-      icon = getIosIcon(routeName, iconName, focused)
-
-      return icon
+    tabBarIcon: ({focused}) => {
+      return getIosIcon('contacts', focused)
     },
     tabBarLabel: 'Contacts',
     title: 'Contacts'
   }
 }
 
-const KeypadScreenOptions = ({ navigation }) => {
+const KeypadScreenOptions = () => {
   return {
-    tabBarIcon: ({ focused, tintColor }) => {
-      let icon
-      const iconName = 'keypad'
-      const { routeName } = navigation.state
-
-      icon = getIosIcon(routeName, iconName, focused)
-
-      return icon
+    tabBarIcon: ({focused}) => {
+      return getIosIcon('keypad', focused)
     },
     tabBarLabel: 'Keypad',
     title: 'Keypad'
   }
 }
 
-const SettingsScreenOptions = ({ navigation }) => {
+const SettingsScreenOptions = () => {
   return {
-    tabBarIcon: ({ focused, tintColor }) => {
-      let icon
-      const iconName = 'options'
-      const { routeName } = navigation.state
-
-      icon = getIosIcon(routeName, iconName, focused)
-
-      return icon
+    tabBarIcon: ({focused}) => {
+      return getIosIcon('options', focused)
     },
     tabBarLabel: 'Settings',
     title: 'Settings'
@@ -78,10 +54,10 @@ const SettingsScreenOptions = ({ navigation }) => {
 
 const IosApp = createBottomTabNavigator(
   {
-    RecentCalls: { screen: RecentCallsScreen, navigationOptions: RecentCallsScreenOptions },
-    Contacts: { screen: ContactsScreen, navigationOptions: ContactsScreenOptions },
-    Keypad: { screen: KeypadScreen, navigationOptions: KeypadScreenOptions },
-    Settings: { screen: SettingsScreen, navigationOptions: SettingsScreenOptions }
+    RecentCalls: {screen: RecentCallsScreen, navigationOptions: RecentCallsScreenOptions},
+    Contacts: {screen: ContactsScreen, navigationOptions: ContactsScreenOptions},
+    Keypad: {screen: KeypadScreen, navigationOptions: KeypadScreenOptions},
+    Settings: {screen: SettingsScreen, navigationOptions: SettingsScreenOptions}
   },
   {
     tabBarOptions: {
