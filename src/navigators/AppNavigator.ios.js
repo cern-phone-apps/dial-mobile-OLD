@@ -12,11 +12,17 @@ function getIosIcon (iconName, focused, tintColor = '#2185d0') {
   return <Ionicons name={iconName} size={25} color={tintColor} />
 }
 
-const RecentCallsScreenOptions = () => {
+const ScreenOptions = (iconName) => {
   return {
     tabBarIcon: ({focused}) => {
-      return getIosIcon('clock', focused)
-    },
+      return getIosIcon(iconName, focused)
+    }
+  }
+}
+
+const RecentCallsScreenOptions = () => {
+  return {
+    ...ScreenOptions('clock'),
     tabBarLabel: 'Recent',
     title: 'Recent Calls'
   }
@@ -24,9 +30,7 @@ const RecentCallsScreenOptions = () => {
 
 const ContactsScreenOptions = () => {
   return {
-    tabBarIcon: ({focused}) => {
-      return getIosIcon('contacts', focused)
-    },
+    ...ScreenOptions('contacts'),
     tabBarLabel: 'Contacts',
     title: 'Contacts'
   }
@@ -34,9 +38,7 @@ const ContactsScreenOptions = () => {
 
 const KeypadScreenOptions = () => {
   return {
-    tabBarIcon: ({focused}) => {
-      return getIosIcon('keypad', focused)
-    },
+    ...ScreenOptions('keypad'),
     tabBarLabel: 'Keypad',
     title: 'Keypad'
   }
@@ -44,9 +46,7 @@ const KeypadScreenOptions = () => {
 
 const SettingsScreenOptions = () => {
   return {
-    tabBarIcon: ({focused}) => {
-      return getIosIcon('options', focused)
-    },
+    ...ScreenOptions('options'),
     tabBarLabel: 'Settings',
     title: 'Settings'
   }
