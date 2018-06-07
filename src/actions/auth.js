@@ -1,10 +1,10 @@
 import { RSAA } from 'redux-api-middleware'
-import { withAuth, withRefresh } from '../reducers/auth'
+import { withAuth, withRefresh } from 'src/reducers/auth'
 import {
   REACT_APP_AUTH_LOGIN_ENDPOINT,
   REACT_APP_AUTH_LOGOUT_ENDPOINT,
   REACT_APP_AUTH_REFRESH_ENDPOINT
-} from '../settings'
+} from 'src/settings'
 
 export const LOGIN_REQUEST = '@@auth/LOGIN_REQUEST'
 export const LOGIN_SUCCESS = '@@auth/LOGIN_SUCCESS'

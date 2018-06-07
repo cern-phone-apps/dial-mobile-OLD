@@ -2,10 +2,10 @@ import React from 'react'
 import { createBottomTabNavigator } from 'react-navigation'
 import { Ionicons } from '@expo/vector-icons'
 
-import RecentCallsScreen from '../screens/RecentCallsScreen'
-import ContactsScreen from '../screens/ContactsScreen'
-import KeypadScreen from '../screens/KeypadScreen'
-import SettingsScreen from '../containers/screens/SettingsScreen'
+import RecentCallsScreen from 'src/screens/RecentCallsScreen'
+import ContactsScreen from 'src/screens/ContactsScreen'
+import KeypadScreen from 'src/screens/KeypadScreen'
+import SettingsScreen from 'src/containers/screens/SettingsScreen'
 
 function getIosIcon (iconName, focused, tintColor = '#2185d0') {
   iconName = `ios-${iconName}${focused ? '' : '-outline'}`

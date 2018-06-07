@@ -1,4 +1,5 @@
 import { RSAA } from 'redux-api-middleware'
+
 import { withAuth } from 'src/reducers/auth'
 import { REACT_APP_API_ME_ENDPOINT } from 'src/settings'
 
