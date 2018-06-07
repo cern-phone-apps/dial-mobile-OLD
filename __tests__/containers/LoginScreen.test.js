@@ -1,9 +1,9 @@
 import React from 'react'
 import configureMockStore from 'redux-mock-store'
 import renderer from 'react-test-renderer'
-import SettingsScreen from 'src/containers/screens/SettingsScreen'
+import LoginScreen from 'src/containers/screens/LoginScreen'
 
-describe('SettingsScreen', () => {
+describe('LoginScreen', () => {
   const storeContent = {
     auth: {
       access: {
@@ -19,11 +19,10 @@ describe('SettingsScreen', () => {
     const mockStore = configureMockStore({})
     const store = mockStore(storeContent)
     const props = {
-      logout: jest.fn(),
       isAuthenticated: false,
       store: store
     }
-    const rendered = renderer.create(<SettingsScreen {...props} />).toJSON()
+    const rendered = renderer.create(<LoginScreen {...props} />).toJSON()
     expect(rendered).toBeTruthy()
   })
 })
