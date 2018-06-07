@@ -59,8 +59,6 @@ export class LoginScreen extends React.Component {
       authUrl: authUrl,
     })
     this.setState({result})
-    console.log(result)
-    console.log(result.params.code)
     this.props.login(result.params.code).then(() => {
       this.props.getMe()
     }).catch((e) => console.error(e))
