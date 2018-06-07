@@ -22,7 +22,7 @@ const MobileApp = () => {
 
 export class LoginScreen extends React.Component {
   static propTypes = {
-    loggedIn: PropTypes.bool.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
     login: PropTypes.func.isRequired,
     getMe: PropTypes.func.isRequired
   }
@@ -32,7 +32,7 @@ export class LoginScreen extends React.Component {
   }
 
   render () {
-    if (this.props.loggedIn) {
+    if (this.props.isAuthenticated) {
       return <MobileApp />
     } else {
       return (
