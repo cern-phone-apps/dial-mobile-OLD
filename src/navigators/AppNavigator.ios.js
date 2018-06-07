@@ -9,7 +9,7 @@ import SettingsScreen from '../containers/screens/SettingsScreen'
 
 function getIosIcon (iconName, focused, tintColor = '#2185d0') {
   iconName = `ios-${iconName}${focused ? '' : '-outline'}`
-  return <Ionicons name={iconName} size={25} color={tintColor} />
+  return <Ionicons name={iconName} size={25} color={tintColor}/>
 }
 
 const ScreenOptions = (iconName) => {

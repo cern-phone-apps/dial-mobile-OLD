@@ -11,16 +11,17 @@ function getAndroidIcon (iconName, tintColor = 'white') {
   return <Ionicons name={iconName} size={25} color={tintColor} />
 }
 
-const RecentCallsScreenOptions = ({ navigation }) => {
+const ScreenOptions = (iconName) => {
   return {
-    tabBarIcon: ({ focused, tintColor }) => {
-      let icon
-      const iconName = 'md-clock'
-      const { routeName } = navigation.state
+    tabBarIcon: () => {
+      return getAndroidIcon(iconName)
+    }
+  }
+}
 
-      icon = getAndroidIcon(routeName, iconName)
-      return icon
-    },
+const RecentCallsScreenOptions = () => {
+  return {
+    ...ScreenOptions('md-clock'),
     tabBarLabel: 'Recent',
     title: 'Recent Calls',
     tabBarColor: '#2185d0'
@@ -29,9 +30,7 @@ const RecentCallsScreenOptions = ({ navigation }) => {
 
 const ContactsScreenOptions = () => {
   return {
-    tabBarIcon: () => {
-      return getAndroidIcon('md-contacts')
-    },
+    ...ScreenOptions('md-contacts'),
     tabBarLabel: 'Contacts',
     title: 'Contacts',
     tabBarColor: '#2185d0'
@@ -40,9 +39,7 @@ const ContactsScreenOptions = () => {
 
 const KeypadScreenOptions = () => {
   return {
-    tabBarIcon: () => {
-      return getAndroidIcon('md-keypad')
-    },
+    ...ScreenOptions('md-keypad'),
     tabBarLabel: 'Keypad',
     title: 'Keypad',
     tabBarColor: '#2185d0'
@@ -51,9 +48,7 @@ const KeypadScreenOptions = () => {
 
 const SettingsScreenOptions = () => {
   return {
-    tabBarIcon: () => {
-      return getAndroidIcon('md-settings')
-    },
+    ...ScreenOptions('md-settings'),
     tabBarLabel: 'Settings',
     title: 'Settings',
     tabBarColor: '#2185d0'
