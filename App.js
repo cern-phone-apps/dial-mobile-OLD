@@ -10,6 +10,9 @@
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View, Button } from "react-native";
 
+var WebRTC = require("react-native-webrtc");
+var { RTCView, mediaDevices } = WebRTC;
+
 const instructions = Platform.select({
   ios: "Press Cmd+R to reload,\n" + "Cmd+D or shake for dev menu",
   android:
@@ -17,10 +20,41 @@ const instructions = Platform.select({
     "Shake or press menu button for dev menu"
 });
 
+function logError(error) {
+  console.log("logError", error);
+}
+
 type Props = {};
 export default class App extends Component<Props> {
   getUserMedia = () => {
-    console.log("Get user media")
+    console.log("Get user media");
+
+    let videoSourceId;
+
+    // on android, you don't have to specify sourceId manually, just use facingMode
+    // uncomment it if you want to specify
+    let isFront = true;
+
+    mediaDevices.getUserMedia(
+      {
+        audio: true,
+        video: {
+          mandatory: {
+            minWidth: 640, // Provide your own width, height and frame rate here
+            minHeight: 360,
+            minFrameRate: 30
+          },
+          facingMode: isFront ? "user" : "environment",
+          optional: videoSourceId ? [{ sourceId: videoSourceId }] : []
+        }
+      },
+      stream => {
+        console.log("getUserMedia success", stream);
+        // container.setState({selfViewSrc: stream.toURL()});
+        // container.setState({status: 'ready', info: 'Please enter or create room ID'});
+      },
+      logError
+    );
   };
 
   render() {

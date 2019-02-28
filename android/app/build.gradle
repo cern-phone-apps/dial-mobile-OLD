@@ -97,12 +97,34 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
+    compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+
     defaultConfig {
         applicationId "com.dialmobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        // START react-native-webrtc fix
+        // react-native-webrtc doesn't support 64bit apps yet
+        ndk {
+            abiFilters 'armeabi-v7a', 'x86'
+        }
+
+        packagingOptions {
+            // The project react-native does not provide 64-bit binaries at the
+            // time of this writing. Unfortunately, packaging any 64-bit
+            // binaries into the .apk will crash the app at runtime on 64-bit
+            // platforms.
+            exclude '/lib/mips64/**'
+            exclude '/lib/arm64-v8a/**'
+            exclude '/lib/x86_64/**'
+        }
+        // END react-native-webrtc fix
     }
     splits {
         abi {
@@ -137,6 +159,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation project(':WebRTCModule')
 }
 
 // Run this once to be able to run the application with BUCK
