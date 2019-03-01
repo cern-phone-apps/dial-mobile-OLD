@@ -24,10 +24,28 @@ import { EventEmitter } from "events";
 //
 // const Test1 = require("./old/SessionDescriptionHandler");
 
-import { ReactSDH } from "sip.js/lib/React/SessionDescriptionHandler";
+import * as ReactSDH from "sip.js/lib/React/SessionDescriptionHandler";
+import * as ReactSDObserver from "sip.js/lib/React/SessionDescriptionHandlerObserver";
 
-console.log(ReactSDH);
+console.log(SIP);
+console.log(ReactSDH.SessionDescriptionHandler);
+// let s = ReactSDH({}, {});
+// console.log(s);
 
+const reactFactory = (session, options) => {
+  var logger = session.ua.getLogger(
+    "sip.invitecontext.sessionDescriptionHandler",
+    session.id
+  );
+  console.log(logger);
+  var observer = new ReactSDObserver.SessionDescriptionHandlerObserver(
+    session,
+    options
+  );
+  return new ReactSDH.SessionDescriptionHandler(logger, observer, options);
+};
+
+// console.log(ReactSDH().defaultFactory);
 // console.log(Test1);
 
 var WebRTC = require("react-native-webrtc");
@@ -258,7 +276,12 @@ export class Dial {
         alwaysAcquireMediaFirst: false
       },
       sessionDescriptionHandlerFactory: function(session, options) {
-        return new ReactSDH(session, options);
+        console.log(session);
+        console.log(options);
+        let result = reactFactory(session, options);
+
+        console.log(result);
+        return result;
       },
       contactName: user,
       authorizationUser: user,
