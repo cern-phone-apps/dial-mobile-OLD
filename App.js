@@ -9,9 +9,115 @@
 
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View, Button } from "react-native";
+import {
+  createBottomTabNavigator,
+  createStackNavigator,
+  createAppContainer,
+} from 'react-navigation';
 
+import { Dial } from "./external/tone-webrtc-api/dial-api";
 var WebRTC = require("react-native-webrtc");
 var { RTCView, mediaDevices } = WebRTC;
+
+class DetailsScreen extends React.Component {
+  render() {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Details!</Text>
+      </View>
+    );
+  }
+}
+
+class HomeScreen extends React.Component {
+
+  state = {
+    registered: false,
+    selfViewSrc: "",
+    incomingCall: false,
+    onCall: false
+  };
+
+  registerAction = () => {
+    console.log(`Registering...`);
+    let dial = new Dial();
+
+    this.setState(
+      {
+        dial: dial
+      },
+      () => {
+        dial.authenticate('64446', JSON.stringify({}));
+        this.addListeners();
+      }
+    );
+  };
+
+  addListeners = () => {
+    console.log(`Adding listeners...`);
+    this.notifier = this.state.dial.getNotifier();
+    console.log(this.notifier);
+    if (this.notifier) {
+      this.notifier.addListener("ToneEvent", event => {
+        // this.eventHandler(event);
+        console.log(event);
+      });
+    }
+  };
+
+  render() {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        {/* other code from before here */}
+        <Button
+          title="Register"
+          onPress={this.registerAction}
+        />
+        <Button
+          title="Go to Details"
+          onPress={() => this.props.navigation.navigate('Details')}
+        />
+      </View>
+    );
+  }
+}
+
+class SettingsScreen extends React.Component {
+  render() {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        {/* other code from before here */}
+        <Button
+          title="Go to Details"
+          onPress={() => this.props.navigation.navigate('Details')}
+        />
+      </View>
+    );
+  }
+}
+
+const HomeStack = createStackNavigator({
+  Home: HomeScreen,
+  Details: DetailsScreen,
+});
+
+const SettingsStack = createStackNavigator({
+  Settings: SettingsScreen,
+  Details: DetailsScreen,
+});
+
+export default createAppContainer(createBottomTabNavigator(
+  {
+    Home: HomeStack,
+    Settings: SettingsStack,
+  },
+  {
+    /* Other configuration remains unchanged */
+  }
+));
+
+
+
 
 const instructions = Platform.select({
   ios: "Press Cmd+R to reload,\n" + "Cmd+D or shake for dev menu",
@@ -24,8 +130,9 @@ function logError(error) {
   console.log("logError", error);
 }
 
+
 type Props = {};
-export default class App extends Component<Props> {
+export class App extends Component<Props> {
   getUserMedia = () => {
     console.log("Get user media");
 
