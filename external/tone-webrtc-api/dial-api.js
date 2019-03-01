@@ -10,20 +10,21 @@
  * @author JoÃ£o Filipe Garrett PaixÃ£o FlorÃªncio <joao.florencio@cern.ch>
  */
 
-import SIP from "./old/sip_master";
+// import SIP from "./old/sip_master";
+import * as SIP from "sip.js";
 
 // Constants
 
 /**
  * @const {EventEmitter} EventEmitter front-end URI
  */
-import {EventEmitter} from 'events';
+import { EventEmitter } from "events";
 // const SessionDescriptionHandler = require("./old/SessionDescriptionHandler")(SIP)
 //   .defaultFactory;
 //
 // const Test1 = require("./old/SessionDescriptionHandler");
 
-import {ReactSDH} from "sip.js/lib/React/SessionDescriptionHandler";
+import { ReactSDH } from "sip.js/lib/React/SessionDescriptionHandler";
 
 console.log(ReactSDH);
 
@@ -37,7 +38,7 @@ var {
   RTCSessionDescription,
   RTCView,
   MediaStream,
-  MediaStreamTrack,
+  MediaStreamTrack
 } = WebRTC;
 
 /**
@@ -243,7 +244,7 @@ export class Dial {
       transportOptions: {
         wsServers: [
           {
-            ws_uri: "wss://" + this.uri + ":8089/ws",
+            wsUri: "wss://" + this.uri + ":8089/ws",
             weight: 10
           }
         ],
