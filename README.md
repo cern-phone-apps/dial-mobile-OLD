@@ -16,6 +16,14 @@
 host & port for device" to something like:
 `localhost:8081`
 
+### React Navigation
+
+Maybe it is needed to link `react-native-gesture-handler`
+
+```bash
+react-native link react-native-gesture-handler
+```
+
 ## Run the app
 
 ```bash
