@@ -1,30 +1,48 @@
+import { AsyncStorage } from "react-native";
+
 let debug = require("debug");
 
-const clearLog = () => {
-  localStorage.setItem("logs", JSON.stringify([]));
+const clearLog = async () => {
+  await AsyncStorage.setItem("logs", JSON.stringify([]));
+};
+
+const _retrieveData = async () => {
+  let existingEntries;
+  try {
+    const value = await AsyncStorage.getItem("logs");
+    if (value !== null) {
+      // We have data!!
+      // console.log(value);
+      existingEntries = JSON.parse(value);
+    } else {
+      existingEntries = [];
+    }
+  } catch (error) {
+    // Error retrieving data
+    console.log(error);
+  }
+  return existingEntries;
 };
 
 const addEntry = entry => {
   if (process.env.CI === true) {
     return;
   }
-  // Parse any JSON previously stored in allEntries
-  let existingEntries = JSON.parse(localStorage.getItem("logs"));
-  if (existingEntries == null) existingEntries = [];
-  // localStorage.setItem("entry", JSON.stringify(entry));
-  // Save allEntries back to local storage
-  // console.log(simpleStringify(entry));
-  try {
-    JSON.stringify(entry);
-  } catch (TypeError) {
-    entry = simpleStringify(entry);
-  }
-  existingEntries.push(entry);
-  try {
-    localStorage.setItem("logs", JSON.stringify(existingEntries));
-  } catch (QuotaExceededError) {
-    clearLog();
-  }
+  let existingEntries = _retrieveData().then(async (existingEntries) => {
+    try {
+      JSON.stringify(entry);
+    } catch (TypeError) {
+      entry = simpleStringify(entry);
+    }
+    existingEntries.push(entry);
+
+    try {
+      await AsyncStorage.setItem("logs", JSON.stringify(existingEntries));
+    } catch (error) {
+      console.log(error);
+      clearLog();
+    }
+  });
 };
 
 const simpleStringify = object => {
@@ -96,5 +114,5 @@ export {
   logMessage,
   toneInMessage,
   toneOutMessage,
-  actionMessage,
+  actionMessage
 };
