@@ -8,25 +8,25 @@ import apiMiddleware from "./middleware";
 
 const createCustomStore = () => {
   // We don't want to persist the connection status
-  const blacklistFilter = createBlacklistFilter("calls", [
-    "connection",
-    "search",
-    "call",
-    "dialpad",
-  ]);
-
-  const blacklistLoginFilter = createBlacklistFilter("auth", [
-    "loginInProgress",
-    "error",
-    // "loggedIn",
-    // "token"
-  ]);
+  // const blacklistFilter = createBlacklistFilter("calls", [
+  //   "connection",
+  //   "search",
+  //   "call",
+  //   "dialpad",
+  // ]);
+  //
+  // const blacklistLoginFilter = createBlacklistFilter("auth", [
+  //   "loginInProgress",
+  //   "error",
+  //   // "loggedIn",
+  //   // "token"
+  // ]);
 
   const persistConfig = {
     key: "phone-webapp",
     storage: storage,
-    blacklist: ["sidebar"],
-    transforms: [blacklistFilter, blacklistLoginFilter]
+    // transforms: [blacklistFilter, blacklistLoginFilter]
+    transforms: []
   };
 
   const persistedReducers = persistReducer(persistConfig, rootReducer);
