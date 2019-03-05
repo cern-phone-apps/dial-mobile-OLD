@@ -56,3 +56,4 @@ buck-out/
 *.jsbundle
 /.env
 /external/*
+/external/tone-webrtc-api/dial-api.js
