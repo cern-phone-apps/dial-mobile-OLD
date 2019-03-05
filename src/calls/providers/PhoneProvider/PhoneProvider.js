@@ -1,7 +1,11 @@
 import React, { Children, Component } from "react";
 import PropTypes from "prop-types";
 import { Dial } from "../../../../external/tone-webrtc-api/dial-api";
-import { toneInMessage } from "../../../common/utils/logging";
+import {
+  errorMessage,
+  toneInMessage,
+  toneOutMessage
+} from "../../../common/utils/logging";
 
 export const phoneService = ComponentToWrap => {
   return class ThemeComponent extends Component {
@@ -20,7 +24,11 @@ export const phoneService = ComponentToWrap => {
 
 export class PhoneProvider extends Component {
   static propTypes = {
-    requestConnection: PropTypes.func,
+    // onCall: PropTypes.bool.isRequired,
+    // Functions
+    requestConnection: PropTypes.func.isRequired,
+    requestDisconnection: PropTypes.func.isRequired,
+    setDisconnected: PropTypes.func.isRequired
   };
 
   state = {
@@ -61,11 +69,6 @@ export class PhoneProvider extends Component {
     }
   };
 
-  eventHandler = event => {
-    toneInMessage(`Tone Event received: ${event.name}`);
-    toneInMessage(event);
-  };
-
   /**
    * Authenticates the user using the Telephony API
    * @param phoneNumber
@@ -79,6 +82,43 @@ export class PhoneProvider extends Component {
     // this.state.dial.authenticate(phoneNumber, JSON.stringify(token));
     this.state.dial.authenticate(phoneNumber, JSON.stringify({}));
     // TODO The ideal thing here is to know if the authentication succeeded
+  };
+
+  disconnectUser = () => {
+    const { requestDisconnection, setDisconnected } = this.props;
+
+    toneOutMessage(`UnAuthenticating user`);
+
+    this.setState({ phoneNumber: undefined });
+
+    if (this.props.onCall) {
+      this.hangUpCurrentCall();
+    }
+    requestDisconnection(true);
+
+    try {
+      this.state.dial.stopAgent();
+    } catch (error) {
+      errorMessage(`Agent is not connected`);
+      setDisconnected();
+    }
+
+    // TODO Maybe stopAgent() is not the right method to call
+  };
+
+  eventHandler = event => {
+    toneInMessage(`Tone Event received: ${event.name}`);
+    toneInMessage(event);
+
+    switch (event.name) {
+      // Registering
+      case "registered":
+        this.props.setConnected();
+        break;
+      case "unregistered":
+        this.props.setDisconnected();
+        break;
+    }
   };
 
   testFunction = () => {
