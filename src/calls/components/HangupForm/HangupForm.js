@@ -5,7 +5,7 @@ import { Button} from "react-native-elements";
 
 import { phoneService } from "../../providers/PhoneProvider/PhoneProvider";
 
-export class DisconnectForm extends React.Component {
+export class HangupForm extends React.Component {
   static propTypes = {
     phoneService: PropTypes.object.isRequired
   };
@@ -13,11 +13,10 @@ export class DisconnectForm extends React.Component {
   /**
    * Register the user in the Telephony Backend
    */
-  disconnectUserAction = () => {
-    // const { phoneNumber } = this.state;
+  hangupCall = () => {
     const { phoneService } = this.props;
-    console.log(`Disconnecting user`);
-    phoneService.disconnectUser();
+    console.log(`Hanging up call`);
+    phoneService.hangupCurrentCall();
   };
 
   /**
@@ -29,9 +28,8 @@ export class DisconnectForm extends React.Component {
     return (
       <View>
         <Button
-          onPress={this.disconnectUserAction}
-          title="Disconnect"
-          type="clear"
+          onPress={this.hangupCall}
+          title="Hangup"
           buttonStyle={styles.button}
           titleStyle={styles.buttonTitle}
         />
@@ -44,10 +42,7 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 10,
     marginBottom: 10,
-  },
-  buttonTitle: {
-    color: "#FF0000"
   }
 });
 
-export default phoneService(DisconnectForm);
+export default phoneService(HangupForm);

@@ -14,7 +14,7 @@ import {
   createStackNavigator,
   createAppContainer
 } from "react-navigation";
-import { HomeScreen } from "./src/calls/screens/Home";
+import HomeScreenContainer from "./src/calls/screens/Home/HomeContainer";
 
 var WebRTC = require("react-native-webrtc");
 var { mediaDevices } = WebRTC;
@@ -45,7 +45,7 @@ class SettingsScreen extends React.Component {
 }
 
 const HomeStack = createStackNavigator({
-  Home: HomeScreen,
+  Home: HomeScreenContainer,
   Details: DetailsScreen
 });
 

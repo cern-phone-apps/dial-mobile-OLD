@@ -7,6 +7,8 @@ import {
   toneOutMessage
 } from "../../../common/utils/logging";
 
+import { Alert } from "react-native";
+
 export const phoneService = ComponentToWrap => {
   return class ThemeComponent extends Component {
     // let’s define what’s needed from the `context`
@@ -24,11 +26,15 @@ export const phoneService = ComponentToWrap => {
 
 export class PhoneProvider extends Component {
   static propTypes = {
-    // onCall: PropTypes.bool.isRequired,
+    onCall: PropTypes.bool,
+    connected: PropTypes.bool,
     // Functions
-    requestConnection: PropTypes.func.isRequired,
-    requestDisconnection: PropTypes.func.isRequired,
-    setDisconnected: PropTypes.func.isRequired
+    requestConnection: PropTypes.func,
+    requestDisconnection: PropTypes.func,
+    setDisconnected: PropTypes.func,
+    setIsCalling: PropTypes.func,
+    hangupCall: PropTypes.func,
+    acceptOutgoingCall: PropTypes.func
   };
 
   state = {
@@ -106,6 +112,50 @@ export class PhoneProvider extends Component {
     // TODO Maybe stopAgent() is not the right method to call
   };
 
+  /**
+   * Makes a call to another person given his/her data
+   * @param name Name of the person
+   * @param phoneNumber Phone number
+   * @returns {*}
+   */
+  makeCall = (name = "Unknown", phoneNumber) => {
+    const { makeCall, setIsCalling, endSearch } = this.props;
+    const { dial } = this.state;
+
+    toneOutMessage(`Calling user ${name} with number ${phoneNumber}`);
+    makeCall({
+      name: name,
+      phoneNumber: phoneNumber
+    });
+    // this.playRingbacktone();
+    setIsCalling(true);
+    // endSearch();
+    try {
+      dial.call(phoneNumber);
+    } catch (error) {
+      errorMessage(error);
+      setIsCalling(false);
+    }
+  };
+
+  hangupCurrentCall = () => {
+    const { dial } = this.state;
+    const { hangupCall } = this.props;
+
+    toneOutMessage(`Hang up current call`);
+
+    hangupCall();
+    // const { addRecentCall, recipient } = this.props;
+    this.hangupCallEvent();
+    // addRecentCall(recipient);
+    return dial.hangUp();
+  };
+
+  hangupCallEvent = () => {
+    const { hangupCall } = this.props;
+    hangupCall();
+  };
+
   eventHandler = event => {
     toneInMessage(`Tone Event received: ${event.name}`);
     toneInMessage(event);
@@ -117,6 +167,35 @@ export class PhoneProvider extends Component {
         break;
       case "unregistered":
         this.props.setDisconnected();
+        break;
+      case "terminated":
+        this.hangupCallEvent();
+        break;
+      case "accepted":
+        // TODO
+        this.setState({
+          startTime: Date.now()
+        });
+        this.props.acceptOutgoingCall();
+        break;
+      case "rejected":
+        // TODO: Detail doesn't include error field nor error code
+        const tempRejectedMessage = {
+          code: {
+            status_code: "NI"
+          },
+          description: "This person cannot answer now"
+        };
+        this.props.rejectOutgoingCall(tempRejectedMessage);
+        this.hangupCallEvent();
+        Alert.alert(
+          'Unable to call',
+          tempRejectedMessage.description,
+          [
+            {text: 'OK', onPress: () => console.log('OK Pressed')},
+          ],
+          {cancelable: false},
+        );
         break;
     }
   };
