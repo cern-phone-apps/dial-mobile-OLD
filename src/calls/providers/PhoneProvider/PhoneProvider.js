@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Dial } from "../../../../external/tone-webrtc-api/dial-api";
 import {
   errorMessage,
+  logMessage,
   toneInMessage,
   toneOutMessage
 } from "../../../common/utils/logging";
@@ -158,6 +159,23 @@ export class PhoneProvider extends Component {
     hangupCall();
   };
 
+  /**
+   * Method that must be called when an incoming call is rejected.
+   * It performs all the actions needed by this action.
+   */
+  rejectIncomingCall = () => {
+    const { rejectIncomingCall } = this.props;
+    const { dial } = this.state;
+
+    logMessage("Rejecting incoming call");
+
+    // this.stopRingTone();
+    // addRecentCall(recipient);
+    // unSelectUser();
+    rejectIncomingCall();
+    return dial.hangUp();
+  };
+
   eventHandler = event => {
     toneInMessage(`Tone Event received: ${event.name}`);
     toneInMessage(event);
@@ -190,13 +208,47 @@ export class PhoneProvider extends Component {
         };
         this.props.rejectOutgoingCall(tempRejectedMessage);
         this.hangupCallEvent();
+        // Alert.alert(
+        //   "Unable to call",
+        //   tempRejectedMessage.description,
+        //   [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+        //   { cancelable: false }
+        // );
+        break;
+      case "inviteReceived":
+        const caller = event.data.session.localIdentity.friendlyName.split(
+          "@"
+        )[0];
         Alert.alert(
-          "Unable to call",
-          tempRejectedMessage.description,
-          [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+          caller,
+          "You are receiving a call ",
+          [
+            {
+              text: "Answer",
+              onPress: () => console.log("OK Pressed")
+            },
+            {
+              text: "Rejectar",
+              onPress: () => this.rejectIncomingCall()
+            }
+          ],
           { cancelable: false }
         );
+        // logMessage(event.data);
+        // this.receiveCall(event.data);
         break;
+      case "failed":
+        // TODO
+        const tempFailedMessage = {
+          code: {
+            status_code: "NI"
+          },
+          description: "Call failed"
+        };
+        this.props.callFailed(tempFailedMessage);
+        break;
+      default:
+        errorMessage(`Unhandled event: ${event.name}`);
     }
   };
 
