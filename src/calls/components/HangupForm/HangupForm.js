@@ -10,9 +10,7 @@ export class HangupForm extends React.Component {
     phoneService: PropTypes.object.isRequired
   };
 
-  /**
-   * Register the user in the Telephony Backend
-   */
+
   hangupCall = () => {
     const { phoneService } = this.props;
     console.log(`Hanging up call`);

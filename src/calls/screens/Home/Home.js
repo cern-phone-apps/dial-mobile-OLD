@@ -6,6 +6,11 @@ import { DisconnectedScreen } from "../DisconnectedScreen/DisconnectedScreen";
 import ConnectedScreenContainer from "../ConnectedScreen/ConnectedScreenContainer";
 
 export class HomeScreen extends Component {
+
+  static navigationOptions = {
+    title: 'Home',
+  };
+
   static propTypes = {
     connected: PropTypes.bool,
     connecting: PropTypes.bool,
