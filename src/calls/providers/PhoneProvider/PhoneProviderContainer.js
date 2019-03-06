@@ -3,6 +3,7 @@ import { bindActionCreators } from "redux";
 
 import * as connectionActionCreators from "../../actions/connection";
 import * as callActionCreators from "../../actions/call";
+import * as recentCallActionCreators from "../../actions/recent";
 import { PhoneProvider, phoneService } from "./PhoneProvider";
 
 function mapStateToProps(state) {
@@ -18,7 +19,8 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       ...connectionActionCreators,
-      ...callActionCreators
+      ...callActionCreators,
+      ...recentCallActionCreators
     },
     dispatch
   );

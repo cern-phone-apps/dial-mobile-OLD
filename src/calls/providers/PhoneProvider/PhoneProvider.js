@@ -34,7 +34,8 @@ export class PhoneProvider extends Component {
     setDisconnected: PropTypes.func,
     setIsCalling: PropTypes.func,
     hangupCall: PropTypes.func,
-    acceptOutgoingCall: PropTypes.func
+    acceptOutgoingCall: PropTypes.func,
+    addRecentCall: PropTypes.func
   };
 
   state = {
@@ -98,7 +99,7 @@ export class PhoneProvider extends Component {
     this.setState({ phoneNumber: undefined });
 
     if (this.props.onCall) {
-      this.hangUpCurrentCall();
+      this.hangupCurrentCall();
     }
     requestDisconnection(true);
 
@@ -140,14 +141,15 @@ export class PhoneProvider extends Component {
 
   hangupCurrentCall = () => {
     const { dial } = this.state;
-    const { hangupCall } = this.props;
+    const { hangupCall, addRecentCall, recipient } = this.props;
 
     toneOutMessage(`Hang up current call`);
 
     hangupCall();
-    // const { addRecentCall, recipient } = this.props;
     this.hangupCallEvent();
-    // addRecentCall(recipient);
+    console.log("Adding recent call");
+    recipient.startTime = this.state.startTime;
+    addRecentCall(recipient);
     return dial.hangUp();
   };
 
@@ -189,12 +191,10 @@ export class PhoneProvider extends Component {
         this.props.rejectOutgoingCall(tempRejectedMessage);
         this.hangupCallEvent();
         Alert.alert(
-          'Unable to call',
+          "Unable to call",
           tempRejectedMessage.description,
-          [
-            {text: 'OK', onPress: () => console.log('OK Pressed')},
-          ],
-          {cancelable: false},
+          [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+          { cancelable: false }
         );
         break;
     }
