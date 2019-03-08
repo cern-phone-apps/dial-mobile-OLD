@@ -51,7 +51,11 @@ function processCallMissed(state) {
   return {
     ...state,
     onCall: false,
-    calling: false
+    receivingCall: false,
+    recipient: {
+      ...state.recipient,
+      missed: true,
+    }
   };
 }
 
@@ -71,30 +75,16 @@ function processCallReceiving(state, action) {
   };
 }
 
-function acceptIncomingCall(state) {
-  logMessage(`Accept Incoming call`);
+function acceptCall(state) {
+  logMessage(`Accept call`);
   return {
     ...state,
     onCall: true,
-    receivingCall: false,
+    calling: false,
     recipient: {
       ...state.recipient,
       startTime: Date.now(),
       missed: false
-    }
-  };
-}
-
-function rejectIncomingCall(state) {
-  logMessage(`Reject Incoming call`);
-  return {
-    ...state,
-    onCall: false,
-    receivingCall: false,
-    recipient: {
-      ...state.recipient,
-      startTime: Date.now(),
-      missed: true
     }
   };
 }
@@ -127,7 +117,7 @@ const call = (state = initialState, action) => {
       } else {
         return state;
       }
-    case callActions.OUTGOING_CALL_REJECTED:
+    case callActions.CALL_REJECTED:
       return processCallRejected(state, action.errors);
     case callActions.CALL_FAILED:
       return processCallFailed(state, action.errors);
@@ -135,10 +125,8 @@ const call = (state = initialState, action) => {
       return processCallMissed(state);
     case callActions.IS_RECEIVING_CALL:
       return processCallReceiving(state, action);
-    case callActions.INCOMING_CALL_ACCEPTED:
-      return acceptIncomingCall(state);
-    case callActions.INCOMING_CALL_REJECTED:
-      return rejectIncomingCall(state);
+    case callActions.CALL_ACCEPTED:
+      return acceptCall(state);
     case callActions.HANGUP_CALL:
       return processCallHangup(state);
 

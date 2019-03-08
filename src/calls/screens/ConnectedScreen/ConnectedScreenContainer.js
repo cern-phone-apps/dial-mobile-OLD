@@ -1,6 +1,6 @@
 import { connect } from "react-redux";
 
-import { ConnectedScreen } from "./ConnectedScreen";
+import ConnectedScreen from "./ConnectedScreen";
 
 function mapStateToProps(state) {
   const { call } = state.calls;

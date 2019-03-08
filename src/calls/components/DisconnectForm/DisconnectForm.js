@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Button} from "react-native-elements";
 
 import { phoneService } from "../../providers/PhoneProvider/PhoneProvider";
-
+import {withNavigation} from 'react-navigation';
 export class DisconnectForm extends React.Component {
   static propTypes = {
     phoneService: PropTypes.object.isRequired
@@ -13,11 +13,12 @@ export class DisconnectForm extends React.Component {
   /**
    * Register the user in the Telephony Backend
    */
-  disconnectUserAction = () => {
+  disconnectUserAction = async () => {
     // const { phoneNumber } = this.state;
-    const { phoneService } = this.props;
+    const { phoneService, navigation } = this.props;
     console.log(`Disconnecting user`);
-    phoneService.disconnectUser();
+    await phoneService.disconnectUser();
+    navigation.navigate("UnRegisterLoading");
   };
 
   /**
@@ -50,4 +51,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default phoneService(DisconnectForm);
+export default withNavigation(phoneService(DisconnectForm));

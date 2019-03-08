@@ -6,6 +6,7 @@ import DisconnectForm from "../../components/DisconnectForm/DisconnectForm";
 import { CallingScreen } from "./CallingScreen/CallingScreen";
 import { OnCallScreen } from "./OnCallScreen/OnCallScreen";
 
+
 export class ConnectedScreen extends Component {
   static propTypes = {
     onCall: PropTypes.bool.isRequired,
@@ -30,11 +31,12 @@ export class ConnectedScreen extends Component {
         <Text style={styles2.welcome}>CERN Phone Mobile</Text>
         <Text style={styles2.subheader}>connected</Text>
         <MakeCallForm />
-        <DisconnectForm />
       </View>
     );
   }
 }
+
+export default ConnectedScreen
 
 const styles2 = StyleSheet.create({
   welcome: {

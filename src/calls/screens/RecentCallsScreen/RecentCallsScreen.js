@@ -63,7 +63,7 @@ const list = [
 
 export class RecentCallsScreen extends React.Component {
   static navigationOptions = {
-    title: "Recent"
+    title: "Recent Calls"
   };
 
   static propTypes = {
@@ -90,7 +90,7 @@ export class RecentCallsScreen extends React.Component {
             : { name: "arrow-upward", type: "ionicons", color: item.missed? "red": "green" }
         }
         rightIcon={{ name: "phone", type: "font-awesome" }}
-        rightSubtitle={duration.humanize()}
+        rightSubtitle={item.missed? "missed" : duration.humanize()}
         bottomDivider={true}
       />
     );

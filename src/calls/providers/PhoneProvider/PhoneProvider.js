@@ -92,7 +92,7 @@ export class PhoneProvider extends Component {
     // TODO The ideal thing here is to know if the authentication succeeded
   };
 
-  disconnectUser = () => {
+  disconnectUser = async () => {
     const { requestDisconnection, setDisconnected } = this.props;
 
     toneOutMessage(`UnAuthenticating user`);
@@ -102,7 +102,7 @@ export class PhoneProvider extends Component {
     if (this.props.onCall) {
       this.hangupCurrentCall();
     }
-    requestDisconnection(true);
+    await requestDisconnection(true);
 
     try {
       this.state.dial.stopAgent();
@@ -142,38 +142,86 @@ export class PhoneProvider extends Component {
 
   hangupCurrentCall = () => {
     const { dial } = this.state;
-    const { hangupCall, addRecentCall, recipient } = this.props;
-
+    const { hangupCall} = this.props;
     toneOutMessage(`Hang up current call`);
-
     hangupCall();
-    this.hangupCallEvent();
-    console.log("Adding recent call");
-    recipient.startTime = this.state.startTime;
-    addRecentCall(recipient);
     return dial.hangUp();
   };
 
-  hangupCallEvent = () => {
-    const { hangupCall } = this.props;
-    hangupCall();
-  };
-
-  /**
-   * Method that must be called when an incoming call is rejected.
-   * It performs all the actions needed by this action.
-   */
-  rejectIncomingCall = () => {
-    const { rejectIncomingCall } = this.props;
-    const { dial } = this.state;
-
-    logMessage("Rejecting incoming call");
+  acceptIncomingCallAction = () => {
+    const { acceptIncomingCall } = this.props;
+    toneOutMessage(`Accepting incoming call`);
 
     // this.stopRingTone();
-    // addRecentCall(recipient);
-    // unSelectUser();
-    rejectIncomingCall();
-    return dial.hangUp();
+    // acceptIncomingCall();
+    this.state.dial.answer();
+  };
+
+  addCallToRecentCalls = () => {
+    const { addRecentCall, recipient } = this.props;
+    recipient.startTime = this.state.startTime;
+    addRecentCall(recipient);
+  };
+
+  handleRegisteredEvent = () => {
+    this.props.setConnected();
+  };
+
+  handleDisconnectedEvent = () => {
+    this.props.setDisconnected();
+  };
+
+  handleTerminatedEvent = () => {
+    this.addCallToRecentCalls();
+  };
+
+  handleInviteReceivedEvent = event => {
+    const caller = event.data.session.localIdentity.friendlyName.split("@")[0];
+    Alert.alert(
+      caller,
+      "You are receiving a call ",
+      [
+        {
+          text: "Answer",
+          onPress: () => this.acceptIncomingCallAction()
+        },
+        {
+          text: "Reject",
+          onPress: () => this.hangupCurrentCall()
+        }
+      ],
+      { cancelable: false }
+    );
+  };
+
+  handleAcceptedEvent = () => {
+    // TODO
+    this.setState({
+      startTime: Date.now()
+    });
+    this.props.acceptCall();
+  };
+
+  handleRejectedEvent = () => {
+    const {setCallMissed} = this.props;
+    setCallMissed();
+  };
+
+  handleFailedEvent = () => {
+    // TODO
+    const tempFailedMessage = {
+      code: {
+        status_code: "NI"
+      },
+      description: "Call failed"
+    };
+    this.props.callFailed(tempFailedMessage);
+  };
+
+  handleByeEvent = () => {
+    const { hangupCall} = this.props;
+    toneOutMessage(`Hang up current call`);
+    hangupCall();
   };
 
   eventHandler = event => {
@@ -183,69 +231,29 @@ export class PhoneProvider extends Component {
     switch (event.name) {
       // Registering
       case "registered":
-        this.props.setConnected();
+        this.handleRegisteredEvent();
         break;
       case "unregistered":
-        this.props.setDisconnected();
+        this.handleDisconnectedEvent();
         break;
       case "terminated":
-        this.hangupCallEvent();
+        this.handleTerminatedEvent();
         break;
       case "accepted":
-        // TODO
-        this.setState({
-          startTime: Date.now()
-        });
-        this.props.acceptOutgoingCall();
+        this.handleAcceptedEvent();
         break;
       case "rejected":
-        // TODO: Detail doesn't include error field nor error code
-        const tempRejectedMessage = {
-          code: {
-            status_code: "NI"
-          },
-          description: "This person cannot answer now"
-        };
-        this.props.rejectOutgoingCall(tempRejectedMessage);
-        this.hangupCallEvent();
-        // Alert.alert(
-        //   "Unable to call",
-        //   tempRejectedMessage.description,
-        //   [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-        //   { cancelable: false }
-        // );
+        this.handleRejectedEvent();
         break;
       case "inviteReceived":
-        const caller = event.data.session.localIdentity.friendlyName.split(
-          "@"
-        )[0];
-        Alert.alert(
-          caller,
-          "You are receiving a call ",
-          [
-            {
-              text: "Answer",
-              onPress: () => console.log("OK Pressed")
-            },
-            {
-              text: "Rejectar",
-              onPress: () => this.rejectIncomingCall()
-            }
-          ],
-          { cancelable: false }
-        );
-        // logMessage(event.data);
-        // this.receiveCall(event.data);
+        this.handleInviteReceivedEvent(event);
         break;
       case "failed":
-        // TODO
-        const tempFailedMessage = {
-          code: {
-            status_code: "NI"
-          },
-          description: "Call failed"
-        };
-        this.props.callFailed(tempFailedMessage);
+        this.handleFailedEvent();
+        break;
+
+      case "bye":
+        this.handleByeEvent();
         break;
       default:
         errorMessage(`Unhandled event: ${event.name}`);

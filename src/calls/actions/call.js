@@ -1,13 +1,11 @@
 export const CALL = "@@call/CALL";
 export const IS_CALLING = "@@call/IS_CALLING";
-export const OUTGOING_CALL_ACCEPTED = "@@call/OUTGOING_CALL_ACCEPTED";
-export const OUTGOING_CALL_REJECTED = "@@call/OUTGOING_CALL_REJECTED";
+export const CALL_REJECTED = "@@call/CALL_REJECTED";
 export const CALL_FAILED = "@@call/CALL_FAILED";
 export const CALL_MISSED = "@@call/CALL_MISSED";
 export const IS_RECEIVING_CALL = "@@call/IS_RECEIVING_CALL";
 export const HANGUP_CALL = "@@call/HANGUP_CALL";
-export const INCOMING_CALL_ACCEPTED = "@@call/INCOMING_CALL_ACCEPTED";
-export const INCOMING_CALL_REJECTED = "@@call/INCOMING_CALL_REJECTED";
+export const CALL_ACCEPTED = "@@call/CALL_ACCEPTED";
 
 /**
  * Action that triggers a call to a selected recipient
@@ -52,30 +50,9 @@ export function isReceivingCall(callerNumber, callerName) {
  *
  * @returns {{type: string}} A dict
  */
-export function acceptOutgoingCall() {
+export function acceptCall() {
   return {
-    type: OUTGOING_CALL_ACCEPTED
-  };
-}
-
-/**
- * Action triggered when an incoming call is accepted
- *
- * @returns {{type: string}} A dict
- */
-export function acceptIncomingCall() {
-  return {
-    type: INCOMING_CALL_ACCEPTED
-  };
-}
-
-/**
- * Action triggered when an incoming call is rejected
- * @returns {{type: string}}
- */
-export function rejectIncomingCall() {
-  return {
-    type: INCOMING_CALL_REJECTED
+    type: CALL_ACCEPTED
   };
 }
 
@@ -83,9 +60,9 @@ export function rejectIncomingCall() {
  * Action triggered when a call is rejected
  * @returns {{type: string}} A dict
  */
-export function rejectOutgoingCall(errors = { code: { status_code: 0 } }) {
+export function rejectCall(errors = { code: { status_code: 0 } }) {
   return {
-    type: OUTGOING_CALL_REJECTED,
+    type: CALL_REJECTED,
     errors
   };
 }
@@ -105,7 +82,7 @@ export function callFailed(errors = { code: { status_code: 0 } }) {
  * Action triggered when a call is not taken
  * @returns {{type: string}} A dict
  */
-export function missCall() {
+export function setCallMissed() {
   return {
     type: CALL_MISSED
   };

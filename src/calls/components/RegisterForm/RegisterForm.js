@@ -1,27 +1,28 @@
-import { Text, View } from "react-native";
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, Input } from "react-native-elements";
+import { ListItem } from "react-native-elements";
 
 import { phoneService } from "../../providers/PhoneProvider/PhoneProvider";
 
+import { CUSTOM_NUMBER } from 'react-native-dotenv'
+import { FlatList } from "react-native";
+
+
 export class RegisterForm extends React.Component {
   static propTypes = {
-    phoneService: PropTypes.object.isRequired
-  };
-
-  state = {
-    phoneNumber: ""
+    phoneService: PropTypes.object.isRequired,
+    phoneNumber: PropTypes.string.isRequired,
   };
 
   /**
    * Register the user in the Telephony Backend
    */
   registerUser = () => {
-    const { phoneNumber } = this.state;
-    const { phoneService } = this.props;
+    const { phoneService, phoneNumber, navigation } = this.props;
     console.log(`Registering user ${phoneNumber}`);
-    const result = phoneService.authenticateUser(phoneNumber);
+    const result = phoneService.authenticateUser(CUSTOM_NUMBER);
+    // const result = phoneService.authenticateUser(phoneNumber);
+    // navigation.navigate("RegisterLoading");
   };
 
   /**
@@ -30,31 +31,17 @@ export class RegisterForm extends React.Component {
    */
   render() {
     this.props.phoneService.testFunction();
+    const {phoneNumber} = this.props;
     return (
-      <View style={[this.props.style.box, this.props.style.box2]}>
-        <Text>Register your number:</Text>
-        <Input
-          onChangeText={phoneNumber => this.setState({ phoneNumber })}
-          value={this.props.value}
-          placeholder={"Your number"}
-          keyboardType={"number-pad"}
-        />
-        <Button
-          onPress={this.registerUser}
-          title="Register"
-          buttonStyle={styles.button}
-        />
-      </View>
+      <ListItem
+        title={`${phoneNumber}`}
+        chevron={true}
+        leftIcon={{ name: "phone", type: "font-awesome" }}
+        bottomDivider={true}
+        onPress={this.registerUser}
+      />
     );
   }
 }
-
-const styles = {
-  button: {
-    marginTop: 10,
-    marginBottom: 10,
-    backgroundColor: "#008000"
-  }
-};
 
 export default phoneService(RegisterForm);
