@@ -1,12 +1,14 @@
-import React from 'react';
-import {
-  ActivityIndicator,
-  AsyncStorage,
-  StatusBar,
-  View,
-} from 'react-native';
+import React from "react";
+import PropTypes from "prop-types";
+import { ActivityIndicator, AsyncStorage, StatusBar, View } from "react-native";
+import { logMessage } from "../../../common/utils/logging";
 
 export class AuthLoadingScreen extends React.Component {
+  static propTypes = {
+    loggedIn: PropTypes.bool,
+    token: PropTypes.string
+  };
+
   constructor(props) {
     super(props);
     this._bootstrapAsync();
@@ -14,11 +16,14 @@ export class AuthLoadingScreen extends React.Component {
 
   // Fetch the token from storage then navigate to our appropriate place
   _bootstrapAsync = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
+    const {loggedIn, navigation} = this.props;
+    logMessage(`loggedIn`);
+    logMessage(loggedIn);
+    // const userToken = await AsyncStorage.getItem("userToken");
 
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
-    this.props.navigation.navigate(userToken ? 'App' : 'Auth');
+    navigation.navigate(loggedIn ? "App" : "Auth");
   };
 
   // Render any loading content that you like here
