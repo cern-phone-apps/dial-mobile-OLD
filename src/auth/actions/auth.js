@@ -1,8 +1,7 @@
 import { RSAA } from "redux-api-middleware";
 
-import { logMessage } from "../../common/utils/logging";
-
 import { API_ENDPOINT } from 'react-native-dotenv'
+import { withAuth, withRefresh } from "../utils/tokens";
 
 export const LOGIN_REQUEST = "@@auth/LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "@@auth/LOGIN_SUCCESS";

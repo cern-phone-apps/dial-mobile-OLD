@@ -1,12 +1,9 @@
 import React from "react";
-import { WebView } from "react-native-webview";
-import { logMessage } from "../../../common/utils/logging";
-import { AsyncStorage } from "react-native";
 import PropTypes from "prop-types";
-import { ListItem, Text } from "react-native-elements";
+import { Button, Text } from "react-native-elements";
 import { FlatList, View } from "react-native";
-import { getUserPhoneNumbers } from "../../actions/numbers";
 import RegisterForm from "../../components/RegisterForm/RegisterForm";
+import LogoutFormContainer from "../../../auth/components/LogoutForm/LogoutFormContainer";
 
 class RegisterScreen extends React.Component {
   static propTypes = {
@@ -21,20 +18,18 @@ class RegisterScreen extends React.Component {
   };
 
   componentDidMount = () => {
+    const { getUserPhoneNumbers } = this.props;
+    console.log("getUserPhoneNumbers");
     getUserPhoneNumbers();
+    console.log(this.props);
   };
 
-  _registerInAsync = () => {
+  componentDidUpdate = (prevProps: prevState) => {
     const { connected, navigation } = this.props;
 
     if (connected) {
       navigation.navigate("AppRegistered");
     }
-  };
-
-  componentDidUpdate = (prevProps: prevState) => {
-    const { navigation } = this.props;
-    navigation.navigate("RegisterLoading");
   };
 
   keyExtractor = (item, index) => index.toString();
@@ -49,6 +44,7 @@ class RegisterScreen extends React.Component {
     return (
       <View>
         <Text h4>Select a number</Text>
+        <LogoutFormContainer />
         <FlatList
           keyExtractor={this.keyExtractor}
           data={numbers}

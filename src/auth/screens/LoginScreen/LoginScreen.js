@@ -11,16 +11,15 @@ class LoginPage extends React.Component {
     token: PropTypes.string
   };
 
-  _signInAsync = () => {
+  componentDidUpdate (prevProps, prevState) {
     const { loggedIn, navigation } = this.props;
-
     if (loggedIn) {
       navigation.navigate("App");
     }
-  };
+  }
 
   render = () => {
-    const {login} = this.props;
+    const { login } = this.props;
     return (
       <WebView
         source={{ uri: LOGIN_PAGE_URL }}
@@ -30,7 +29,6 @@ class LoginPage extends React.Component {
             logMessage(`Login the user...`);
             logMessage(code);
             login(code);
-            this._signInAsync();
           }
         }}
       />

@@ -17,7 +17,7 @@ export class AuthLoadingScreen extends React.Component {
   // Fetch the token from storage then navigate to our appropriate place
   _bootstrapAsync = async () => {
     const {loggedIn, navigation} = this.props;
-    logMessage(`loggedIn`);
+    logMessage(`loggedIn???`);
     logMessage(loggedIn);
     // const userToken = await AsyncStorage.getItem("userToken");
 

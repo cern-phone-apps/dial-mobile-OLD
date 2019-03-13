@@ -1,13 +1,14 @@
 import { RSAA } from "redux-api-middleware";
-export const NUMBERS_REQUEST = "@@search/NUMBERS_REQUEST";
-export const NUMBERS_SUCCESS = "@@search/NUMBERS_SUCCESS";
-export const NUMBERS_FAILURE = "@@search/NUMBERS_FAILURE";
-export const NUMBERS_SET_ACTIVE = "@@search/NUMBERS_SET_ACTIVE";
+export const NUMBERS_REQUEST = "@@calls/NUMBERS_REQUEST";
+export const NUMBERS_SUCCESS = "@@calls/NUMBERS_SUCCESS";
+export const NUMBERS_FAILURE = "@@calls/NUMBERS_FAILURE";
+export const NUMBERS_SET_ACTIVE = "@@calls/NUMBERS_SET_ACTIVE";
 
 import { API_ENDPOINT } from 'react-native-dotenv'
 import { withAuth } from "../../auth/utils/tokens";
 
 export const buildCallsApiEndpoint = path => {
+  console.log(`${API_ENDPOINT}${path}`);
   return `${API_ENDPOINT}${path}`;
 };
 
@@ -18,7 +19,7 @@ export const buildCallsApiEndpoint = path => {
  * @param name username of the user to search
  * @returns {{}} The RSAA action
  */
-export const getUserPhoneNumbers = () => ({
+export const getUserPhoneNumbers = () => console.log(`Get user Phone Numbers...`) || ({
   [RSAA]: {
     endpoint: buildCallsApiEndpoint("/api/v1/numbers/"),
     method: "GET",

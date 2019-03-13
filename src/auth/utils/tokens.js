@@ -50,10 +50,12 @@ export function isAuthenticated (state) {
  * the new headers
  */
 export function withAuth (headers = {}) {
-  return state => ({
+  const result = state => ({
     ...headers,
     "X-CSRF-TOKEN": getAccessToken()
   });
+
+  return result
 }
 
 /**
