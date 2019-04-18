@@ -4,12 +4,11 @@ export const NUMBERS_SUCCESS = "@@calls/NUMBERS_SUCCESS";
 export const NUMBERS_FAILURE = "@@calls/NUMBERS_FAILURE";
 export const NUMBERS_SET_ACTIVE = "@@calls/NUMBERS_SET_ACTIVE";
 
-import { API_ENDPOINT } from 'react-native-dotenv'
+import { API_ENDPOINT3 } from 'react-native-dotenv'
 import { withAuth } from "../../auth/utils/tokens";
 
 export const buildCallsApiEndpoint = path => {
-  console.log(`${API_ENDPOINT}${path}`);
-  return `${API_ENDPOINT}${path}`;
+  return `${API_ENDPOINT3}${path}`;
 };
 
 /**
@@ -19,7 +18,7 @@ export const buildCallsApiEndpoint = path => {
  * @param name username of the user to search
  * @returns {{}} The RSAA action
  */
-export const getUserPhoneNumbers = () => console.log(`Get user Phone Numbers...`) || ({
+export const getUserPhoneNumbers = () => ({
   [RSAA]: {
     endpoint: buildCallsApiEndpoint("/api/v1/numbers/"),
     method: "GET",

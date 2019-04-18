@@ -12,6 +12,7 @@ function handleNumbersFailure(state, action) {
   let error;
   if (
     action.payload &&
+    action.payload.response &&
     action.payload.response.result &&
     action.payload.response.result.error
   ) {
@@ -90,6 +91,7 @@ const numbersReducer = (state = initialState, action) => {
         error: undefined
       };
     case numbersActions.NUMBERS_FAILURE:
+      logMessage(action);
       return handleNumbersFailure(state, action);
     case numbersActions.NUMBERS_SET_ACTIVE:
       return {

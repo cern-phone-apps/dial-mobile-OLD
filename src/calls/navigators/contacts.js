@@ -1,15 +1,15 @@
 import { createStackNavigator } from "react-navigation";
-import RecentCallsScreenContainer from "../screens/RecentCallsScreen/RecentCallsScreenContainer";
+import ContactsScreenContainer from "../screens/ContactsScreen/ContactsScreenContainer";
 
-export const RecentStack = createStackNavigator({
-  Recent: {
-    screen: RecentCallsScreenContainer,
+export const ContactsStack = createStackNavigator({
+  Contacts: {
+    screen: ContactsScreenContainer,
     navigationOptions: () => {
       return {
         headerTitleStyle: {
           color: "white"
         },
-        title: `Recent Calls`,
+        title: `Contacts`,
         headerStyle: {
           backgroundColor: "#2196F3"
         },
