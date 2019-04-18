@@ -1,9 +1,9 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import * as loginActionCreators from "../../actions/auth";
-import LoginScreen from "./LoginScreen";
+import {login} from "../../actions/auth";
 import { isAuthenticated } from "../../utils/tokens";
+import LoginWebView from "./LoginWebView";
 
 function mapStateToProps(state) {
   const {auth} = state;
@@ -17,7 +17,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      ...loginActionCreators
+      login
     },
     dispatch
   );
@@ -26,4 +26,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(LoginScreen);
+)(LoginWebView);

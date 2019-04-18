@@ -1,10 +1,13 @@
 import * as authActions from "../actions/auth";
 import { handleErrorWithToken } from "../utils/errors";
 import { handleErrorWithLogin } from "../utils/errors";
+import { logMessage } from "../../common/utils/logging";
 
 const initialState = {
   loggedIn: false,
   token: undefined,
+  accessToken: undefined,
+  refreshToken: undefined,
   loginInProgress: false,
   error: {}
 };
@@ -58,7 +61,9 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loggedIn: action.payload.login,
-        token: action.payload.token,
+        token: JSON.stringify(action.payload.token),
+        accessToken: action.payload.access_token,
+        refreshToken: action.payload.refresh_token,
         loginInProgress: false,
         error: {}
       };
@@ -81,7 +86,9 @@ export default (state = initialState, action) => {
     case authActions.CLEAR_TOKEN:
       return {
         ...state,
-        token: undefined
+        token: undefined,
+        accessToken: undefined,
+        refreshToken: undefined
       };
     default:
       return state;

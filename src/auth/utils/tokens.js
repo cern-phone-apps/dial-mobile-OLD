@@ -1,46 +1,65 @@
+import jwtDecode from 'jwt-decode'
 
 /**
  * Gets the access token csrf from the cookies
  * @returns {*|{}} The cookie value
  */
-export function getAccessToken () {
-  return;
-  // return Cookies.get("csrf_access_token");
+import { logMessage } from "../../common/utils/logging";
+
+export function getAccessToken(state) {
+  logMessage(state.auth.accessToken);
+  if (state.auth.accessToken) {
+    return state.auth.accessToken;
+  }
 }
 
 /**
  * Checks if the access token csrf cookie is present (not expired) or not present (expired)
  * @returns {boolean} (true|false)
  */
-export function isAccessTokenExpired () {
-  return !getAccessToken();
+export function isAccessTokenExpired(state) {
+  if(state && state.auth.accessToken){
+    const token = jwtDecode(state.auth.accessToken );
+
+    if (token && token.exp) {
+      return 1000 * token.exp - new Date().getTime() < 5000;
+    }
+  }
+
+  return true;
 }
 
 /**
  * Gets the refresh token csrf from the cookies
  * @returns {*|{}} The cookie value
  */
-export function getRefreshToken () {
-  // return Cookies.get("csrf_refresh_token");
-  return;
+export function getRefreshToken(state) {
+  logMessage("checking refresh token");
+  if (state && state.auth.refreshToken) {
+    return state.auth.refreshToken;
+  }
 }
 
 /**
  * Checks if the refresh token csrf cookie is present (not expired) or not present (expired)
  * @returns {boolean} (true|false)
  */
-export function isRefreshTokenExpired () {
-  return !getRefreshToken();
+export function isRefreshTokenExpired(state) {
+  if(state && state.auth.refreshToken) {
+    const token = jwtDecode(state.auth.refreshToken);
+    if (token && token.exp) {
+      return 1000 * token.exp - new Date().getTime() < 5000;
+    }
+  }
+  return true;
 }
 
 /**
  * Checks if the user is authenticated on the application. Refresh token must be present.
  * @returns {boolean} (true|false)
  */
-export function isAuthenticated (state) {
-  const refreshToken = !isRefreshTokenExpired();
-  const loggedIn = state.loggedIn ? state.loggedIn : false;
-  return (refreshToken && loggedIn);
+export function isAuthenticated(state) {
+  return !isRefreshTokenExpired(state);
 }
 
 /**
@@ -49,13 +68,12 @@ export function isAuthenticated (state) {
  * @returns {function(*): {'X-CSRF-TOKEN': (*|{})}} A function that returns a dict with
  * the new headers
  */
-export function withAuth (headers = {}) {
-  const result = state => ({
+export function withAuth(headers = {}) {
+  logMessage("Calling WithAuth");
+  return state => ({
     ...headers,
-    "X-CSRF-TOKEN": getAccessToken()
+    "Authorization": `Bearer ${getAccessToken(state)}`
   });
-
-  return result
 }
 
 /**
@@ -64,9 +82,9 @@ export function withAuth (headers = {}) {
  * @returns {function(*): {'X-CSRF-TOKEN': (*|{})}} A function that returns a dict with
  * the new headers
  */
-export function withRefresh (headers = {}) {
+export function withRefresh(headers = {}) {
   return state => ({
     ...headers,
-    "X-CSRF-TOKEN": getRefreshToken()
+    "Authorization": `Bearer ${getRefreshToken(state)}`
   });
 }

@@ -1,17 +1,14 @@
 import React from "react";
-import { WebView } from "react-native-webview";
-import { logMessage } from "../../../common/utils/logging";
 import PropTypes from "prop-types";
-
-const LOGIN_PAGE_URL = "https://webrtc-auth.web.cern.ch/";
+import { Dimensions, View, Image, Text } from "react-native";
+import { Button, Card  } from "react-native-elements";
 
 class LoginPage extends React.Component {
   static propTypes = {
-    loggedIn: PropTypes.bool,
-    token: PropTypes.string
+    isAuthenticated: PropTypes.bool
   };
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     const { loggedIn, navigation } = this.props;
     if (loggedIn) {
       navigation.navigate("App");
@@ -19,19 +16,41 @@ class LoginPage extends React.Component {
   }
 
   render = () => {
-    const { login } = this.props;
+    const { navigation } = this.props;
     return (
-      <WebView
-        source={{ uri: LOGIN_PAGE_URL }}
-        onNavigationStateChange={webViewState => {
-          if (webViewState.url.includes("code=") && webViewState.loading) {
-            let code = webViewState.url.substring(55);
-            logMessage(`Login the user...`);
-            logMessage(code);
-            login(code);
-          }
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          height: Dimensions.get("window").height - 80,
+          backgroundColor: "white"
         }}
-      />
+      >
+        <Image
+          source={require("../../../../assets/assets_CERN-logo_outline.png")}
+          resizeMode={"contain"}
+          style={{
+            height: 100,
+            alignSelf: "center"
+          }}
+        />
+        <Card title="CERN Push Notifications">
+          <Text
+            style={{
+              textAlign: "center",
+              paddingBottom: 10
+            }}
+          >
+            SignIn with your CERN account to access the CERN Push Notifications
+            app.
+          </Text>
+          <Button
+            onPress={() => navigation.navigate("LoginWebView")}
+            title="Sign in"
+          />
+        </Card>
+      </View>
     );
   };
 }

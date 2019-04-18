@@ -1,7 +1,8 @@
 import { RSAA } from "redux-api-middleware";
 
-import { API_ENDPOINT } from 'react-native-dotenv'
+import { API_ENDPOINT3 } from 'react-native-dotenv'
 import { withAuth, withRefresh } from "../utils/tokens";
+import {AuthAPI} from "../utils/AuthAPI";
 
 export const LOGIN_REQUEST = "@@auth/LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "@@auth/LOGIN_SUCCESS";
@@ -17,11 +18,6 @@ export const TOKEN_FAILURE = "@@auth/TOKEN_FAILURE";
 
 export const CLEAR_TOKEN = "@@auth/CLEAR_TOKEN";
 
-
-export const buildAuthApiEndpoint = path => {
-  return `${API_ENDPOINT}${path}`;
-};
-
 /**
  * Action triggered to log the user in the backend API.
  * It requires an Oauth code that will be used on the backend to authenticate the user
@@ -29,12 +25,12 @@ export const buildAuthApiEndpoint = path => {
  * @param code A string returned by Oauth to be sent to the backend
  * @returns {{}} A RSAA request with REQUEST, SUCCESS and FAILURE statuses.
  */
-export const login = code => console.log(buildAuthApiEndpoint("/auth/v1/login/")) || ({
+export const login = code => ({
   [RSAA]: {
-    endpoint: buildAuthApiEndpoint("/auth/v1/login/"),
+    endpoint: AuthAPI.buildEndpoint("/login/"),
     method: "POST",
     body: JSON.stringify({ code, type: "mobile" }),
-    credentials: "include",
+    // credentials: "include",
     headers: { "Content-Type": "application/json" },
     types: [LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE]
   }
@@ -49,7 +45,7 @@ export const login = code => console.log(buildAuthApiEndpoint("/auth/v1/login/")
  */
 export const logout = () => ({
   [RSAA]: {
-    endpoint: buildAuthApiEndpoint("/auth/v1/logout/"),
+    endpoint: AuthAPI.buildEndpoint("/logout/"),
     method: "DELETE",
     credentials: "include",
     headers: withAuth({ "Content-Type": "application/json" }),
