@@ -1,6 +1,6 @@
 import { RSAA } from "redux-api-middleware";
 
-import { API_ENDPOINT3 } from 'react-native-dotenv'
+import { API_ENDPOINT } from 'react-native-dotenv'
 import { withAuth, withRefresh } from "../utils/tokens";
 import {AuthAPI} from "../utils/AuthAPI";
 

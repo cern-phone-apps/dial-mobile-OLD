@@ -35,15 +35,14 @@ class LoginPage extends React.Component {
             alignSelf: "center"
           }}
         />
-        <Card title="CERN Push Notifications">
+        <Card title="CERN Phone">
           <Text
             style={{
               textAlign: "center",
               paddingBottom: 10
             }}
           >
-            SignIn with your CERN account to access the CERN Push Notifications
-            app.
+            SignIn with your CERN account to access the CERN Phone app.
           </Text>
           <Button
             onPress={() => navigation.navigate("LoginWebView")}

@@ -1,4 +1,4 @@
-import { API_ENDPOINT3 } from "react-native-dotenv";
+import { API_ENDPOINT } from "react-native-dotenv";
 
 export class AuthAPI{
   /**
@@ -8,6 +8,6 @@ export class AuthAPI{
    */
   static buildEndpoint = path => {
     const apiPath = '/auth/v1';
-    return `${API_ENDPOINT3}${apiPath}${path}`;
+    return `${API_ENDPOINT}${apiPath}${path}`;
   };
 }

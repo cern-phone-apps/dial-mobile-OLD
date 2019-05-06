@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { WebView } from "react-native-webview";
 
 import {
-  API_ENDPOINT3,
+  API_ENDPOINT,
   OAUTH_REDIRECT_URL,
   OAUTH_AUTHORIZE_URL,
   OAUTH_CLIENT_ID

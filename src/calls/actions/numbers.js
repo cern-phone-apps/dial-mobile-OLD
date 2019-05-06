@@ -4,11 +4,11 @@ export const NUMBERS_SUCCESS = "@@calls/NUMBERS_SUCCESS";
 export const NUMBERS_FAILURE = "@@calls/NUMBERS_FAILURE";
 export const NUMBERS_SET_ACTIVE = "@@calls/NUMBERS_SET_ACTIVE";
 
-import { API_ENDPOINT3 } from 'react-native-dotenv'
+import { API_ENDPOINT } from 'react-native-dotenv'
 import { withAuth } from "../../auth/utils/tokens";
 
 export const buildCallsApiEndpoint = path => {
-  return `${API_ENDPOINT3}${path}`;
+  return `${API_ENDPOINT}${path}`;
 };
 
 /**
