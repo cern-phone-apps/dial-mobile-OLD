@@ -12,7 +12,7 @@ const RegisterStack = createStackNavigator({
         headerTitleStyle: {
           color: 'white'
         },
-        title: `Register your number`,
+        title: `Select your number`,
         headerStyle: {
           backgroundColor: '#2196F3'
         },

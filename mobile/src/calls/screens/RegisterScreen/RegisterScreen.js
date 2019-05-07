@@ -47,7 +47,6 @@ class RegisterScreen extends React.Component {
     const { numbers } = this.props;
     return (
       <View>
-        <Text h4>Select a number</Text>
         <FlatList
           keyExtractor={this.keyExtractor}
           data={numbers}
