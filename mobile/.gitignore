@@ -37,6 +37,7 @@ npm-debug.log
 yarn-error.log
 # XXX: remove this after sprint
 yarn.lock
+package-lock.json
 
 # BUCK
 buck-out/
