@@ -87,7 +87,7 @@ export class PhoneProvider extends Component {
 
     this.setState({ phoneNumber: phoneNumber });
     requestConnection();
-    this.state.dial.authenticate(phoneNumber, JSON.stringify(token));
+    this.state.dial.authenticate(phoneNumber, token);
     // this.state.dial.authenticate(phoneNumber, JSON.stringify({}));
     // TODO The ideal thing here is to know if the authentication succeeded
   };

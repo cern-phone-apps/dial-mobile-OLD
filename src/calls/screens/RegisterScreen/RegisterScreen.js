@@ -11,7 +11,7 @@ class RegisterScreen extends React.Component {
     numbers: PropTypes.array,
     getUserPhoneNumbers: PropTypes.func.isRequired,
     setActiveNumber: PropTypes.func.isRequired,
-    token: PropTypes.obj
+    token: PropTypes.string
   };
 
   static navigationOptions = {
