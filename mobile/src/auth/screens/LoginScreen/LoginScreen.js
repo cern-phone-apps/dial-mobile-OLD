@@ -1,17 +1,17 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Dimensions, View, Image, Text } from "react-native";
-import { Button, Card  } from "react-native-elements";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Dimensions, View, Image, Text } from 'react-native';
+import { Button, Card } from 'react-native-elements';
 
 class LoginPage extends React.Component {
   static propTypes = {
-    isAuthenticated: PropTypes.bool
+    loggedIn: PropTypes.bool.isRequired
   };
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     const { loggedIn, navigation } = this.props;
     if (loggedIn) {
-      navigation.navigate("App");
+      navigation.navigate('App');
     }
   }
 
@@ -20,32 +20,32 @@ class LoginPage extends React.Component {
     return (
       <View
         style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          height: Dimensions.get("window").height - 80,
-          backgroundColor: "white"
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          height: Dimensions.get('window').height - 80,
+          backgroundColor: 'white'
         }}
       >
         <Image
-          source={require("../../../../assets/assets_CERN-logo_outline.png")}
-          resizeMode={"contain"}
+          source={require('../../../../assets/assets_CERN-logo_outline.png')}
+          resizeMode="contain"
           style={{
             height: 100,
-            alignSelf: "center"
+            alignSelf: 'center'
           }}
         />
         <Card title="CERN Phone">
           <Text
             style={{
-              textAlign: "center",
+              textAlign: 'center',
               paddingBottom: 10
             }}
           >
             SignIn with your CERN account to access the CERN Phone app.
           </Text>
           <Button
-            onPress={() => navigation.navigate("LoginWebView")}
+            onPress={() => navigation.navigate('LoginWebView')}
             title="Sign in"
           />
         </Card>
