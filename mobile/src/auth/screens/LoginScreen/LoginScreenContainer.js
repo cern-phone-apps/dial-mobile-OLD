@@ -1,16 +1,13 @@
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import * as loginActionCreators from "../../actions/auth";
-import LoginScreen from "./LoginScreen";
-import { isAuthenticated } from "../../utils/tokens";
+import * as loginActionCreators from '../../actions/auth';
+import LoginScreen from './LoginScreen';
 
 function mapStateToProps(state) {
-  const {auth} = state;
-  console.log(auth.loggedIn);
+  const { auth } = state;
   return {
-    loggedIn: auth.loggedIn,
-    isAuthenticated: isAuthenticated(state)
+    loggedIn: auth.loggedIn
   };
 }
 
