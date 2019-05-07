@@ -4,7 +4,6 @@ import { ListItem } from "react-native-elements";
 
 import { phoneService } from "../../providers/PhoneProvider/PhoneProvider";
 
-import { CUSTOM_NUMBER } from 'react-native-dotenv'
 import { FlatList } from "react-native";
 
 
