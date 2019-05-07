@@ -10,7 +10,8 @@ class RegisterScreen extends React.Component {
     connected: PropTypes.bool,
     numbers: PropTypes.array,
     getUserPhoneNumbers: PropTypes.func.isRequired,
-    setActiveNumber: PropTypes.func.isRequired
+    setActiveNumber: PropTypes.func.isRequired,
+    token: PropTypes.obj
   };
 
   static navigationOptions = {
@@ -35,7 +36,8 @@ class RegisterScreen extends React.Component {
   keyExtractor = (item, index) => index.toString();
 
   renderItem = ({ item }) => {
-    return <RegisterForm phoneNumber={item.phoneNumber} />;
+    const {token} = this.props;
+    return <RegisterForm phoneNumber={item.phoneNumber} token={token} />;
   };
 
   render = () => {

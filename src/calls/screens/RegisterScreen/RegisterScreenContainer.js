@@ -7,9 +7,12 @@ import RegisterScreen from "./RegisterScreen";
 
 function mapStateToProps(state) {
   const {connection, numbers} = state.calls;
+  const {auth} = state;
+
   return {
     connected: connection? connection.connected : false,
-    numbers: numbers.numbers
+    numbers: numbers.numbers,
+    token: auth.token
   };
 }
 

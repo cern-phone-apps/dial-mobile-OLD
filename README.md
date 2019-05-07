@@ -9,6 +9,11 @@
 
 - Shake the phone to display the development menu.
 
+
+## TONE JS API
+
+Need to be placed on external/tone-webrtc-api/dial-api
+
 ### Change the debugger port
 
 1. Open the development menu

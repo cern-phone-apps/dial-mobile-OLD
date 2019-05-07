@@ -18,10 +18,10 @@ export class RegisterForm extends React.Component {
    * Register the user in the Telephony Backend
    */
   registerUser = () => {
-    const { phoneService, phoneNumber, navigation } = this.props;
+    const { phoneService, phoneNumber, navigation, token } = this.props;
     console.log(`Registering user ${phoneNumber}`);
-    const result = phoneService.authenticateUser(CUSTOM_NUMBER);
-    // const result = phoneService.authenticateUser(phoneNumber);
+    // const result = phoneService.authenticateUser(CUSTOM_NUMBER);
+    const result = phoneService.authenticateUser(phoneNumber, token);
     // navigation.navigate("RegisterLoading");
   };
 
