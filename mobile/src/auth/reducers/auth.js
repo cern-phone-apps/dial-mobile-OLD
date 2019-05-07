@@ -1,7 +1,5 @@
-import * as authActions from "../actions/auth";
-import { handleErrorWithToken } from "../utils/errors";
-import { handleErrorWithLogin } from "../utils/errors";
-import { logMessage } from "../../common/utils/logging";
+import * as authActions from '../actions/auth';
+import { handleErrorWithToken, handleErrorWithLogin } from '../utils/errors';
 
 const initialState = {
   loggedIn: false,

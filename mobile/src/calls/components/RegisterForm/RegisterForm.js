@@ -1,29 +1,26 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { ListItem } from "react-native-elements";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { ListItem } from 'react-native-elements';
 
-import { phoneService } from "../../providers/PhoneProvider/PhoneProvider";
-
-import { FlatList } from "react-native";
-
+import { phoneService } from '../../providers/PhoneProvider/PhoneProvider';
 
 export class RegisterForm extends React.Component {
   static propTypes = {
-    phoneService: PropTypes.object.isRequired,
+    phoneService: PropTypes.shape({
+      disconnectUser: PropTypes.func.isRequired
+    }).isRequired,
     phoneNumber: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired
   };
 
   /**
    * Register the user in the Telephony Backend
    */
   registerUser = () => {
-    const { phoneService, phoneNumber, navigation, token } = this.props;
+    const { phoneService, phoneNumber, token } = this.props;
     console.log(`Registering user ${phoneNumber}`);
-    // const result = phoneService.authenticateUser(CUSTOM_NUMBER);
-    console.log("This is the token");
-    console.log(token);
-    const result = phoneService.authenticateUser(phoneNumber, token);
-    // navigation.navigate("RegisterLoading");
+
+    phoneService.authenticateUser(phoneNumber, token);
   };
 
   /**
@@ -31,14 +28,13 @@ export class RegisterForm extends React.Component {
    * @returns {*}
    */
   render() {
-    this.props.phoneService.testFunction();
-    const {phoneNumber} = this.props;
+    const { phoneNumber } = this.props;
     return (
       <ListItem
         title={`${phoneNumber}`}
-        chevron={true}
-        leftIcon={{ name: "phone", type: "font-awesome" }}
-        bottomDivider={true}
+        chevron
+        leftIcon={{ name: 'phone', type: 'font-awesome' }}
+        bottomDivider
         onPress={this.registerUser}
       />
     );

@@ -1,42 +1,18 @@
-import React from "react";
-import { AsyncStorage, StyleSheet, Text, View } from "react-native";
-import DisconnectForm from "../../../calls/components/DisconnectForm/DisconnectForm";
-import LogoutFormContainer from "../../../auth/components/LogoutForm/LogoutFormContainer";
+import React from 'react';
+import { Text, View } from 'react-native';
+import DisconnectForm from '../../../calls/components/DisconnectForm/DisconnectForm';
 
-export class SettingsScreen extends React.Component {
+export default class SettingsScreen extends React.Component {
   static navigationOptions = {
-    title: "Settings"
-  };
-
-  _signOutAsync = async () => {
-    await AsyncStorage.clear();
-
-    this.props.navigation.navigate("Auth");
+    title: 'Settings'
   };
 
   render() {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Settings!</Text>
         <DisconnectForm />
-        <LogoutFormContainer />
-        {/*<Button*/}
-          {/*type="clear"*/}
-          {/*buttonStyle={styles.button}*/}
-          {/*title={"Sign out & disconnect"}*/}
-          {/*onPress={this._signOutAsync}*/}
-        {/*/>*/}
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  button: {
-    marginTop: 10,
-    marginBottom: 10
-  },
-  buttonTitle: {
-    color: "#FF0000"
-  }
-});

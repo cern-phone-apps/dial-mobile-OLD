@@ -1,11 +1,10 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
-import { Button } from "react-native-elements";
-import React from "react";
-import PropTypes from "prop-types";
+import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, Input } from 'react-native-elements';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-import { phoneService } from "../../providers/PhoneProvider/PhoneProvider";
-import { logMessage } from "../../../common/utils/logging";
-import { Input } from "react-native-elements";
+import { phoneService } from '../../providers/PhoneProvider/PhoneProvider';
+import { logMessage } from '../../../common/utils/logging';
 
 export class MakeCallForm extends React.Component {
   static propTypes = {
@@ -13,7 +12,7 @@ export class MakeCallForm extends React.Component {
   };
 
   state = {
-    phoneNumber: ""
+    phoneNumber: ''
   };
 
   /**
@@ -38,8 +37,8 @@ export class MakeCallForm extends React.Component {
         <Input
           onChangeText={phoneNumber => this.setState({ phoneNumber })}
           value={this.props.value}
-          placeholder={`Phone number`}
-          keyboardType={"number-pad"}
+          placeholder="Phone number"
+          keyboardType="number-pad"
         />
         <Button
           onPress={this.makeCall}
