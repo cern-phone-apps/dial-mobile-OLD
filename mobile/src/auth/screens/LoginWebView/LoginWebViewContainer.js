@@ -1,23 +1,21 @@
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { API_ENDPOINT } from 'react-native-dotenv';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { authActionFactory } from 'dial-core';
 
-import {login} from "../../actions/auth";
-import { isAuthenticated } from "../../utils/tokens";
-import LoginWebView from "./LoginWebView";
+import LoginWebView from './LoginWebView';
 
 function mapStateToProps(state) {
-  const {auth} = state;
-  console.log(auth.loggedIn);
+  const { auth } = state;
   return {
-    loggedIn: auth.loggedIn,
-    isAuthenticated: isAuthenticated(state)
+    loggedIn: auth.loggedIn
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      login
+      login: authActionFactory(API_ENDPOINT).login
     },
     dispatch
   );

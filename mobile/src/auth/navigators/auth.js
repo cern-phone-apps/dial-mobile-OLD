@@ -2,7 +2,7 @@ import { createStackNavigator } from 'react-navigation';
 import LoginScreenContainer from '../screens/LoginScreen/LoginScreenContainer';
 import LoginWebViewContainer from '../screens/LoginWebView/LoginWebViewContainer';
 
-export const AuthStack = createStackNavigator({
+export default createStackNavigator({
   SignIn: {
     screen: LoginScreenContainer,
     navigationOptions: () => ({
@@ -30,5 +30,3 @@ export const AuthStack = createStackNavigator({
     })
   }
 });
-
-export default AuthStack;

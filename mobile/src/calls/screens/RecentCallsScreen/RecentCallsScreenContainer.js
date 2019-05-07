@@ -1,8 +1,8 @@
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import * as callActionCreators from "../../actions/call";
-import { RecentCallsScreen } from "./RecentCallsScreen";
+import * as callActionCreators from '../../actions/call';
+import { RecentCallsScreen } from './RecentCallsScreen';
 
 function mapStateToProps(state) {
   const { calls } = state;

@@ -1,13 +1,11 @@
-import jwtDecode from 'jwt-decode'
+import jwtDecode from 'jwt-decode';
 
 /**
  * Gets the access token csrf from the cookies
  * @returns {*|{}} The cookie value
  */
-import { logMessage } from "../../common/utils/logging";
-
 export function getAccessToken(state) {
-  logMessage(state.auth.accessToken);
+  console.log(state.auth.accessToken);
   if (state.auth.accessToken) {
     return state.auth.accessToken;
   }
@@ -18,8 +16,8 @@ export function getAccessToken(state) {
  * @returns {boolean} (true|false)
  */
 export function isAccessTokenExpired(state) {
-  if(state && state.auth.accessToken){
-    const token = jwtDecode(state.auth.accessToken );
+  if (state && state.auth.accessToken) {
+    const token = jwtDecode(state.auth.accessToken);
 
     if (token && token.exp) {
       return 1000 * token.exp - new Date().getTime() < 5000;
@@ -34,7 +32,7 @@ export function isAccessTokenExpired(state) {
  * @returns {*|{}} The cookie value
  */
 export function getRefreshToken(state) {
-  logMessage("checking refresh token");
+  console.log('checking refresh token');
   if (state && state.auth.refreshToken) {
     return state.auth.refreshToken;
   }
@@ -45,7 +43,7 @@ export function getRefreshToken(state) {
  * @returns {boolean} (true|false)
  */
 export function isRefreshTokenExpired(state) {
-  if(state && state.auth.refreshToken) {
+  if (state && state.auth.refreshToken) {
     const token = jwtDecode(state.auth.refreshToken);
     if (token && token.exp) {
       return 1000 * token.exp - new Date().getTime() < 5000;
@@ -69,10 +67,10 @@ export function isAuthenticated(state) {
  * the new headers
  */
 export function withAuth(headers = {}) {
-  logMessage("Calling WithAuth");
+  console.log('Calling WithAuth');
   return state => ({
     ...headers,
-    "Authorization": `Bearer ${getAccessToken(state)}`
+    Authorization: `Bearer ${getAccessToken(state)}`
   });
 }
 
@@ -85,6 +83,6 @@ export function withAuth(headers = {}) {
 export function withRefresh(headers = {}) {
   return state => ({
     ...headers,
-    "Authorization": `Bearer ${getRefreshToken(state)}`
+    Authorization: `Bearer ${getRefreshToken(state)}`
   });
 }
