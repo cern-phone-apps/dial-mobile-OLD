@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Dimensions, View, Image, Text } from 'react-native';
 import { Button, Card } from 'react-native-elements';
 
-class LoginPage extends React.Component {
+class LoginScreen extends React.Component {
   static propTypes = {
     loggedIn: PropTypes.bool.isRequired
   };
@@ -54,4 +54,4 @@ class LoginPage extends React.Component {
   };
 }
 
-export default LoginPage;
+export default LoginScreen;
