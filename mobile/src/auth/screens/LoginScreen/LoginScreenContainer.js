@@ -8,7 +8,7 @@ import LoginScreen from './LoginScreen';
 function mapStateToProps(state) {
   const { auth } = state;
   return {
-    loggedIn: auth.loggedIn
+    ...auth
   };
 }
 

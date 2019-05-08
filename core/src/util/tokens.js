@@ -5,10 +5,7 @@ import jwtDecode from 'jwt-decode';
  * @returns {*|{}} The cookie value
  */
 export function getAccessToken(state) {
-  console.log(state.auth.accessToken);
-  if (state.auth.accessToken) {
-    return state.auth.accessToken;
-  }
+  return state.auth.accessToken || null;
 }
 
 /**
@@ -32,10 +29,7 @@ export function isAccessTokenExpired(state) {
  * @returns {*|{}} The cookie value
  */
 export function getRefreshToken(state) {
-  console.log('checking refresh token');
-  if (state && state.auth.refreshToken) {
-    return state.auth.refreshToken;
-  }
+  return (state && state.auth.refreshToken) || null;
 }
 
 /**

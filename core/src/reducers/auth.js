@@ -1,44 +1,15 @@
 import * as authActions from '../actions/auth';
-import { handleErrorWithToken, handleErrorWithLogin } from '../util/errors';
+import { createError } from '../util/errors';
 
 const initialState = {
+  authInProgress: false,
   loggedIn: false,
   token: undefined,
   accessToken: undefined,
   refreshToken: undefined,
   loginInProgress: false,
-  error: {}
-};
-
-export const handleLoginRequest = (state, action) => {
-  if (action.error) {
-    return handleErrorWithLogin(state, action);
-  }
-  return {
-    ...state,
-    loginInProgress: true
-  };
-};
-
-export const handleTokenRequest = (state, action) => {
-  if (action.error) {
-    return handleErrorWithToken(state, action);
-  }
-  return state;
-};
-
-export const handleLogoutRequest = (state, action) => {
-  if (action.error) {
-    return handleErrorWithToken(state, action);
-  }
-
-  return {
-    ...state,
-    loggedIn: false,
-    token: undefined,
-    loginInProgress: false,
-    error: {}
-  };
+  requestingToken: false,
+  error: null
 };
 
 /**
@@ -50,11 +21,36 @@ export const handleLogoutRequest = (state, action) => {
  */
 export default (state = initialState, action) => {
   switch (action.type) {
+    case authActions.AUTH_START:
+      return {
+        ...state,
+        authInProgress: true,
+        error: null
+      };
     case authActions.LOGIN_REQUEST:
-      return handleLoginRequest(state, action);
+      return {
+        ...state,
+        loginInProgress: true,
+        error: null
+      };
     case authActions.LOGIN_FAILURE:
+      return {
+        ...state,
+        loggedIn: false,
+        loginInProgress: false,
+        authInProgress: false,
+        error: createError(action)
+      };
     case authActions.TOKEN_FAILURE:
-      return handleErrorWithToken(state, action);
+      return {
+        ...state,
+        loggedIn: false,
+        loginInProgress: false,
+        authInProgress: false,
+        requestingToken: false,
+        token: undefined,
+        error: createError(action)
+      };
     case authActions.LOGIN_SUCCESS:
       return {
         ...state,
@@ -63,19 +59,31 @@ export default (state = initialState, action) => {
         accessToken: action.payload.access_token,
         refreshToken: action.payload.refresh_token,
         loginInProgress: false,
-        error: {}
+        authInProgress: false,
+        error: null
       };
     case authActions.TOKEN_REQUEST:
-      return handleTokenRequest(state, action);
+      return {
+        requestingToken: true,
+        ...state
+      };
     case authActions.TOKEN_RECEIVED:
       return {
         ...state,
+        requestingToken: false,
         loggedIn: true,
         loginInProgress: false,
+        authInProgress: false,
         error: {}
       };
     case authActions.LOGOUT_REQUEST:
-      return handleLogoutRequest(state, action);
+      return {
+        ...state,
+        loggedIn: false,
+        loginInProgress: false,
+        authInProgress: false,
+        token: undefined
+      };
     case authActions.LOGOUT_SUCCESS:
       return {
         ...state,

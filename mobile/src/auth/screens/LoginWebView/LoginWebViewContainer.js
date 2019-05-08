@@ -8,7 +8,7 @@ import LoginWebView from './LoginWebView';
 function mapStateToProps(state) {
   const { auth } = state;
   return {
-    loggedIn: auth.loggedIn
+    ...auth
   };
 }
 

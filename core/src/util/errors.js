@@ -14,7 +14,7 @@ export const buildError = (message = 'Unknown error', statusCode = 999) => {
  * @returns {{message: *, statusCode: number}}
  */
 export const buildApiErrorFromAction = action => {
-  const {message} = action.payload;
+  const { message } = action.payload;
   const statusCode = action.payload.status ? action.payload.status : -1;
   return { message, statusCode };
 };
@@ -46,39 +46,13 @@ export const handleErrorResponse = (
 
 /**
  *
- * @param state
- * @param action
- * @returns {{[p: string]: *}}
+ * @param {Object} action
  */
-export const handleErrorWithToken = (state, action) => {
-  let response;
+export const createError = action => {
   if (!action.payload || !action.payload.message || !action.payload.name) {
-    response = buildError();
-  } else {
-    response = handleErrorResponse(action);
+    return buildError();
   }
-
-  return {
-    ...state,
-    error: response
-  };
-};
-
-export const handleErrorWithLogin = (state, action) => {
-  let response;
-  if (!action.payload) {
-    response = buildError();
-  } else if (action.payload.message && action.payload.name) {
-      response = handleErrorResponse(
-        action,
-        "Currently It is not possible to log in. Please, try again in a few minutes."
-      );
-    }
-  return {
-    ...state,
-    loginInProgress: false,
-    error: response
-  };
+  return handleErrorResponse(action);
 };
 
 /**

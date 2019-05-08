@@ -1,6 +1,8 @@
 import { RSAA } from 'redux-api-middleware';
 import { withAuth, withRefresh } from '../util/tokens';
 
+export const AUTH_START = '@@auth/AUTH_START';
+
 export const LOGIN_REQUEST = '@@auth/LOGIN_REQUEST';
 export const LOGIN_SUCCESS = '@@auth/LOGIN_SUCCESS';
 export const LOGIN_FAILURE = '@@auth/LOGIN_FAILURE';
@@ -29,6 +31,13 @@ export default function(apiEndpoint) {
   const buildAuthURL = path => `${apiEndpoint}${API_PATH}${path}`;
 
   return {
+    /**
+     * Triggered when the user clicks the "Sign in" button
+     */
+    startAuth: () => ({
+      type: AUTH_START
+    }),
+
     login: code => ({
       [RSAA]: {
         endpoint: buildAuthURL('/login/'),

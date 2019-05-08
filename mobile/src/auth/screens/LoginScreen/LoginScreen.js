@@ -1,11 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Dimensions, View, Image, Text } from 'react-native';
+import { ActivityIndicator, Dimensions, View, Image, Text } from 'react-native';
 import { Button, Card } from 'react-native-elements';
+import { Toast } from '../../../common/components/android';
 
 class LoginScreen extends React.Component {
   static propTypes = {
-    loggedIn: PropTypes.bool.isRequired
+    loggedIn: PropTypes.bool.isRequired,
+    authInProgress: PropTypes.bool,
+    error: PropTypes.shape({
+      message: PropTypes.string
+    }),
+    startAuth: PropTypes.func.isRequired
+  };
+
+  static defaultProps = {
+    error: null,
+    authInProgress: false
   };
 
   componentDidUpdate() {
@@ -16,7 +27,7 @@ class LoginScreen extends React.Component {
   }
 
   render = () => {
-    const { navigation } = this.props;
+    const { navigation, authInProgress, error, startAuth } = this.props;
     return (
       <View
         style={{
@@ -45,10 +56,17 @@ class LoginScreen extends React.Component {
             SignIn with your CERN account to access the CERN Phone app.
           </Text>
           <Button
-            onPress={() => navigation.navigate('LoginWebView')}
+            onPress={() => {
+              if (!authInProgress) {
+                startAuth();
+                navigation.navigate('LoginWebView');
+              }
+            }}
             title="Sign in"
           />
         </Card>
+        {authInProgress && <ActivityIndicator size="small" />}
+        {error && <Toast message={`Sign in failed: ${error.message}`} />}
       </View>
     );
   };
