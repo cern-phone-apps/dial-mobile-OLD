@@ -5,6 +5,13 @@ import { Button } from 'react-native-elements';
 
 import { phoneService } from '../../providers/PhoneProvider/PhoneProvider';
 
+const styles = StyleSheet.create({
+  button: {
+    marginTop: 10,
+    marginBottom: 10
+  }
+});
+
 export class HangupForm extends React.Component {
   static propTypes = {
     phoneService: PropTypes.object.isRequired
@@ -33,12 +40,5 @@ export class HangupForm extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  button: {
-    marginTop: 10,
-    marginBottom: 10
-  }
-});
 
 export default phoneService(HangupForm);
