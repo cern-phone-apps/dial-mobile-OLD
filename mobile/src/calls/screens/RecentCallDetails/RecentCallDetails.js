@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { Button, Icon, Text } from 'react-native-elements';
 import { StyleSheet, View } from 'react-native';
 import moment from 'moment';
+import { phoneService } from '../../providers/PhoneProvider/PhoneProvider';
+import PropTypes from 'prop-types';
+import { logMessage } from '../../../common/utils/logging';
 
 const styles = StyleSheet.create({
   container: {
@@ -33,6 +36,25 @@ const styles = StyleSheet.create({
 });
 
 class RecentCallDetails extends Component {
+  static propTypes = {
+    phoneService: PropTypes.object.isRequired
+  };
+
+  static navigationOptions = ({ navigation }) => {
+    // const { recentCall } = navigation.state.params;
+    return {
+      title: navigation.getParam('phoneNumber', 'Recent Call Details')
+    };
+  };
+
+  makeCall = () => {
+    const { phoneService } = this.props;
+    const { phoneNumber } = this.props.navigation.state.params;
+
+    logMessage(`Calling user ${phoneNumber}`);
+    phoneService.makeCall(undefined, phoneNumber);
+  };
+
   render() {
     const { recentCall } = this.props.navigation.state.params;
     let printableDate;
@@ -68,10 +90,11 @@ class RecentCallDetails extends Component {
           iconLeft
           title="Call this number"
           buttonStyle={[styles.button]}
+          onPress={this.makeCall}
         />
       </View>
     );
   }
 }
 
-export default RecentCallDetails;
+export default phoneService(RecentCallDetails);
