@@ -1,3 +1,4 @@
+import { API_ENDPOINT } from 'react-native-dotenv';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -18,7 +19,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      getUserPhoneNumbers: numberActions.getUserPhoneNumbers,
+      getUserPhoneNumbers: numberActions.getUserPhoneNumbers(API_ENDPOINT),
       setActiveNumber: numberActions.setActiveNumber
     },
     dispatch
