@@ -1,6 +1,6 @@
 import { API_ENDPOINT } from 'react-native-dotenv';
 import { RSAA } from 'redux-api-middleware';
-import { util } from 'dial-core';
+import { withAuth } from '../util/tokens';
 
 export const NUMBERS_REQUEST = '@@calls/NUMBERS_REQUEST';
 export const NUMBERS_SUCCESS = '@@calls/NUMBERS_SUCCESS';
@@ -23,7 +23,7 @@ export const getUserPhoneNumbers = () => ({
     endpoint: buildCallsApiEndpoint('/api/v1/numbers/'),
     method: 'GET',
     credentials: 'include',
-    headers: util.tokens.withAuth({ 'Content-Type': 'application/json' }),
+    headers: withAuth({ 'Content-Type': 'application/json' }),
     types: [NUMBERS_REQUEST, NUMBERS_SUCCESS, NUMBERS_FAILURE]
   }
 });

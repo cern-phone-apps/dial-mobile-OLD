@@ -1,4 +1,4 @@
-import * as recentActions from "../actions/recent";
+import * as recentActions from '../actions/recent';
 
 const initialState = {
   lastRecentId: 0,
@@ -6,14 +6,14 @@ const initialState = {
 };
 
 const recent = (state = initialState, action) => {
-  let recentCall, lastRecentId;
   switch (action.type) {
-    case recentActions.ADD_RECENT_CALL:
-      recentCall = action.recentCall;
-      lastRecentId = ++state.lastRecentId;
+    case recentActions.ADD_RECENT_CALL: {
+      const { recentCall } = action;
+      const lastRecentId = state.lastRecentId + 1;
+
       return {
         ...state,
-        lastRecentId: lastRecentId,
+        lastRecentId,
         recentCalls: [
           {
             id: lastRecentId,
@@ -27,7 +27,7 @@ const recent = (state = initialState, action) => {
           ...state.recentCalls
         ]
       };
-
+    }
     default:
       return state;
   }

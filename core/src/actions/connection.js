@@ -1,10 +1,10 @@
-export const CONNECT_REQUEST = "@@connection/CONNECT_REQUEST";
-export const CONNECT_SUCCESS = "@@connection/CONNECT_SUCCESS";
-export const CONNECT_FAILURE = "@@connection/CONNECT_FAILURE";
+export const CONNECT_REQUEST = '@@connection/CONNECT_REQUEST';
+export const CONNECT_SUCCESS = '@@connection/CONNECT_SUCCESS';
+export const CONNECT_FAILURE = '@@connection/CONNECT_FAILURE';
 
-export const DISCONNECT_REQUEST = "@@connection/DISCONNECT_REQUEST";
-export const DISCONNECT_SUCCESS = "@@connection/DISCONNECT_SUCCESS";
-export const DISCONNECT_FAILURE = "@@connection/DISCONNECT_FAILURE";
+export const DISCONNECT_REQUEST = '@@connection/DISCONNECT_REQUEST';
+export const DISCONNECT_SUCCESS = '@@connection/DISCONNECT_SUCCESS';
+export const DISCONNECT_FAILURE = '@@connection/DISCONNECT_FAILURE';
 
 /**
  * Action that triggers a request of connection to TONE API

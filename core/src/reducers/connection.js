@@ -1,8 +1,8 @@
-import * as connectionActions from "../actions/connection";
+import * as connectionActions from '../actions/connection';
 
 const initialState = {
   connected: false,
-  activeNumber: "",
+  activeNumber: '',
   connecting: false,
   disconnecting: false,
   error: {}

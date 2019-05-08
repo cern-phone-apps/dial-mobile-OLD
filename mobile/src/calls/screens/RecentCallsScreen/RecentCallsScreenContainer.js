@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import * as callActionCreators from '../../actions/call';
+import { callActions } from 'dial-core';
 import { RecentCallsScreen } from './RecentCallsScreen';
 
 function mapStateToProps(state) {
@@ -14,7 +14,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      ...callActionCreators
+      ...callActions
     },
     dispatch
   );

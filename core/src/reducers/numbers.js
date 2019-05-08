@@ -1,14 +1,14 @@
-import * as numbersActions from "../actions/numbers";
-import { logMessage } from "../../common/utils/logging";
+import * as numbersActions from '../actions/numbers';
 
 const initialState = {
   fetching: false,
   error: undefined,
-  activeNumber: undefined
+  activeNumber: undefined,
+  numbers: []
 };
 
 function handleNumbersFailure(state, action) {
-  logMessage(action);
+  console.log(action);
   let error;
   if (
     action.payload &&
@@ -21,26 +21,26 @@ function handleNumbersFailure(state, action) {
       statusCode: action.payload.response.result.error.code
     };
   } else {
-    error = { message: "undefined error", statusCode: 401 };
+    error = { message: 'undefined error', statusCode: 401 };
   }
 
   return {
     ...state,
     fetching: false,
     numbers: [],
-    error: error
+    error
   };
 }
 
 function handleServerError(state, action) {
-  logMessage(`Handle Server ERROR`);
+  console.log(`Handle Server ERROR`);
   let message;
   let statusCode;
   if (action.payload.message) {
-    if (action.payload.name === "RequestError") {
-      message = "Dial backend is not currently available.";
+    if (action.payload.name === 'RequestError') {
+      message = 'Dial backend is not currently available.';
       statusCode = 31;
-    } else if (action.payload.name === "ApiError") {
+    } else if (action.payload.name === 'ApiError') {
       message = action.payload.message;
       statusCode = action.payload.status ? action.payload.status : -1;
     } else {
@@ -48,13 +48,13 @@ function handleServerError(state, action) {
       statusCode = -1;
     }
   } else {
-    message = "Unknown error";
+    message = 'Unknown error';
     statusCode = 999;
   }
 
   return {
     ...state,
-    error: { message: message, statusCode: statusCode }
+    error: { message, statusCode }
   };
 }
 
@@ -91,7 +91,6 @@ const numbersReducer = (state = initialState, action) => {
         error: undefined
       };
     case numbersActions.NUMBERS_FAILURE:
-      logMessage(action);
       return handleNumbersFailure(state, action);
     case numbersActions.NUMBERS_SET_ACTIVE:
       return {

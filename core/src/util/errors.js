@@ -4,7 +4,7 @@
  * @param statusCode (int) Error code
  * @returns {{message: string, statusCode: number}}
  */
-export const buildError = (message = "Unknown error", statusCode = 999) => {
+export const buildError = (message = 'Unknown error', statusCode = 999) => {
   return { message, statusCode };
 };
 
@@ -14,7 +14,7 @@ export const buildError = (message = "Unknown error", statusCode = 999) => {
  * @returns {{message: *, statusCode: number}}
  */
 export const buildApiErrorFromAction = action => {
-  const message = action.payload.message;
+  const {message} = action.payload;
   const statusCode = action.payload.status ? action.payload.status : -1;
   return { message, statusCode };
 };
@@ -27,14 +27,14 @@ export const buildApiErrorFromAction = action => {
  */
 export const handleErrorResponse = (
   action,
-  defaultErrorMessage = "Dial backend is not currently available."
+  defaultErrorMessage = 'Dial backend is not currently available.'
 ) => {
   let response;
   switch (action.payload.name) {
-    case "RequestError":
+    case 'RequestError':
       response = buildError(defaultErrorMessage, 31);
       break;
-    case "ApiError":
+    case 'ApiError':
       response = buildApiErrorFromAction(action);
       break;
     default:
@@ -68,14 +68,12 @@ export const handleErrorWithLogin = (state, action) => {
   let response;
   if (!action.payload) {
     response = buildError();
-  } else {
-    if (action.payload.message && action.payload.name) {
+  } else if (action.payload.message && action.payload.name) {
       response = handleErrorResponse(
         action,
         "Currently It is not possible to log in. Please, try again in a few minutes."
       );
     }
-  }
   return {
     ...state,
     loginInProgress: false,

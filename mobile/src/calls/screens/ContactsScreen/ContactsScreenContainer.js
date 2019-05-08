@@ -1,26 +1,19 @@
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import * as callActionCreators from "../../actions/call";
-import { ContactsScreen } from "./ContactsScreen";
-
-function mapStateToProps(state) {
-  const { calls } = state;
-  return {
-
-  };
-}
+import { callActions } from 'dial-core';
+import { ContactsScreen } from './ContactsScreen';
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      ...callActionCreators
+      ...callActions
     },
     dispatch
   );
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(ContactsScreen);

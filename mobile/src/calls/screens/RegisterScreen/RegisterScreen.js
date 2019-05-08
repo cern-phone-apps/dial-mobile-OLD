@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text } from 'react-native-elements';
 import { FlatList, View } from 'react-native';
 import RegisterForm from '../../components/RegisterForm/RegisterForm';
 
-class RegisterScreen extends React.Component {
+export default class RegisterScreen extends React.Component {
   static defaultProps = {
     numbers: []
   };
@@ -22,9 +21,7 @@ class RegisterScreen extends React.Component {
 
   componentDidMount = () => {
     const { getUserPhoneNumbers } = this.props;
-    console.log('getUserPhoneNumbers');
     getUserPhoneNumbers();
-    console.log(this.props);
   };
 
   componentDidUpdate = () => {
@@ -43,7 +40,6 @@ class RegisterScreen extends React.Component {
   };
 
   render = () => {
-    console.log('RegisterScreen');
     const { numbers } = this.props;
     return (
       <View>
@@ -56,5 +52,3 @@ class RegisterScreen extends React.Component {
     );
   };
 }
-
-export default RegisterScreen;

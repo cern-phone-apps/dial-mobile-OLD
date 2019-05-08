@@ -1,5 +1,5 @@
-import { authActions } from 'dial-core';
-import { handleErrorWithToken, handleErrorWithLogin } from '../utils/errors';
+import * as authActions from '../actions/auth';
+import { handleErrorWithToken, handleErrorWithLogin } from '../util/errors';
 
 const initialState = {
   loggedIn: false,

@@ -1,9 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import * as connectionActionCreators from '../../actions/connection';
-import * as callActionCreators from '../../actions/call';
-import * as recentCallActionCreators from '../../actions/recent';
+import { connectionActions, callActions, recentCallsActions } from 'dial-core';
 import { PhoneProvider, phoneService } from './PhoneProvider';
 
 function mapStateToProps(state) {
@@ -18,9 +16,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      ...connectionActionCreators,
-      ...callActionCreators,
-      ...recentCallActionCreators
+      ...connectionActions,
+      ...callActions,
+      ...recentCallsActions
     },
     dispatch
   );

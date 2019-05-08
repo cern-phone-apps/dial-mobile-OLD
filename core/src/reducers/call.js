@@ -1,13 +1,12 @@
-import * as callActions from "../actions/call";
-import { logMessage } from "../../common/utils/logging";
+import * as callActions from '../actions/call';
 
 const initialState = {
   onCall: false,
   calling: false,
   receivingCall: false,
   recipient: {
-    name: "",
-    phoneNumber: "",
+    name: '',
+    phoneNumber: '',
     startTime: null,
     incoming: false,
     missed: false
@@ -54,14 +53,14 @@ function processCallMissed(state) {
     receivingCall: false,
     recipient: {
       ...state.recipient,
-      missed: true,
+      missed: true
     }
   };
 }
 
 function processCallReceiving(state, action) {
-  logMessage(`Receiving call from`);
-  logMessage(action);
+  console.log(`Receiving call from`);
+  console.log(action);
   return {
     ...state,
     onCall: false,
@@ -76,7 +75,7 @@ function processCallReceiving(state, action) {
 }
 
 function acceptCall(state) {
-  logMessage(`Accept call`);
+  console.log(`Accept call`);
   return {
     ...state,
     onCall: true,
@@ -111,12 +110,12 @@ const call = (state = initialState, action) => {
   switch (action.type) {
     case callActions.CALL:
       return processCall(state, action.recipient);
-    case callActions.OUTGOING_CALL_ACCEPTED:
+    case callActions.OUTGOING_CALL_ACCEPTED: {
       if (state.calling === true || state.receivingCall === true) {
         return processCallAccepted(state);
-      } else {
-        return state;
       }
+      return state;
+    }
     case callActions.CALL_REJECTED:
       return processCallRejected(state, action.errors);
     case callActions.CALL_FAILED:
