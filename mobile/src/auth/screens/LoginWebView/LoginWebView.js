@@ -17,27 +17,29 @@ const LoginWebView = ({
   error,
   navigation
 }) => {
-  const onNavigationStateChange = ({ nativeEvent }) => {
+  const onNavigationStateChange = ({ url }) => {
     if (loginInProgress || loggedIn || error) {
       return;
     }
 
-    if (nativeEvent.url.startsWith(OAUTH_REDIRECT_URL)) {
-      const codeUrlParam = QueryStringUtils.getParameterByName(
-        'code',
-        nativeEvent.url
-      );
+    if (url.startsWith(OAUTH_REDIRECT_URL)) {
+      const codeUrlParam = QueryStringUtils.getParameterByName('code', url);
       if (codeUrlParam) {
         console.debug('CERN OAuth code:', codeUrlParam);
         login(codeUrlParam);
       }
+      navigation.goBack();
     }
-    navigation.goBack();
   };
 
   const url = `${OAUTH_AUTHORIZE_URL}?redirect_uri=${OAUTH_REDIRECT_URL}&client_id=${OAUTH_CLIENT_ID}&response_type=code`;
   console.debug('WebView loading:', url);
-  return <WebView source={{ uri: url }} onLoadEnd={onNavigationStateChange} />;
+  return (
+    <WebView
+      source={{ uri: url }}
+      onNavigationStateChange={onNavigationStateChange}
+    />
+  );
 };
 
 LoginWebView.propTypes = {
@@ -46,7 +48,11 @@ LoginWebView.propTypes = {
   loggedIn: PropTypes.bool.isRequired,
   error: PropTypes.shape({
     message: PropTypes.string
-  }).isRequired
+  })
+};
+
+LoginWebView.defaultProps = {
+  error: null
 };
 
 export default LoginWebView;
