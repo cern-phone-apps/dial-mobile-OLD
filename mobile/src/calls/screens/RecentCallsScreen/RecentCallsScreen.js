@@ -106,7 +106,10 @@ export class RecentCallsScreen extends React.Component {
           if (!navigation) {
             console.log('Navigation is not defined');
           }
-          navigation.navigate('RecentCallDetails');
+          navigation.navigate('RecentCallDetails', {
+            name: 'Jane',
+            recentCall: item
+          });
         }}
       />
     );
