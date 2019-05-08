@@ -1,10 +1,12 @@
 import { applyMiddleware, createStore, compose } from 'redux';
 import { persistReducer, persistStore } from 'redux-persist';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
 import { createBlacklistFilter } from 'redux-persist-transform-filter';
 
 import rootReducer from './reducers';
 import apiMiddleware from './middleware';
+
 
 const createCustomStore = () => {
   // We don't want to persist the connection status
@@ -17,7 +19,9 @@ const createCustomStore = () => {
 
   const blacklistLoginFilter = createBlacklistFilter('auth', [
     'loginInProgress',
-    'error'
+    'error',
+    'authInProgress',
+    'requestingToken'
     // "loggedIn",
     // "token"
   ]);
@@ -25,7 +29,8 @@ const createCustomStore = () => {
   const persistConfig = {
     key: 'phone-webapp',
     storage,
-    transforms: [blacklistFilter, blacklistLoginFilter]
+    transforms: [blacklistFilter, blacklistLoginFilter],
+    stateReconciler: autoMergeLevel2
   };
 
   const persistedReducers = persistReducer(persistConfig, rootReducer);
