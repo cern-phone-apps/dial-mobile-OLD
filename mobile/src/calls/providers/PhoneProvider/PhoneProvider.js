@@ -1,4 +1,6 @@
 import React, { Children, Component } from 'react';
+import { Alert } from 'react-native';
+
 import PropTypes from 'prop-types';
 import { Dial } from '../../../../external/tone-webrtc-api/dial-api';
 import {
@@ -7,8 +9,6 @@ import {
   toneInMessage,
   toneOutMessage
 } from '../../../common/utils/logging';
-
-import { Alert } from 'react-native';
 
 export const phoneService = ComponentToWrap => {
   return class ThemeComponent extends Component {
@@ -130,13 +130,14 @@ export class PhoneProvider extends Component {
       phoneNumber: phoneNumber
     });
     // this.playRingbacktone();
-    setIsCalling(true);
     // endSearch();
     try {
       dial.call(phoneNumber);
+      return true;
     } catch (error) {
       errorMessage(error);
       setIsCalling(false);
+      return false;
     }
   };
 
@@ -255,6 +256,13 @@ export class PhoneProvider extends Component {
       case 'bye':
         this.handleByeEvent();
         break;
+
+      case 'progress':
+        logMessage(event);
+        logMessage('Calling...');
+        this.props.setIsCalling(true);
+        break;
+
       default:
         errorMessage(`Unhandled event: ${event.name}`);
     }
@@ -270,5 +278,4 @@ export class PhoneProvider extends Component {
   }
 }
 
-// const withPhoneService = phoneService;
 export { phoneService as withPhoneService };
