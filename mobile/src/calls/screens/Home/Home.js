@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { DisconnectedScreen } from '../DisconnectedScreen/DisconnectedScreen';
 import ConnectedScreenContainer from '../ConnectedScreen/ConnectedScreenContainer';
+import { logMessage } from '../../../common/utils/logging';
+import { redirectToCalling } from '../../navigators/utils';
 
 const styles = StyleSheet.create({
   container: {
@@ -37,6 +39,13 @@ export class HomeScreen extends Component {
         json =>
           console.log(json) || console.log(`There is internet connectivity`)
       );
+  };
+
+  componentDidUpdate = (prevProps, prevState) => {
+    logMessage('Updating ConnectedScreen');
+    logMessage(this.props);
+    const { calling, navigation } = this.props;
+    redirectToCalling(calling, navigation);
   };
 
   render() {

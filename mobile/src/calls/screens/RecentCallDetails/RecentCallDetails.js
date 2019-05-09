@@ -5,6 +5,7 @@ import moment from 'moment';
 import MakeCallButton from '../../components/MakeCallButton/MakeCallButton';
 import { logMessage } from '../../../common/utils/logging';
 import PropTypes from 'prop-types';
+import { redirectToCalling } from '../../navigators/utils';
 
 const styles = StyleSheet.create({
   container: {
@@ -67,24 +68,10 @@ class RecentCallDetails extends Component {
     };
   };
 
-  // Fetch the token from storage then navigate to our appropriate place
-  redirectToCalling = async () => {
-    const { calling, navigation } = this.props;
-    // const userToken = await AsyncStorage.getItem("userToken");
-
-    // This will switch to the App screen or Auth screen and this loading
-    // screen will be unmounted and thrown away.
-    logMessage('Redirect to calling');
-    if (calling) {
-      logMessage('Redirecting to calling');
-      navigation.navigate('Calling');
-    }
-  };
-
   componentDidUpdate = (prevProps, prevState) => {
     logMessage('Updating RecentCallDetails');
-
-    this.redirectToCalling();
+    const { calling, navigation } = this.props;
+    redirectToCalling(calling, navigation);
   };
 
   render() {
