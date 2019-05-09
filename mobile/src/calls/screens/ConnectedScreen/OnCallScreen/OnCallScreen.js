@@ -1,6 +1,8 @@
 import React from 'react';
-import OnCallInfo from '../../../components/OnCallInfo/OnCallInfo';
+import OnCallInfoContainer from '../../../components/OnCallInfo/OnCallInfoContainer';
 
-const OnCallScreen = () => <OnCallInfo />;
+export const OnCallScreen = () => {
+  return <OnCallInfoContainer />;
+};
 
 export default OnCallScreen;
