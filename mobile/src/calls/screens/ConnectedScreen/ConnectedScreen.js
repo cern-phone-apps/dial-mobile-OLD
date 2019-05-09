@@ -2,8 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 import MakeCallForm from '../../components/MakeCallForm/MakeCallForm';
-import { CallingScreen } from './CallingScreen/CallingScreen';
-import { OnCallScreen } from './OnCallScreen/OnCallScreen';
+import CallingScreen from './CallingScreen/CallingScreen';
+import OnCallScreen from './OnCallScreen/OnCallScreen';
 
 const styles = StyleSheet.create({
   container: {
