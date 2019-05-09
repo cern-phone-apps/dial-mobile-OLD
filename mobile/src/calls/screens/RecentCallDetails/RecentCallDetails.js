@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Icon, Text } from 'react-native-elements';
+import { Button, Icon, Text } from 'react-native-elements';
 import { StyleSheet, View } from 'react-native';
 import moment from 'moment';
 import MakeCallButton from '../../components/MakeCallButton/MakeCallButton';
+import { logMessage } from '../../../common/utils/logging';
+import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
   container: {
@@ -51,14 +53,42 @@ function getDuration(recentCall) {
  * We use this to set the Navigation title
  */
 class RecentCallDetails extends Component {
+  static propTypes = {
+    calling: PropTypes.bool
+  };
+
+  static defaultProps = {
+    calling: false
+  };
+
   static navigationOptions = ({ navigation }) => {
     return {
       title: navigation.getParam('phoneNumber', 'Recent Call Details')
     };
   };
 
+  // Fetch the token from storage then navigate to our appropriate place
+  redirectToCalling = async () => {
+    const { calling, navigation } = this.props;
+    // const userToken = await AsyncStorage.getItem("userToken");
+
+    // This will switch to the App screen or Auth screen and this loading
+    // screen will be unmounted and thrown away.
+    logMessage('Redirect to calling');
+    if (calling) {
+      logMessage('Redirecting to calling');
+      navigation.navigate('Calling');
+    }
+  };
+
+  componentDidUpdate = (prevProps, prevState) => {
+    logMessage('Updating RecentCallDetails');
+
+    this.redirectToCalling();
+  };
+
   render() {
-    const { navigation } = this.props;
+    const { navigation, calling } = this.props;
     const { recentCall } = navigation.state.params;
 
     const printableDate = getPrintableDate(recentCall);
@@ -85,8 +115,15 @@ class RecentCallDetails extends Component {
         <View style={[styles.iconTextContainer]}>
           <Icon name="calendar" type="evilicon" size={40} />
           <Text>{printableDate}</Text>
+          <Text>{JSON.stringify(calling)}</Text>
         </View>
         <MakeCallButton phoneNumber={recentCall.phoneNumber} />
+        {/*<Button*/}
+        {/*  onPress={() => {*/}
+        {/*    navigation.navigate('Calling');*/}
+        {/*  }}*/}
+        {/*  title="Calling Screen"*/}
+        {/*/>*/}
       </View>
     );
   }
