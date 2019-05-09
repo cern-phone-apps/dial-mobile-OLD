@@ -1,6 +1,6 @@
 import { createStackNavigator } from 'react-navigation';
 import RecentCallsScreenContainer from '../screens/RecentCallsScreen/RecentCallsScreenContainer';
-import RecentCallDetails from '../screens/RecentCallDetails/RecentCallDetails';
+import RecentCallDetailsContainer from '../screens/RecentCallDetails/RecentCallDetailsContainer';
 
 export const RecentStack = createStackNavigator({
   Recent: {
@@ -19,7 +19,7 @@ export const RecentStack = createStackNavigator({
     }
   },
   RecentCallDetails: {
-    screen: RecentCallDetails,
+    screen: RecentCallDetailsContainer,
     navigationOptions: () => {
       // console.log('Navigation options PARAM');
       // console.log(param);
