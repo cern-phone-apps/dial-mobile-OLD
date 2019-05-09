@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import OnCallInfo from "../../../components/OnCallInfo/OnCallInfo";
+import React from 'react';
+import OnCallInfoContainer from '../../../components/OnCallInfo/OnCallInfoContainer';
 
-export class OnCallScreen extends Component{
-  render () {
-    return <OnCallInfo/>;
-  }
-}
+export const OnCallScreen = () => {
+  return <OnCallInfoContainer />;
+};
+
+export default OnCallScreen;

@@ -1,14 +1,27 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import { StyleSheet, View } from "react-native";
-import { DisconnectedScreen } from "../DisconnectedScreen/DisconnectedScreen";
-import ConnectedScreenContainer from "../ConnectedScreen/ConnectedScreenContainer";
+import { StyleSheet, View } from 'react-native';
+import { DisconnectedScreen } from '../DisconnectedScreen/DisconnectedScreen';
+import ConnectedScreenContainer from '../ConnectedScreen/ConnectedScreenContainer';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: 10
+  }
+});
 
 export class HomeScreen extends Component {
-
   static navigationOptions = {
-    title: 'Home',
+    title: 'Home'
+  };
+
+  static defaultProps = {
+    connected: false,
+    connecting: false
   };
 
   static propTypes = {
@@ -18,7 +31,7 @@ export class HomeScreen extends Component {
   };
 
   componentDidMount = () => {
-    fetch("https://jsonplaceholder.typicode.com/todos/1")
+    fetch('https://jsonplaceholder.typicode.com/todos/1')
       .then(response => response.json())
       .then(
         json =>
@@ -32,10 +45,10 @@ export class HomeScreen extends Component {
     return (
       <View style={styles.container}>
         {!connected ? (
-          //Disconnected Screen
+          // Disconnected Screen
           <DisconnectedScreen />
         ) : (
-          //Connected Screen
+          // Connected Screen
           <ConnectedScreenContainer />
         )}
       </View>
@@ -43,11 +56,4 @@ export class HomeScreen extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: "column",
-    justifyContent: "center",
-    padding: 10
-  }
-});
+export default HomeScreen;
