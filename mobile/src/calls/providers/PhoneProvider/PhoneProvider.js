@@ -1,14 +1,14 @@
-import React, { Children, Component } from "react";
-import PropTypes from "prop-types";
-import { Dial } from "../../../../external/tone-webrtc-api/dial-api";
+import React, { Children, Component } from 'react';
+import PropTypes from 'prop-types';
+import { Dial } from '../../../../external/tone-webrtc-api/dial-api';
 import {
   errorMessage,
   logMessage,
   toneInMessage,
   toneOutMessage
-} from "../../../common/utils/logging";
+} from '../../../common/utils/logging';
 
-import { Alert } from "react-native";
+import { Alert } from 'react-native';
 
 export const phoneService = ComponentToWrap => {
   return class ThemeComponent extends Component {
@@ -71,7 +71,7 @@ export class PhoneProvider extends Component {
   addListeners = () => {
     this.notifier = this.state.dial.getNotifier();
     if (this.notifier) {
-      this.notifier.on("ToneEvent", event => {
+      this.notifier.on('ToneEvent', event => {
         this.eventHandler(event);
       });
     }
@@ -120,7 +120,7 @@ export class PhoneProvider extends Component {
    * @param phoneNumber Phone number
    * @returns {*}
    */
-  makeCall = (name = "Unknown", phoneNumber) => {
+  makeCall = (name = 'Unknown', phoneNumber) => {
     const { makeCall, setIsCalling, endSearch } = this.props;
     const { dial } = this.state;
 
@@ -142,7 +142,7 @@ export class PhoneProvider extends Component {
 
   hangupCurrentCall = () => {
     const { dial } = this.state;
-    const { hangupCall} = this.props;
+    const { hangupCall } = this.props;
     toneOutMessage(`Hang up current call`);
     hangupCall();
     return dial.hangUp();
@@ -176,17 +176,17 @@ export class PhoneProvider extends Component {
   };
 
   handleInviteReceivedEvent = event => {
-    const caller = event.data.session.localIdentity.friendlyName.split("@")[0];
+    const caller = event.data.session.localIdentity.friendlyName.split('@')[0];
     Alert.alert(
       caller,
-      "You are receiving a call ",
+      'You are receiving a call ',
       [
         {
-          text: "Answer",
+          text: 'Answer',
           onPress: () => this.acceptIncomingCallAction()
         },
         {
-          text: "Reject",
+          text: 'Reject',
           onPress: () => this.hangupCurrentCall()
         }
       ],
@@ -203,7 +203,7 @@ export class PhoneProvider extends Component {
   };
 
   handleRejectedEvent = () => {
-    const {setCallMissed} = this.props;
+    const { setCallMissed } = this.props;
     setCallMissed();
   };
 
@@ -211,15 +211,15 @@ export class PhoneProvider extends Component {
     // TODO
     const tempFailedMessage = {
       code: {
-        status_code: "NI"
+        status_code: 'NI'
       },
-      description: "Call failed"
+      description: 'Call failed'
     };
     this.props.callFailed(tempFailedMessage);
   };
 
   handleByeEvent = () => {
-    const { hangupCall} = this.props;
+    const { hangupCall } = this.props;
     toneOutMessage(`Hang up current call`);
     hangupCall();
   };
@@ -230,29 +230,29 @@ export class PhoneProvider extends Component {
 
     switch (event.name) {
       // Registering
-      case "registered":
+      case 'registered':
         this.handleRegisteredEvent();
         break;
-      case "unregistered":
+      case 'unregistered':
         this.handleDisconnectedEvent();
         break;
-      case "terminated":
+      case 'terminated':
         this.handleTerminatedEvent();
         break;
-      case "accepted":
+      case 'accepted':
         this.handleAcceptedEvent();
         break;
-      case "rejected":
+      case 'rejected':
         this.handleRejectedEvent();
         break;
-      case "inviteReceived":
+      case 'inviteReceived':
         this.handleInviteReceivedEvent(event);
         break;
-      case "failed":
+      case 'failed':
         this.handleFailedEvent();
         break;
 
-      case "bye":
+      case 'bye':
         this.handleByeEvent();
         break;
       default:
@@ -261,7 +261,7 @@ export class PhoneProvider extends Component {
   };
 
   testFunction = () => {
-    console.log("Hello World");
+    console.log('Hello World');
   };
 
   render() {
@@ -269,3 +269,6 @@ export class PhoneProvider extends Component {
     return Children.only(this.props.children);
   }
 }
+
+// const withPhoneService = phoneService;
+export { phoneService as withPhoneService };
