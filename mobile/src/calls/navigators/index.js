@@ -1,5 +1,6 @@
 import {
   createBottomTabNavigator,
+  createStackNavigator,
   createSwitchNavigator
 } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -11,6 +12,7 @@ import RegisterLoadingScreenContainer from '../screens/RegisterLoadingScreen/Reg
 import RegisterStack from './register';
 import UnRegisterLoadingScreenContainer from '../screens/UnRegisterLoadingScreen/UnRegisterLoadingScreenContainer';
 import { ContactsStack } from './contacts';
+import CallingScreenContainer from '../screens/CallingScreen/CallingScreenContainer';
 
 export const AppStack = createBottomTabNavigator(
   {
@@ -20,6 +22,7 @@ export const AppStack = createBottomTabNavigator(
     Settings: SettingsStack
   },
   {
+    hiddenTabs: ['Calling'],
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ tintColor }) => {
         const { routeName } = navigation.state;
@@ -51,10 +54,23 @@ export const AppStack = createBottomTabNavigator(
     }
   }
 );
+
+/**
+ * CallingScreen and AppTabs need to be at the same level if we want to hide the
+ * tabs when we make a call.
+ */
+export const CallingStack = createStackNavigator(
+  {
+    Calling: CallingScreenContainer,
+    AppTabs: AppStack
+  },
+  { headerMode: 'none' }
+);
+
 export const AppFullStack = createSwitchNavigator(
   {
     RegisterLoading: RegisterLoadingScreenContainer,
-    AppRegistered: AppStack,
+    AppRegistered: CallingStack,
     Register: RegisterStack,
     UnRegisterLoading: UnRegisterLoadingScreenContainer
   },
