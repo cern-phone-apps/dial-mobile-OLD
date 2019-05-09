@@ -53,33 +53,33 @@ export class MakeCallForm extends React.Component {
     phoneNumber: ''
   };
 
+  updatePhoneNumber = newValue => {
+    this.setState(state => ({
+      phoneNumber: state.phoneNumber + newValue
+    }));
+  };
+
+  deleteOneNumber = () => {
+    this.setState(state => ({
+      phoneNumber: state.phoneNumber.slice(0, state.phoneNumber.length - 1)
+    }));
+  };
+
+  deleteWholeNumber = () => {
+    this.setState({
+      phoneNumber: ''
+    });
+  };
+
   /**
    * Register the user in the Telephony Backend
    */
-  makeCall() {
+  makeCall = () => {
     const { phoneNumber } = this.state;
     const { phoneService } = this.props;
     logMessage(`Calling user ${phoneNumber}`);
     phoneService.makeCall(undefined, phoneNumber);
-  }
-
-  updatePhoneNumber(newValue) {
-    this.setState(state => ({
-      phoneNumber: state.phoneNumber + newValue
-    }));
-  }
-
-  deleteOneNumber() {
-    this.setState(state => ({
-      phoneNumber: state.phoneNumber.slice(0, state.phoneNumber.length - 1)
-    }));
-  }
-
-  deleteWholeNumber() {
-    this.setState({
-      phoneNumber: ''
-    });
-  }
+  };
 
   /**
    * Render the component
@@ -93,7 +93,7 @@ export class MakeCallForm extends React.Component {
           <View style={styles.phoneNumberSideColumn} />
           <View style={styles.phoneNumberCenterColumn}>
             <TextInput
-              style={styles.phoneNumber}
+              style={styles.phoneNumberInput}
               value={phoneNumber}
               editable={false}
             />
