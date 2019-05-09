@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-import { Button, Icon, Text } from 'react-native-elements';
+import { Icon, Text } from 'react-native-elements';
 import { StyleSheet, View } from 'react-native';
 import moment from 'moment';
-import { phoneService } from '../../providers/PhoneProvider/PhoneProvider';
-import PropTypes from 'prop-types';
-import { logMessage } from '../../../common/utils/logging';
+import MakeCallButton from '../../components/MakeCallButton/MakeCallButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,10 +10,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     padding: 10
-  },
-  button: {
-    marginTop: 10,
-    marginBottom: 10
   },
   icon: {
     display: 'flex'
@@ -35,39 +29,42 @@ const styles = StyleSheet.create({
   }
 });
 
-class RecentCallDetails extends Component {
-  static propTypes = {
-    phoneService: PropTypes.object.isRequired
-  };
+function getPrintableDate(recentCall) {
+  let printableDate;
+  if (recentCall.startTime) {
+    printableDate = moment(recentCall.startTime).calendar();
+  }
+  return printableDate;
+}
 
+function getDuration(recentCall) {
+  let duration;
+  if (recentCall.startTime) {
+    duration = moment.duration(
+      moment(recentCall.endTime).diff(moment(recentCall.startTime))
+    );
+  }
+  return duration;
+}
+
+/**
+ * We use this to set the Navigation title
+ */
+class RecentCallDetails extends Component {
   static navigationOptions = ({ navigation }) => {
-    // const { recentCall } = navigation.state.params;
     return {
       title: navigation.getParam('phoneNumber', 'Recent Call Details')
     };
   };
 
-  makeCall = () => {
-    const { phoneService } = this.props;
-    const { phoneNumber } = this.props.navigation.state.params;
-
-    logMessage(`Calling user ${phoneNumber}`);
-    phoneService.makeCall(undefined, phoneNumber);
-  };
-
   render() {
-    const { recentCall } = this.props.navigation.state.params;
-    let printableDate;
-    let duration;
-    if (recentCall.startTime) {
-      printableDate = moment(recentCall.startTime).calendar();
-      duration = moment.duration(
-        moment(recentCall.endTime).diff(moment(recentCall.startTime))
-      );
-    }
+    const { navigation } = this.props;
+    const { recentCall } = navigation.state.params;
+
+    const printableDate = getPrintableDate(recentCall);
+    const duration = getDuration(recentCall);
 
     const missedColor = recentCall.missed ? 'red' : 'green';
-
     const iconName = recentCall.incoming ? 'arrow-downward' : 'arrow-upward';
 
     return (
@@ -79,22 +76,20 @@ class RecentCallDetails extends Component {
         <View style={[styles.iconTextContainer]}>
           <Icon name="clock" type="evilicon" size={40} />
           <Icon name={iconName} color={missedColor} type="ionicons" size={20} />
-          <Text>{duration ? duration.humanize() : ''}</Text>
+          {recentCall.missed ? (
+            <Text>Missed</Text>
+          ) : (
+            <Text>{duration ? duration.humanize() : ''}</Text>
+          )}
         </View>
         <View style={[styles.iconTextContainer]}>
           <Icon name="calendar" type="evilicon" size={40} />
           <Text>{printableDate}</Text>
         </View>
-        <Button
-          icon={<Icon name="phone" color="white" />}
-          iconLeft
-          title="Call this number"
-          buttonStyle={[styles.button]}
-          onPress={this.makeCall}
-        />
+        <MakeCallButton phoneNumber={recentCall.phoneNumber} />
       </View>
     );
   }
 }
 
-export default phoneService(RecentCallDetails);
+export default RecentCallDetails;
