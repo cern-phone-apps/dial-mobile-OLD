@@ -2,8 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import PropTypes from 'prop-types';
 import MakeCallForm from '../../components/MakeCallForm/MakeCallForm';
-import CallingScreen from './CallingScreen/CallingScreen';
-import OnCallScreen from './OnCallScreen/OnCallScreen';
+import OnCallScreen from '../OnCallScreen/OnCallScreen';
+import MakingCallScreenContainer from '../MakingCallScreen/MakingCallScreenContainer';
 
 const styles = StyleSheet.create({
   container: {
@@ -13,31 +13,20 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     margin: 10
+  },
+  makeCallForm: {
+    position: 'absolute',
+    bottom: 0,
+    transform: [{ translateY: 1 }],
+    paddingBottom: 10
   }
 });
 
 export const ConnectedScreen = props => {
-  const { onCall, calling } = props;
-
-  if (calling) {
-    return <CallingScreen />;
-  }
-
-  if (onCall) {
-    return <OnCallScreen />;
-  }
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>CERN Phone Mobile</Text>
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          transform: [{ translateY: 1 }],
-          paddingBottom: 10
-        }}
-      >
+      <View style={styles.makeCallForm}>
         <MakeCallForm />
       </View>
     </View>

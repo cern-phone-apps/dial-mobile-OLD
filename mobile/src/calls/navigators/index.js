@@ -12,7 +12,7 @@ import RegisterLoadingScreenContainer from '../screens/RegisterLoadingScreen/Reg
 import RegisterStack from './register';
 import UnRegisterLoadingScreenContainer from '../screens/UnRegisterLoadingScreen/UnRegisterLoadingScreenContainer';
 import ContactsStack from './contacts';
-import CallingScreenContainer from '../screens/CallingScreen/CallingScreenContainer';
+import CallModalScreenContainer from '../screens/CallModalScreen/CallModalScreenContainer';
 
 export const AppStack = createBottomTabNavigator(
   {
@@ -59,13 +59,19 @@ export const AppStack = createBottomTabNavigator(
  * CallingScreen and AppTabs need to be at the same level if we want to hide the
  * tabs when we make a call.
  */
-export const CallingStack = createStackNavigator(
-  {
-    Calling: CallingScreenContainer,
-    AppTabs: AppStack
+export const CallingStack = createStackNavigator({
+  AppTabs: {
+    screen: AppStack,
+    headerMode: 'nonde',
+    navigationOptions: () => ({ header: null })
   },
-  { headerMode: 'none' }
-);
+  Calling: {
+    screen: CallModalScreenContainer,
+    navigationOptions: ({ navigation }) => ({
+      mode: 'modal'
+    })
+  }
+});
 
 export const AppFullStack = createSwitchNavigator(
   {

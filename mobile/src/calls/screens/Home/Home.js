@@ -43,8 +43,8 @@ export class HomeScreen extends Component {
   componentDidUpdate = (prevProps, prevState) => {
     logMessage('Updating ConnectedScreen');
     logMessage(this.props);
-    const { calling, navigation } = this.props;
-    redirectToCalling(calling, navigation);
+    const { calling, onCall, navigation } = this.props;
+    redirectToCalling(calling || onCall, navigation);
   };
 
   render() {
