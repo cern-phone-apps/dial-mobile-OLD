@@ -8,7 +8,7 @@ const initialState = {
 const recent = (state = initialState, action) => {
   switch (action.type) {
     case recentActions.ADD_RECENT_CALL: {
-      const { recentCall } = action;
+      const { recentCall, incoming } = action;
       const lastRecentId = state.lastRecentId + 1;
 
       return {
@@ -21,8 +21,8 @@ const recent = (state = initialState, action) => {
             phoneNumber: recentCall.phoneNumber,
             startTime: recentCall.startTime,
             endTime: Date.now(),
-            incoming: recentCall.incoming,
-            missed: recentCall.missed
+            missed: recentCall.missed,
+            incoming
           },
           ...state.recentCalls
         ]

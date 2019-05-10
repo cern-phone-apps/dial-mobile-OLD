@@ -1,29 +1,21 @@
 import * as callActions from '../actions/call';
 
 const initialState = {
-  onCall: false,
+  inCall: false,
   calling: false,
   receivingCall: false,
-  recipient: {
-    name: '',
-    phoneNumber: '',
-    startTime: null,
-    incoming: false,
-    missed: false
-  },
+  caller: null,
+  recipient: null,
   error: {}
 };
 
 function processCall(state, recipient) {
-  console.log('PROCESSCALL');
-  console.log(recipient);
   return {
     ...state,
     calling: true,
-    onCall: false,
+    inCall: false,
     recipient: {
       ...recipient,
-      incoming: false,
       missed: false
     }
   };
@@ -32,7 +24,7 @@ function processCall(state, recipient) {
 function processCallRejected(state, errors) {
   return {
     ...state,
-    onCall: false,
+    inCall: false,
     calling: false,
     receivingCall: false,
     error: { statusCode: errors.code.status_code, message: errors.description }
@@ -42,7 +34,7 @@ function processCallRejected(state, errors) {
 function processCallFailed(state, errors) {
   return {
     ...state,
-    onCall: false,
+    inCall: false,
     calling: false,
     error: { statusCode: errors.code.status_code, message: errors.description }
   };
@@ -51,28 +43,24 @@ function processCallFailed(state, errors) {
 function processCallMissed(state) {
   return {
     ...state,
-    onCall: false,
+    inCall: false,
     receivingCall: false,
-    recipient: {
-      ...state.recipient,
+    caller: {
+      ...state.caller,
       missed: true
     }
   };
 }
 
 function processCallReceiving(state, action) {
-  console.log(`Receiving call from`);
-  console.log(action);
   return {
     ...state,
-    onCall: false,
+    inCall: false,
     receivingCall: true,
-    recipient: {
-      ...state.receipient,
+    caller: {
       name: action.callerName,
       phoneNumber: action.callerNumber,
-      missed: true,
-      incoming: true
+      missed: true
     }
   };
 }
@@ -81,10 +69,10 @@ function acceptCall(state) {
   console.log(`Accept call`);
   return {
     ...state,
-    onCall: true,
+    inCall: true,
     calling: false,
-    recipient: {
-      ...state.recipient,
+    caller: {
+      ...state.caller,
       startTime: Date.now(),
       missed: false
     }
@@ -94,15 +82,16 @@ function acceptCall(state) {
 function processCallHangup(state) {
   return {
     ...state,
-    onCall: false,
-    calling: false
+    inCall: false,
+    calling: false,
+    caller: null
   };
 }
 
 function processCallAccepted(state) {
   return {
     ...state,
-    onCall: true,
+    inCall: true,
     calling: false,
     receivingCall: false
   };

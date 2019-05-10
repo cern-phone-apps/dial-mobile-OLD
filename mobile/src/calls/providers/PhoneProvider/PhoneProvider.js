@@ -1,11 +1,8 @@
 import React, { Children, Component } from 'react';
-import { Alert } from 'react-native';
-
 import PropTypes from 'prop-types';
-import { Dial } from '../../../../external/tone-webrtc-api/dial-api';
+import { Dial } from "../../../../external/tone-webrtc-api/dial-api";
 import {
   errorMessage,
-  logMessage,
   toneInMessage,
   toneOutMessage
 } from '../../../common/utils/logging';
@@ -29,7 +26,7 @@ export const phoneService = ComponentToWrap => {
 
 export class PhoneProvider extends Component {
   static propTypes = {
-    onCall: PropTypes.bool,
+    inCall: PropTypes.bool,
     connected: PropTypes.bool,
     // Functions
     requestConnection: PropTypes.func,
@@ -38,7 +35,8 @@ export class PhoneProvider extends Component {
     setIsCalling: PropTypes.func,
     hangupCall: PropTypes.func,
     acceptOutgoingCall: PropTypes.func,
-    addRecentCall: PropTypes.func
+    addRecentCall: PropTypes.func,
+    isReceivingCall: PropTypes.func.isRequired
   };
 
   state = {
@@ -103,7 +101,7 @@ export class PhoneProvider extends Component {
 
     this.setState({ phoneNumber: undefined });
 
-    if (this.props.onCall) {
+    if (this.props.inCall) {
       this.hangupCurrentCall();
     }
     await requestDisconnection(true);
@@ -162,12 +160,10 @@ export class PhoneProvider extends Component {
     this.state.dial.answer();
   };
 
-  addCallToRecentCalls = () => {
-    logMessage('Adding to recent calls');
-    const { addRecentCall, recipient } = this.props;
+  addCallToRecentCalls = incoming => {
+    const { addRecentCall, call: { recipient, receivingCall } } = this.props;
     recipient.startTime = this.state.startTime;
-    logMessage(recipient);
-    addRecentCall(recipient);
+    addRecentCall(recipient, receivingCall);
   };
 
   handleRegisteredEvent = () => {
@@ -185,25 +181,10 @@ export class PhoneProvider extends Component {
   };
 
   handleInviteReceivedEvent = event => {
-    const caller = event.data.session.remoteIdentity.friendlyName.split('@')[0];
-
-    this.props.setIsReceivingCall(caller, caller);
-    Sound.receivingCall();
-    Alert.alert(
-      caller,
-      'You are receiving a call ',
-      [
-        {
-          text: 'Answer',
-          onPress: () => this.acceptIncomingCallAction()
-        },
-        {
-          text: 'Reject',
-          onPress: () => this.hangupCurrentCall()
-        }
-      ],
-      { cancelable: false }
-    );
+    Sound.receivingCall()
+    const { setIsReceivingCall } = this.props;
+    const { uri } = event.data.session.localIdentity;
+    setIsReceivingCall(uri.normal.user, 'Girofle');
   };
 
   handleAcceptedEvent = () => {
@@ -275,8 +256,7 @@ export class PhoneProvider extends Component {
       //   break;
 
       case 'progress':
-        logMessage(event);
-        logMessage('Calling...');
+        console.log('Calling...');
         Sound.makingCall();
         this.props.setIsCalling(true);
         break;

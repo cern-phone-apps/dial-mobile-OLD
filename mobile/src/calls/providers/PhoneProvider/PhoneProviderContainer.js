@@ -8,8 +8,7 @@ function mapStateToProps(state) {
   const { calls } = state;
   return {
     connected: calls.connection ? calls.connection.connected : false,
-    recipient: calls.call ? calls.call.recipient : undefined,
-    onCall: calls.call ? calls.call.onCall : false
+    call: calls.call
   };
 }
 
