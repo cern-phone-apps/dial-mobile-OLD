@@ -15,6 +15,8 @@ const initialState = {
 };
 
 function processCall(state, recipient) {
+  console.log('PROCESSCALL');
+  console.log(recipient);
   return {
     ...state,
     calling: true,
@@ -66,6 +68,7 @@ function processCallReceiving(state, action) {
     onCall: false,
     receivingCall: true,
     recipient: {
+      ...state.receipient,
       name: action.callerName,
       phoneNumber: action.callerNumber,
       missed: true,
@@ -92,8 +95,7 @@ function processCallHangup(state) {
   return {
     ...state,
     onCall: false,
-    calling: false,
-    recipient: {}
+    calling: false
   };
 }
 

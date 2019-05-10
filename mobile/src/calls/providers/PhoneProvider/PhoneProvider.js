@@ -163,8 +163,10 @@ export class PhoneProvider extends Component {
   };
 
   addCallToRecentCalls = () => {
+    logMessage('Adding to recent calls');
     const { addRecentCall, recipient } = this.props;
     recipient.startTime = this.state.startTime;
+    logMessage(recipient);
     addRecentCall(recipient);
   };
 
@@ -177,12 +179,16 @@ export class PhoneProvider extends Component {
   };
 
   handleTerminatedEvent = () => {
+    const { hangupCall } = this.props;
+    hangupCall();
     this.addCallToRecentCalls();
   };
 
   handleInviteReceivedEvent = event => {
-    Sound.receivingCall()
-    const caller = event.data.session.localIdentity.friendlyName.split('@')[0];
+    const caller = event.data.session.remoteIdentity.friendlyName.split('@')[0];
+
+    this.props.setIsReceivingCall(caller, caller);
+    Sound.receivingCall();
     Alert.alert(
       caller,
       'You are receiving a call ',
@@ -201,7 +207,7 @@ export class PhoneProvider extends Component {
   };
 
   handleAcceptedEvent = () => {
-    Sound.stop()
+    Sound.stop();
     // TODO
     this.setState({
       startTime: Date.now()
@@ -212,39 +218,42 @@ export class PhoneProvider extends Component {
   handleRejectedEvent = () => {
     const { setCallMissed } = this.props;
 
-    Sound.stop()
+    Sound.stop();
     setCallMissed();
   };
 
   handleFailedEvent = () => {
     // TODO
+    const { callFailed } = this.props;
     const tempFailedMessage = {
       code: {
         status_code: 'NI'
       },
       description: 'Call failed'
     };
-    this.props.callFailed(tempFailedMessage);
+    callFailed(tempFailedMessage);
   };
 
-  handleByeEvent = () => {
-    const { hangupCall } = this.props;
-    toneOutMessage(`Hang up current call`);
-    hangupCall();
-  };
+  // handleByeEvent = () => {
+  //   const { hangupCall } = this.props;
+  //   toneOutMessage(`Hang up current call`);
+  //   hangupCall();
+  // };
 
   eventHandler = event => {
     toneInMessage(`Tone Event received: ${event.name}`);
     toneInMessage(event);
 
     switch (event.name) {
-      // Registering
+      // The user registered a phone number. He is able to make/receive calls
       case 'registered':
         this.handleRegisteredEvent();
         break;
+      // The user is unregistered. He is no longer able to make/receive calls
       case 'unregistered':
         this.handleDisconnectedEvent();
         break;
+      // The call is finished
       case 'terminated':
         this.handleTerminatedEvent();
         break;
@@ -260,10 +269,10 @@ export class PhoneProvider extends Component {
       case 'failed':
         this.handleFailedEvent();
         break;
-
-      case 'bye':
-        this.handleByeEvent();
-        break;
+      //
+      // case 'bye':
+      //   this.handleByeEvent();
+      //   break;
 
       case 'progress':
         logMessage(event);

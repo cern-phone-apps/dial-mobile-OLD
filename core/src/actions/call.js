@@ -37,7 +37,7 @@ export function setIsCalling(calling) {
  *
  * @returns {{type: string}} A dict
  */
-export function isReceivingCall(callerNumber, callerName) {
+export function setIsReceivingCall(callerNumber, callerName) {
   return {
     type: IS_RECEIVING_CALL,
     callerNumber,

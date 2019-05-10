@@ -1,6 +1,9 @@
 import { createStackNavigator } from 'react-navigation';
+import React from 'react';
+
 import RecentCallsScreenContainer from '../screens/RecentCallsScreen/RecentCallsScreenContainer';
 import RecentCallDetailsContainer from '../screens/RecentCallDetails/RecentCallDetailsContainer';
+import RecentCallsMenuContainer from '../components/RecentCallsMenu/RecentCallsMenuContainer';
 
 export const RecentStack = createStackNavigator({
   Recent: {
@@ -14,7 +17,8 @@ export const RecentStack = createStackNavigator({
         headerStyle: {
           backgroundColor: '#2196F3'
         },
-        headerTintColor: 'white'
+        headerTintColor: 'white',
+        headerRight: <RecentCallsMenuContainer />
       };
     }
   },
