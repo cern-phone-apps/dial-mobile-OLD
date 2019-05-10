@@ -14,27 +14,27 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: '20%'
   },
-  recipientInfo: {
+  remoteInfo: {
     alignItems: 'center',
     position: 'absolute',
     transform: [{ translateY: 0.5 }],
     top: '30%'
   },
-  recipientName: {
+  remoteName: {
     fontSize: 25
   },
-  recipientNumber: {
+  remoteNumber: {
     fontSize: 20
   }
 });
 
-export function OnCallInfo({ recipient }) {
+export function OnCallInfo({ remote }) {
   return (
     <View style={styles.container}>
       <Text style={styles.ongoingCall}>ONGOING CALL WITH</Text>
-      <View style={styles.recipientInfo}>
-        <Text style={styles.recipientName}>{recipient.name} Name Surname</Text>
-        <Text style={styles.recipientNumber}>65226</Text>
+      <View style={styles.remoteInfo}>
+        <Text style={styles.remoteName}>{remote.name} Name Surname</Text>
+        <Text style={styles.remoteNumber}>65226</Text>
         <Timer />
       </View>
       <View
@@ -50,7 +50,7 @@ export function OnCallInfo({ recipient }) {
 }
 
 OnCallInfo.propTypes = {
-  recipient: PropTypes.shape({
+  remote: PropTypes.shape({
     name: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired
   }).isRequired

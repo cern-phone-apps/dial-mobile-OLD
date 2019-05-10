@@ -28,7 +28,9 @@ export class HomeScreen extends Component {
   static propTypes = {
     connected: PropTypes.bool,
     connecting: PropTypes.bool,
-    disconnecting: PropTypes.bool.isRequired
+    calling: PropTypes.bool.isRequired,
+    inCall: PropTypes.bool.isRequired,
+    receivingCall: PropTypes.bool.isRequired
   };
 
   componentDidMount = () => {
@@ -40,11 +42,14 @@ export class HomeScreen extends Component {
       );
   };
 
-  componentDidUpdate = (prevProps, prevState) => {
+  componentDidUpdate = () => {
     logMessage('Updating ConnectedScreen');
     logMessage(this.props);
-    const { calling, onCall, navigation } = this.props;
-    redirectToCalling(calling || onCall, navigation);
+    const { calling, inCall, receivingCall, navigation } = this.props;
+
+    if (calling || inCall || receivingCall) {
+      redirectToCalling(navigation);
+    }
   };
 
   render() {

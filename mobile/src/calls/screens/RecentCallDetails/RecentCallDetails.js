@@ -68,10 +68,13 @@ class RecentCallDetails extends Component {
     };
   };
 
-  componentDidUpdate = (prevProps, prevState) => {
+  componentDidUpdate = () => {
     logMessage('Updating RecentCallDetails');
     const { calling, navigation } = this.props;
-    redirectToCalling(calling, navigation);
+
+    if (calling) {
+      redirectToCalling(navigation);
+    }
   };
 
   render() {

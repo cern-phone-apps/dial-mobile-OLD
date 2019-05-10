@@ -1,5 +1,6 @@
 import { applyMiddleware, createStore, compose } from 'redux';
 import { persistReducer, persistStore } from 'redux-persist';
+import thunk from 'redux-thunk';
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import storage from 'redux-persist/lib/storage';
 import { createBlacklistFilter } from 'redux-persist-transform-filter';
@@ -40,6 +41,7 @@ const createCustomStore = () => {
     {},
     compose(
       applyMiddleware(apiMiddleware),
+      applyMiddleware(thunk),
       window.devToolsExtension ? window.devToolsExtension() : f => f
     )
   );

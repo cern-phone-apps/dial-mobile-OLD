@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export class MakeCallForm extends React.Component {
+class MakeCallForm extends React.Component {
   static propTypes = {
     phoneService: PropTypes.shape({
       makeCall: PropTypes.func.isRequired

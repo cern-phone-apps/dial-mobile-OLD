@@ -15,8 +15,7 @@ function processCall(state, recipient) {
     calling: true,
     inCall: false,
     recipient: {
-      ...recipient,
-      missed: false
+      ...recipient
     }
   };
 }
@@ -44,11 +43,7 @@ function processCallMissed(state) {
   return {
     ...state,
     inCall: false,
-    receivingCall: false,
-    caller: {
-      ...state.caller,
-      missed: true
-    }
+    receivingCall: false
   };
 }
 
@@ -59,23 +54,17 @@ function processCallReceiving(state, action) {
     receivingCall: true,
     caller: {
       name: action.callerName,
-      phoneNumber: action.callerNumber,
-      missed: true
+      phoneNumber: action.callerNumber
     }
   };
 }
 
-function acceptCall(state) {
-  console.log(`Accept call`);
+function incomingCallAccepted(state) {
   return {
     ...state,
     inCall: true,
     calling: false,
-    caller: {
-      ...state.caller,
-      startTime: Date.now(),
-      missed: false
-    }
+    startTime: Date.now()
   };
 }
 
@@ -84,16 +73,18 @@ function processCallHangup(state) {
     ...state,
     inCall: false,
     calling: false,
-    caller: null
+    caller: null,
+    recipient: null
   };
 }
 
-function processCallAccepted(state) {
+function outgoingCallAccepted(state) {
   return {
     ...state,
     inCall: true,
     calling: false,
-    receivingCall: false
+    receivingCall: false,
+    startTime: Date.now()
   };
 }
 
@@ -103,7 +94,7 @@ const call = (state = initialState, action) => {
       return processCall(state, action.recipient);
     case callActions.OUTGOING_CALL_ACCEPTED: {
       if (state.calling === true || state.receivingCall === true) {
-        return processCallAccepted(state);
+        return outgoingCallAccepted(state);
       }
       return state;
     }
@@ -116,7 +107,7 @@ const call = (state = initialState, action) => {
     case callActions.IS_RECEIVING_CALL:
       return processCallReceiving(state, action);
     case callActions.CALL_ACCEPTED:
-      return acceptCall(state);
+      return incomingCallAccepted(state);
     case callActions.HANGUP_CALL:
       return processCallHangup(state);
 

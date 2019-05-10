@@ -5,10 +5,10 @@ const initialState = {
   recentCalls: []
 };
 
-const recent = (state = initialState, action) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case recentActions.ADD_RECENT_CALL: {
-      const { recentCall, incoming } = action;
+      const { remote, incoming, missed, startTime } = action;
       const lastRecentId = state.lastRecentId + 1;
 
       return {
@@ -17,11 +17,11 @@ const recent = (state = initialState, action) => {
         recentCalls: [
           {
             id: lastRecentId,
-            name: recentCall.name,
-            phoneNumber: recentCall.phoneNumber,
-            startTime: recentCall.startTime,
+            name: remote.name,
+            phoneNumber: remote.phoneNumber,
             endTime: Date.now(),
-            missed: recentCall.missed,
+            startTime,
+            missed,
             incoming
           },
           ...state.recentCalls
@@ -39,5 +39,3 @@ const recent = (state = initialState, action) => {
       return state;
   }
 };
-
-export default recent;

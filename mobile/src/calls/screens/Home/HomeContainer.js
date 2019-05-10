@@ -7,7 +7,8 @@ function mapStateToProps(state) {
   return {
     connected: connection ? connection.connected : false, // This is needed because we are blacklisting connection on store.js
     calling: call.calling, // This is needed because we are blacklisting connection on store.js
-    onCall: call.onCall,
+    inCall: call.inCall,
+    receivingCall: call.receivingCall,
     connecting: connection ? connection.connecting : false,
     disconnecting: connection ? connection.disconnecting : false
   };

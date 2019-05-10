@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import OnCallInfo from './OnCallInfo';
 
-function mapStateToProps(state) {
+function mapStateToProps({ calls: { call } }) {
   return {
-    recipient: state.calls.call.recipient
+    remote: call.receivingCall ? call.caller : call.recipient
   };
 }
 

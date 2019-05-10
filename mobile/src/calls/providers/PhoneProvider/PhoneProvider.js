@@ -143,11 +143,11 @@ export class PhoneProvider extends Component {
     }
   };
 
-  hangupCurrentCall = () => {
+  hangupCurrentCall = (missed=false) => {
     const { dial } = this.state;
     const { hangupCall } = this.props;
     toneOutMessage(`Hang up current call`);
-    hangupCall();
+    hangupCall(missed);
     return dial.hangUp();
   };
 
@@ -160,10 +160,9 @@ export class PhoneProvider extends Component {
     this.state.dial.answer();
   };
 
-  addCallToRecentCalls = incoming => {
-    const { addRecentCall, call: { recipient, receivingCall } } = this.props;
-    recipient.startTime = this.state.startTime;
-    addRecentCall(recipient, receivingCall);
+  addCallToRecentCalls = missed => {
+    const { addRecentCall, call: { recipient, caller, receivingCall, startTime } } = this.props;
+    addRecentCall(receivingCall ? caller : recipient, receivingCall, missed, startTime);
   };
 
   handleRegisteredEvent = () => {
@@ -177,14 +176,14 @@ export class PhoneProvider extends Component {
   handleTerminatedEvent = () => {
     const { hangupCall } = this.props;
     hangupCall();
-    this.addCallToRecentCalls();
+    this.addCallToRecentCalls(false);
   };
 
   handleInviteReceivedEvent = event => {
     Sound.receivingCall()
     const { setIsReceivingCall } = this.props;
     const { uri } = event.data.session.localIdentity;
-    setIsReceivingCall(uri.normal.user, 'Girofle');
+    setIsReceivingCall(uri.normal.user, null);
   };
 
   handleAcceptedEvent = () => {
@@ -200,6 +199,7 @@ export class PhoneProvider extends Component {
     const { setCallMissed } = this.props;
 
     Sound.stop();
+    this.addCallToRecentCalls(true);
     setCallMissed();
   };
 

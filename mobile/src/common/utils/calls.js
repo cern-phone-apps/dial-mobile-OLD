@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
 
 export default function withOnGoingCallBanner(WrappedComponent) {
   const WithOnGoingCallBanner = props => {
-    const { onCall } = props;
-    return onCall ? (
+    const { inCall } = props;
+    return inCall ? (
       <View style={styles.container}>
         <View style={styles.banner}>
           <Text style={styles.bannerText}>Ongoing call...</Text>
@@ -42,17 +42,17 @@ export default function withOnGoingCallBanner(WrappedComponent) {
   )})`;
 
   WithOnGoingCallBanner.propTypes = {
-    onCall: PropTypes.bool
+    inCall: PropTypes.bool
   };
 
   WithOnGoingCallBanner.defaultProps = {
-    onCall: false
+    inCall: false
   };
 
   const mapStateToProps = state => {
     const { call } = state.calls;
     return {
-      onCall: call.onCall
+      inCall: call.inCall
     };
   };
 

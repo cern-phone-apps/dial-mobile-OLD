@@ -5,10 +5,7 @@ import withOnGoingCallBanner from '../../../common/utils/calls';
 
 function mapStateToProps(state) {
   const { call } = state.calls;
-  return {
-    onCall: call.onCall,
-    calling: call.calling
-  };
+  return call;
 }
 
 export default connect(mapStateToProps)(withOnGoingCallBanner(ConnectedScreen));
