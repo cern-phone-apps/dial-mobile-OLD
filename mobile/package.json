@@ -9,6 +9,7 @@
   "dependencies": {
     "babel-eslint": "^10.0.1",
     "debug": "^4.1.1",
+    "dial-core": "file:../core",
     "eslint": "^5.16.0",
     "events": "3.0.0",
     "moment": "^2.24.0",
