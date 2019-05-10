@@ -34,7 +34,8 @@ export const ConnectedScreen = props => {
         style={{
           position: 'absolute',
           bottom: 0,
-          transform: [{ translateY: 1 }]
+          transform: [{ translateY: 1 }],
+          paddingBottom: 10
         }}
       >
         <MakeCallForm />
