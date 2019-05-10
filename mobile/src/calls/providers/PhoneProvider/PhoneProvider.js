@@ -9,6 +9,7 @@ import {
   toneInMessage,
   toneOutMessage
 } from '../../../common/utils/logging';
+import * as Sound from '../../utils/sound/Sound';
 
 export const phoneService = ComponentToWrap => {
   return class ThemeComponent extends Component {
@@ -16,6 +17,7 @@ export const phoneService = ComponentToWrap => {
     static contextTypes = {
       phoneService: PropTypes.object
     };
+
     render() {
       const { phoneService } = this.context;
       // what we do is basically rendering `ComponentToWrap`
@@ -42,9 +44,11 @@ export class PhoneProvider extends Component {
   state = {
     phoneService: this
   };
+
   static childContextTypes = {
     phoneService: PropTypes.object.isRequired
   };
+
   getChildContext() {
     return { phoneService: this.state.phoneService };
   }
@@ -57,10 +61,10 @@ export class PhoneProvider extends Component {
    * When the component is mounted we load Dial
    */
   componentDidMount() {
-    let dial = new Dial();
+    const dial = new Dial();
     this.setState(
       {
-        dial: dial
+        dial
       },
       () => {
         this.addListeners();
@@ -85,7 +89,7 @@ export class PhoneProvider extends Component {
   authenticateUser = (phoneNumber, token) => {
     const { requestConnection } = this.props;
 
-    this.setState({ phoneNumber: phoneNumber });
+    this.setState({ phoneNumber });
     requestConnection();
     this.state.dial.authenticate(phoneNumber, token);
     // this.state.dial.authenticate(phoneNumber, JSON.stringify({}));
@@ -126,8 +130,8 @@ export class PhoneProvider extends Component {
 
     toneOutMessage(`Calling user ${name} with number ${phoneNumber}`);
     makeCall({
-      name: name,
-      phoneNumber: phoneNumber
+      name,
+      phoneNumber
     });
     // this.playRingbacktone();
     // endSearch();
@@ -177,6 +181,7 @@ export class PhoneProvider extends Component {
   };
 
   handleInviteReceivedEvent = event => {
+    Sound.receivingCall()
     const caller = event.data.session.localIdentity.friendlyName.split('@')[0];
     Alert.alert(
       caller,
@@ -196,6 +201,7 @@ export class PhoneProvider extends Component {
   };
 
   handleAcceptedEvent = () => {
+    Sound.stop()
     // TODO
     this.setState({
       startTime: Date.now()
@@ -205,6 +211,8 @@ export class PhoneProvider extends Component {
 
   handleRejectedEvent = () => {
     const { setCallMissed } = this.props;
+
+    Sound.stop()
     setCallMissed();
   };
 
@@ -260,7 +268,12 @@ export class PhoneProvider extends Component {
       case 'progress':
         logMessage(event);
         logMessage('Calling...');
+        Sound.makingCall();
         this.props.setIsCalling(true);
+        break;
+
+      case 'cancel':
+        Sound.stop();
         break;
 
       default:

@@ -16,6 +16,8 @@ target 'DialMobile' do
 
   pod 'react-native-webview', :path => '../node_modules/react-native-webview'
 
+  pod 'RNSound', :path => '../node_modules/react-native-sound'
+
   target 'DialMobileTests' do
     inherit! :search_paths
     # Pods for testing
