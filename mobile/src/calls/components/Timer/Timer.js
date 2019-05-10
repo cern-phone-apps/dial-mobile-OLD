@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 
 class Timer extends React.Component {
   constructor() {
@@ -47,11 +47,7 @@ class Timer extends React.Component {
   };
 
   render() {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center' }}>
-        <Text>{this.convertTimeToString()}</Text>
-      </View>
-    );
+    return <Text {...this.props}>{this.convertTimeToString()}</Text>;
   }
 }
 

@@ -15,14 +15,14 @@ import Dialpad from './Dialpad/Dialpad';
 const styles = StyleSheet.create({
   phoneNumberRow: {
     flexDirection: 'row',
-    width: Dimensions.get('screen').width - 20
+    width: Dimensions.get('screen').width
   },
   phoneNumberSideColumn: {
-    width: (Dimensions.get('screen').width - 20) / 7,
+    width: Dimensions.get('screen').width / 7,
     alignSelf: 'center'
   },
   phoneNumberCenterColumn: {
-    width: ((Dimensions.get('screen').width - 20) / 7) * 5
+    width: (Dimensions.get('screen').width / 7) * 5
   },
   phoneNumberInput: {
     textAlign: 'center',

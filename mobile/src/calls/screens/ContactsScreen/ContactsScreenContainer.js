@@ -4,6 +4,7 @@ import { API_ENDPOINT } from 'react-native-dotenv';
 
 import { callActions, contactsActionsFactory } from 'dial-core';
 import ContactsScreen from './ContactsScreen';
+import withOnGoingCallBanner from '../../../common/utils/calls';
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
@@ -18,4 +19,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   ({ contacts }) => ({ ...contacts }),
   mapDispatchToProps
-)(ContactsScreen);
+)(withOnGoingCallBanner(ContactsScreen));
