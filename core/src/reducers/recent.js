@@ -28,6 +28,13 @@ const recent = (state = initialState, action) => {
         ]
       };
     }
+
+    case recentActions.CLEAR_RECENT_CALLS:
+      return {
+        ...state,
+        lastRecentId: 0,
+        recentCalls: []
+      };
     default:
       return state;
   }
