@@ -43,7 +43,7 @@ export default class ContactsScreen extends React.Component {
     const { searching, contacts } = this.props;
 
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <View>
           <FlatList
             keyExtractor={this.keyExtractor}

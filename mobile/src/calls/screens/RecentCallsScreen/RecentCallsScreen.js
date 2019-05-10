@@ -118,7 +118,7 @@ export class RecentCallsScreen extends React.Component {
   render() {
     const { recentCalls } = this.props;
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         {/* other code from before here */}
         <FlatList
           keyExtractor={this.keyExtractor}
