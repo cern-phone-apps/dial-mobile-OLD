@@ -19,7 +19,7 @@ function checkNextAction(next, postponedRSAAs, rsaaMiddleware) {
   };
 }
 
-function processNextAction(postponedRSAAs, rsaaMiddleware) {
+function processNextAction(postponedRSAAs, rsaaMiddleware, getState) {
   return next => action => {
     const nextCheckPostponed = checkNextAction(
       next,
@@ -28,12 +28,8 @@ function processNextAction(postponedRSAAs, rsaaMiddleware) {
     );
 
     if (isRSAA(action)) {
-      const refreshToken = getRefreshToken();
-      const isOauthEnabled = process.env.REACT_APP_OAUTH_ENABLED;
-
-      if (isOauthEnabled === 'false') {
-        return rsaaMiddleware(next)(action);
-      }
+      const state = getState();
+      const refreshToken = getRefreshToken(state);
       // If it is a LOGIN_REQUEST or LOGOUT_REQUEST we don't try to refresh the token
       if (
         action[RSAA].types.indexOf(authActions.LOGOUT_REQUEST) > -1 ||
@@ -42,7 +38,7 @@ function processNextAction(postponedRSAAs, rsaaMiddleware) {
         return rsaaMiddleware(next)(action);
       }
 
-      if (refreshToken && isAccessTokenExpired()) {
+      if (refreshToken && isAccessTokenExpired(state)) {
         postponedRSAAs.push(action);
         if (postponedRSAAs.length > 0) {
           return rsaaMiddleware(nextCheckPostponed)(
@@ -64,7 +60,7 @@ export function createApiMiddleware() {
   return ({ dispatch, getState }) => {
     const rsaaMiddleware = apiMiddleware({ dispatch, getState });
 
-    return processNextAction(postponedRSAAs, rsaaMiddleware);
+    return processNextAction(postponedRSAAs, rsaaMiddleware, getState);
   };
 }
 
