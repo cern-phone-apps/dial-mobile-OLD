@@ -5,6 +5,7 @@ import { API_ENDPOINT } from 'react-native-dotenv';
 import { usersActionsFactory, contactsActionsFactory } from 'dial-core';
 
 import SearchUsersScreen from './SearchUsersScreen';
+import withOnGoingCallBanner from '../../../common/utils/calls';
 
 const contactsActions = contactsActionsFactory(API_ENDPOINT);
 const usersActions = usersActionsFactory(API_ENDPOINT);
@@ -23,4 +24,4 @@ export default connect(
       },
       dispatch
     )
-)(SearchUsersScreen);
+)(withOnGoingCallBanner(SearchUsersScreen));

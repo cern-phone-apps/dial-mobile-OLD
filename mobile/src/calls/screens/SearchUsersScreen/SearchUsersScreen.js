@@ -86,7 +86,7 @@ export default class SearchUsersScreen extends React.Component {
     const { searching } = this.props;
 
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <View
           style={{
             flexDirection: 'row'

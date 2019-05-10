@@ -44,29 +44,27 @@ export default class ContactsScreen extends React.Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <View>
-          <FlatList
-            keyExtractor={this.keyExtractor}
-            data={contacts}
-            renderItem={this.renderItem}
-            ListEmptyComponent={() =>
-              searching ? (
-                <ActivityIndicator size="large" style={{ paddingTop: 100 }} />
-              ) : (
-                <Text
-                  style={{
-                    display: 'flex',
-                    alignSelf: 'center',
-                    marginTop: 10,
-                    marginBottom: 10
-                  }}
-                >
-                  Currently you do not have any contacts
-                </Text>
-              )
-            }
-          />
-        </View>
+        <FlatList
+          keyExtractor={this.keyExtractor}
+          data={contacts}
+          renderItem={this.renderItem}
+          ListEmptyComponent={() =>
+            searching ? (
+              <ActivityIndicator size="large" style={{ paddingTop: 100 }} />
+            ) : (
+              <Text
+                style={{
+                  display: 'flex',
+                  alignSelf: 'center',
+                  marginTop: 10,
+                  marginBottom: 10
+                }}
+              >
+                Currently you do not have any contacts
+              </Text>
+            )
+          }
+        />
       </View>
     );
   }
