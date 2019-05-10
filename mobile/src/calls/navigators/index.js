@@ -11,7 +11,7 @@ import SettingsStack from '../../settings/navigators/settings';
 import RegisterLoadingScreenContainer from '../screens/RegisterLoadingScreen/RegisterLoadingScreenContainer';
 import RegisterStack from './register';
 import UnRegisterLoadingScreenContainer from '../screens/UnRegisterLoadingScreen/UnRegisterLoadingScreenContainer';
-import { ContactsStack } from './contacts';
+import ContactsStack from './contacts';
 import CallingScreenContainer from '../screens/CallingScreen/CallingScreenContainer';
 
 export const AppStack = createBottomTabNavigator(
@@ -26,9 +26,9 @@ export const AppStack = createBottomTabNavigator(
     defaultNavigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ tintColor }) => {
         const { routeName } = navigation.state;
-        console.log(routeName);
         const IconComponent = Ionicons;
         let iconName;
+
         if (routeName === 'Call') {
           iconName = `ios-call`;
           // Sometimes we want to add badges to some icons.
