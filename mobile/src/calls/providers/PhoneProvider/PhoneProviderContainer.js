@@ -2,7 +2,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import { connectionActions, callActions, recentCallsActions } from 'dial-core';
-import { PhoneProvider, phoneService } from './PhoneProvider';
+import { PhoneProvider} from './PhoneProvider';
+import { phoneService } from './PhoneService';
 
 function mapStateToProps(state) {
   const { calls } = state;

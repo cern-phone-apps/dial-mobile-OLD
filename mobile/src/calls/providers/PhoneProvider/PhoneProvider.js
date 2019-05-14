@@ -1,46 +1,40 @@
-import React, { Children, Component } from 'react';
+import React, { Children } from 'react';
 import PropTypes from 'prop-types';
-import { Dial } from "../../../../external/tone-webrtc-api/dial-api";
+import { Dial } from '../../../../external/tone-webrtc-api/dial-api';
 import {
   errorMessage,
+  logMessage,
   toneInMessage,
   toneOutMessage
 } from '../../../common/utils/logging';
 import * as Sound from '../../utils/sound/Sound';
 
-export const phoneService = ComponentToWrap => {
-  return class ThemeComponent extends Component {
-    // let’s define what’s needed from the `context`
-    static contextTypes = {
-      phoneService: PropTypes.object
-    };
-
-    render() {
-      const { phoneService } = this.context;
-      // what we do is basically rendering `ComponentToWrap`
-      // with an added `theme` prop, like a hook
-      return <ComponentToWrap {...this.props} phoneService={phoneService} />;
-    }
-  };
-};
-
-export class PhoneProvider extends Component {
+export class PhoneProvider extends React.Component {
   static propTypes = {
-    inCall: PropTypes.bool,
-    connected: PropTypes.bool,
+    call: PropTypes.shape({
+      inCall: PropTypes.bool.isRequired
+    }).isRequired,
     // Functions
-    requestConnection: PropTypes.func,
-    requestDisconnection: PropTypes.func,
-    setDisconnected: PropTypes.func,
+    setDisconnectionSuccess: PropTypes.func,
     setIsCalling: PropTypes.func,
-    hangupCall: PropTypes.func,
+    setCallFinished: PropTypes.func,
     acceptOutgoingCall: PropTypes.func,
     addRecentCall: PropTypes.func,
-    isReceivingCall: PropTypes.func.isRequired
+    requestRegistration: PropTypes.func.isRequired,
+    setRegistrationSuccess: PropTypes.func.isRequired,
+    requestDisconnection: PropTypes.func.isRequired,
+    setMakeCallRequest: PropTypes.func.isRequired,
+    setIsReceivingCall: PropTypes.func.isRequired,
+    setCallAccepted: PropTypes.func.isRequired,
+    setCallFailed: PropTypes.func.isRequired
   };
 
+  static defaulProps = {};
+
   state = {
-    phoneService: this
+    phoneService: this,
+    phoneNumber: '',
+    startTime: ''
   };
 
   static childContextTypes = {
@@ -62,7 +56,7 @@ export class PhoneProvider extends Component {
     const dial = new Dial();
     this.setState(
       {
-        dial
+        dialAPI: dial
       },
       () => {
         this.addListeners();
@@ -71,7 +65,8 @@ export class PhoneProvider extends Component {
   }
 
   addListeners = () => {
-    this.notifier = this.state.dial.getNotifier();
+    const { dialAPI } = this.state;
+    this.notifier = dialAPI.getNotifier();
     if (this.notifier) {
       this.notifier.on('ToneEvent', event => {
         this.eventHandler(event);
@@ -84,36 +79,38 @@ export class PhoneProvider extends Component {
    * @param phoneNumber
    * @returns {boolean|void|*}
    */
-  authenticateUser = (phoneNumber, token) => {
-    const { requestConnection } = this.props;
+  registerUser = (phoneNumber, token) => {
+    const { requestRegistration } = this.props;
+    const { dialAPI } = this.state;
 
     this.setState({ phoneNumber });
-    requestConnection();
-    this.state.dial.authenticate(phoneNumber, token);
-    // this.state.dial.authenticate(phoneNumber, JSON.stringify({}));
-    // TODO The ideal thing here is to know if the authentication succeeded
+    requestRegistration();
+    dialAPI.authenticate(phoneNumber, token);
   };
 
   disconnectUser = async () => {
-    const { requestDisconnection, setDisconnected } = this.props;
+    const {
+      requestDisconnection,
+      setDisconnectionSuccess,
+      call: inCall
+    } = this.props;
+    const { dialAPI } = this.state;
 
     toneOutMessage(`UnAuthenticating user`);
 
-    this.setState({ phoneNumber: undefined });
+    this.setState({ phoneNumber: '' });
 
-    if (this.props.inCall) {
+    if (inCall) {
       this.hangupCurrentCall();
     }
     await requestDisconnection(true);
 
     try {
-      this.state.dial.stopAgent();
+      dialAPI.stopAgent();
     } catch (error) {
       errorMessage(`Agent is not connected`);
-      setDisconnected();
+      setDisconnectionSuccess();
     }
-
-    // TODO Maybe stopAgent() is not the right method to call
   };
 
   /**
@@ -123,18 +120,16 @@ export class PhoneProvider extends Component {
    * @returns {*}
    */
   makeCall = (name = 'Unknown', phoneNumber) => {
-    const { makeCall, setIsCalling, endSearch } = this.props;
-    const { dial } = this.state;
+    const { setMakeCallRequest, setIsCalling } = this.props;
+    const { dialAPI } = this.state;
 
     toneOutMessage(`Calling user ${name} with number ${phoneNumber}`);
-    makeCall({
+    setMakeCallRequest({
       name,
       phoneNumber
     });
-    // this.playRingbacktone();
-    // endSearch();
     try {
-      dial.call(phoneNumber);
+      dialAPI.call(phoneNumber);
       return true;
     } catch (error) {
       errorMessage(error);
@@ -143,83 +138,129 @@ export class PhoneProvider extends Component {
     }
   };
 
-  hangupCurrentCall = (missed=false) => {
-    const { dial } = this.state;
-    const { hangupCall } = this.props;
+  hangupCurrentCall = (missed = false) => {
+    const { dialAPI } = this.state;
+    const { setCallFinished } = this.props;
     toneOutMessage(`Hang up current call`);
-    hangupCall(missed);
-    return dial.hangUp();
+    setCallFinished(missed);
+    return dialAPI.hangUp();
   };
 
   acceptIncomingCallAction = () => {
-    const { acceptIncomingCall } = this.props;
+    const { dialAPI } = this.state;
     toneOutMessage(`Accepting incoming call`);
-
-    // this.stopRingTone();
-    // acceptIncomingCall();
-    this.state.dial.answer();
+    dialAPI.answer();
   };
 
   addCallToRecentCalls = missed => {
-    const { addRecentCall, call: { recipient, caller, receivingCall, startTime } } = this.props;
-    addRecentCall(receivingCall ? caller : recipient, receivingCall, missed, startTime);
+    logMessage(`addCallToRecentCalls`);
+    const {
+      addRecentCall,
+      call: { recipient, caller, receivingCall, startTime, inCall }
+    } = this.props;
+    logMessage(recipient);
+    logMessage(caller);
+    logMessage(receivingCall);
+    logMessage(receivingCall);
+    logMessage(inCall);
+    addRecentCall(
+      receivingCall ? caller : recipient,
+      receivingCall,
+      !inCall,
+      startTime
+    );
   };
 
+  /**
+   * When the user connects to tone, we trigger a redux action to set the
+   * state as connected
+   */
   handleRegisteredEvent = () => {
-    this.props.setConnected();
+    const { setRegistrationSuccess } = this.props;
+    setRegistrationSuccess();
   };
 
+  /**
+   * When we receive a disconnected event, we update the redux state
+   */
   handleDisconnectedEvent = () => {
-    this.props.setDisconnected();
+    const { setDisconnectionSuccess } = this.props;
+    setDisconnectionSuccess();
   };
 
+  /**
+   * Terminated is received every time a call is terminated, no matter if it was
+   * successful or it failed
+   */
   handleTerminatedEvent = () => {
-    const { hangupCall } = this.props;
-    hangupCall();
-    this.addCallToRecentCalls(false);
+    const { setCallFinished, call: caller } = this.props;
+    this.addCallToRecentCalls(caller.missed);
+    setCallFinished();
   };
 
+  /**
+   * When we receive an inviteReceivedEvent, we want to play a ringtone and
+   * update the redux state
+   * @param event
+   */
   handleInviteReceivedEvent = event => {
-    Sound.receivingCall()
+    Sound.playReceivingCallTone();
     const { setIsReceivingCall } = this.props;
-    const { uri } = event.data.session.localIdentity;
+    // Retrieve the remote user information from the event data
+    const { uri } = event.data.session.remoteIdentity;
     setIsReceivingCall(uri.normal.user, null);
   };
 
+  /**
+   * When a call is accepted, we stop all the sounds and start the call timer
+   */
   handleAcceptedEvent = () => {
+    const { setCallAccepted } = this.props;
     Sound.stop();
-    // TODO
     this.setState({
       startTime: Date.now()
     });
-    this.props.acceptCall();
+    setCallAccepted();
+  };
+
+  rejectIncomingCall = () => {
+    this.state.dialAPI.hangUp();
   };
 
   handleRejectedEvent = () => {
     const { setCallMissed } = this.props;
 
     Sound.stop();
-    this.addCallToRecentCalls(true);
     setCallMissed();
   };
 
   handleFailedEvent = () => {
     // TODO
-    const { callFailed } = this.props;
+    const { setCallFailed } = this.props;
     const tempFailedMessage = {
       code: {
         status_code: 'NI'
       },
       description: 'Call failed'
     };
-    callFailed(tempFailedMessage);
+    setCallFailed(tempFailedMessage);
   };
 
-  // handleByeEvent = () => {
-  //   const { hangupCall } = this.props;
-  //   toneOutMessage(`Hang up current call`);
-  //   hangupCall();
-  // };
+  testFunction = () => {
+    console.log('Hello World');
+  };
+
+  handleProgressEvent = () => {
+    const { setIsCalling } = this.props;
+
+    console.log('Call in progress...');
+    Sound.playMakingCallTone();
+    setIsCalling(true);
+  };
+
+  handleCancelEvent = () => {
+    Sound.stop();
+  };
 
   eventHandler = event => {
     toneInMessage(`Tone Event received: ${event.name}`);
@@ -256,13 +297,11 @@ export class PhoneProvider extends Component {
       //   break;
 
       case 'progress':
-        console.log('Calling...');
-        Sound.makingCall();
-        this.props.setIsCalling(true);
+        this.handleProgressEvent();
         break;
 
       case 'cancel':
-        Sound.stop();
+        this.handleCancelEvent();
         break;
 
       default:
@@ -270,14 +309,11 @@ export class PhoneProvider extends Component {
     }
   };
 
-  testFunction = () => {
-    console.log('Hello World');
-  };
-
   render() {
+    const { children } = this.props;
     // `Children.only` enables us not to add a <div /> for nothing
-    return Children.only(this.props.children);
+    return Children.only(children);
   }
 }
 
-export { phoneService as withPhoneService };
+export default PhoneProvider;
