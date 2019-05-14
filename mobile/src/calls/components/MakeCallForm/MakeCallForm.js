@@ -8,7 +8,7 @@ import {
 import { Icon } from 'react-native-elements';
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withPhoneService } from '../../providers/PhoneProvider/PhoneProvider';
+import { withPhoneService } from '../../providers/PhoneProvider/PhoneService';
 import { logMessage } from '../../../common/utils/logging';
 import Dialpad from './Dialpad/Dialpad';
 

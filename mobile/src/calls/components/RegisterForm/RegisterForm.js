@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ListItem } from 'react-native-elements';
 
-import { phoneService } from '../../providers/PhoneProvider/PhoneProvider';
+import { phoneService } from '../../providers/PhoneProvider/PhoneService';
 
 export class RegisterForm extends React.Component {
   static propTypes = {
@@ -20,7 +20,7 @@ export class RegisterForm extends React.Component {
     const { phoneService, phoneNumber, token } = this.props;
     console.log(`Registering user ${phoneNumber}`);
 
-    phoneService.authenticateUser(phoneNumber, token);
+    phoneService.registerUser(phoneNumber, token);
   };
 
   /**

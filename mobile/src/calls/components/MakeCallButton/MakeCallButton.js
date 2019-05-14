@@ -3,7 +3,7 @@ import { Button, Icon } from 'react-native-elements';
 import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { withPhoneService } from '../../providers/PhoneProvider/PhoneProvider';
+import { withPhoneService } from '../../providers/PhoneProvider/PhoneService';
 import { logMessage } from '../../../common/utils/logging';
 
 const styles = StyleSheet.create({

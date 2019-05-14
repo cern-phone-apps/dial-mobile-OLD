@@ -3,8 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon } from 'react-native-elements';
 
-import { withPhoneService } from '../../providers/PhoneProvider/PhoneProvider';
-
+import { withPhoneService } from '../../providers/PhoneProvider/PhoneService';
 const styles = StyleSheet.create({
   button: {
     marginTop: 10,

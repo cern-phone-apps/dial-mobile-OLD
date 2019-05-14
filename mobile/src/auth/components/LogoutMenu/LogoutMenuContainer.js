@@ -6,7 +6,7 @@ import { withNavigation } from 'react-navigation';
 import { authActionFactory } from 'dial-core';
 import LogoutMenu from './LogoutMenu';
 
-import { phoneService } from '../../../calls/providers/PhoneProvider/PhoneProvider';
+import { phoneService } from '../../../calls/providers/PhoneProvider/PhoneService';
 
 function mapStateToProps() {
   return {};

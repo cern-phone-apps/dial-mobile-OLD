@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import PropTypes from 'prop-types';
 
-import { withPhoneService } from '../../providers/PhoneProvider/PhoneProvider';
+import { withPhoneService } from '../../providers/PhoneProvider/PhoneService';
 
 const styles = StyleSheet.create({
   layout: {
@@ -61,19 +61,14 @@ const styles = StyleSheet.create({
   }
 });
 
-const ReceivingCallScreen = ({
-  caller,
-  acceptCall,
-  navigation,
-  phoneService
-}) => {
+const ReceivingCallScreen = ({ caller, navigation, phoneService }) => {
   const answerCall = () => {
-    acceptCall();
+    phoneService.acceptIncomingCallAction();
     navigation.navigate('AppTabs');
   };
 
   const rejectCall = () => {
-    phoneService.hangupCurrentCall(true);
+    phoneService.rejectIncomingCall(true);
     navigation.navigate('Recent');
   };
 
@@ -122,10 +117,10 @@ ReceivingCallScreen.propTypes = {
     name: PropTypes.string,
     phoneNumber: PropTypes.string
   }),
-  acceptCall: PropTypes.func.isRequired,
-  hangupCall: PropTypes.func.isRequired,
+  setCallFinished: PropTypes.func.isRequired,
   phoneService: PropTypes.shape({
-    makeCall: PropTypes.func.isRequired
+    makeCall: PropTypes.func.isRequired,
+    acceptIncomingCallAction: PropTypes.func.isRequired
   }).isRequired
 };
 

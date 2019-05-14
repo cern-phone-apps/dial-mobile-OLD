@@ -3,8 +3,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button} from "react-native-elements";
 
-import { phoneService } from "../../providers/PhoneProvider/PhoneProvider";
 import {withNavigation} from 'react-navigation';
+import { phoneService } from '../../providers/PhoneProvider/PhoneService';
 export class DisconnectForm extends React.Component {
   static propTypes = {
     phoneService: PropTypes.object.isRequired
