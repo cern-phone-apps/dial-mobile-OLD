@@ -2,7 +2,7 @@ const Sound = require('react-native-sound');
 
 let sound;
 
-export function makingCall() {
+export function playMakingCallTone() {
   sound = new Sound('ringbacktone.wav', Sound.MAIN_BUNDLE, error => {
     if (error) {
       console.log('failed to load the sound', error);
@@ -13,7 +13,7 @@ export function makingCall() {
   });
 }
 
-export function receivingCall() {
+export function playReceivingCallTone() {
   sound = new Sound('ringtone.wav', Sound.MAIN_BUNDLE, error => {
     if (error) {
       console.log('failed to load the sound', error);
