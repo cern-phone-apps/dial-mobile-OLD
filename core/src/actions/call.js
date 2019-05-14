@@ -1,10 +1,10 @@
-export const CALL = '@@call/CALL';
+export const CALL_REQUEST = '@@call/CALL_REQUEST';
 export const IS_CALLING = '@@call/IS_CALLING';
 export const CALL_REJECTED = '@@call/CALL_REJECTED';
 export const CALL_FAILED = '@@call/CALL_FAILED';
 export const CALL_MISSED = '@@call/CALL_MISSED';
-export const IS_RECEIVING_CALL = '@@call/IS_RECEIVING_CALL';
-export const HANGUP_CALL = '@@call/HANGUP_CALL';
+export const CALL_RECEIVED = '@@call/CALL_RECEIVED';
+export const CALL_FINISHED = '@@call/CALL_FINISHED';
 export const CALL_ACCEPTED = '@@call/CALL_ACCEPTED';
 
 /**
@@ -13,9 +13,9 @@ export const CALL_ACCEPTED = '@@call/CALL_ACCEPTED';
  * @param recipient A dict with name, phone number and start time of the call
  * @returns {{type: string, recipient: *}} A dict
  */
-export function makeCall(recipient) {
+export function setMakeCallRequest(recipient) {
   return {
-    type: CALL,
+    type: CALL_REQUEST,
     recipient
   };
 }
@@ -39,7 +39,7 @@ export function setIsCalling(calling) {
  */
 export function setIsReceivingCall(callerNumber, callerName) {
   return {
-    type: IS_RECEIVING_CALL,
+    type: CALL_RECEIVED,
     callerNumber,
     callerName
   };
@@ -50,7 +50,7 @@ export function setIsReceivingCall(callerNumber, callerName) {
  *
  * @returns {{type: string}} A dict
  */
-export function acceptCall() {
+export function setCallAccepted() {
   return {
     type: CALL_ACCEPTED
   };
@@ -60,7 +60,7 @@ export function acceptCall() {
  * Action triggered when a call is rejected
  * @returns {{type: string}} A dict
  */
-export function rejectCall(errors = { code: { status_code: 0 } }) {
+export function setCallRejected(errors = { code: { status_code: 0 } }) {
   return {
     type: CALL_REJECTED,
     errors
@@ -71,7 +71,7 @@ export function rejectCall(errors = { code: { status_code: 0 } }) {
  * Action triggered when a call is rejected
  * @returns {{type: string}} A dict
  */
-export function callFailed(errors = { code: { status_code: 0 } }) {
+export function setCallFailed(errors = { code: { status_code: 0 } }) {
   return {
     type: CALL_FAILED,
     errors
@@ -92,8 +92,8 @@ export function setCallMissed() {
  * Action triggered when a call is hung up
  * @returns {{type: string}} A dict
  */
-export function hangupCall() {
+export function setCallFinished() {
   return {
-    type: HANGUP_CALL
+    type: CALL_FINISHED
   };
 }

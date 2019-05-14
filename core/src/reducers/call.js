@@ -6,6 +6,7 @@ const initialState = {
   receivingCall: false,
   caller: null,
   recipient: null,
+  missed: true,
   error: {}
 };
 
@@ -43,7 +44,11 @@ function processCallMissed(state) {
   return {
     ...state,
     inCall: false,
-    receivingCall: false
+    receivingCall: false,
+    caller: {
+      ...state.caller,
+      missed: true
+    }
   };
 }
 
@@ -90,7 +95,7 @@ function outgoingCallAccepted(state) {
 
 const call = (state = initialState, action) => {
   switch (action.type) {
-    case callActions.CALL:
+    case callActions.CALL_REQUEST:
       return processCall(state, action.recipient);
     case callActions.OUTGOING_CALL_ACCEPTED: {
       if (state.calling === true || state.receivingCall === true) {
@@ -104,11 +109,11 @@ const call = (state = initialState, action) => {
       return processCallFailed(state, action.errors);
     case callActions.CALL_MISSED:
       return processCallMissed(state);
-    case callActions.IS_RECEIVING_CALL:
+    case callActions.CALL_RECEIVED:
       return processCallReceiving(state, action);
     case callActions.CALL_ACCEPTED:
       return incomingCallAccepted(state);
-    case callActions.HANGUP_CALL:
+    case callActions.CALL_FINISHED:
       return processCallHangup(state);
 
     default:
