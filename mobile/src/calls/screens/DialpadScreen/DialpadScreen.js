@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import MakeCallForm from '../../components/MakeCallForm/MakeCallForm';
+import MakeCallForm from '../../components/DialpadForm/DialpadForm';
+import { withNavigation } from 'react-navigation';
 
 const styles = StyleSheet.create({
   container: {
@@ -19,7 +20,11 @@ const styles = StyleSheet.create({
   }
 });
 
-export default () => {
+const DialpadScreen = ({ receivingCall, navigation }) => {
+  if (receivingCall) {
+    navigation.navigate('Calling');
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>CERN Phone Mobile</Text>
@@ -29,3 +34,5 @@ export default () => {
     </View>
   );
 };
+
+export default withNavigation(DialpadScreen);

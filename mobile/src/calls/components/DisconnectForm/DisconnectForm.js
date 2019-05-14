@@ -1,10 +1,11 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
-import React from "react";
-import PropTypes from "prop-types";
-import { Button} from "react-native-elements";
+import { StyleSheet, View } from 'react-native';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Button } from 'react-native-elements';
 
-import {withNavigation} from 'react-navigation';
-import { phoneService } from '../../providers/PhoneProvider/PhoneService';
+import { withNavigation } from 'react-navigation';
+import { withPhoneService } from '../../providers/PhoneProvider/PhoneService';
+
 export class DisconnectForm extends React.Component {
   static propTypes = {
     phoneService: PropTypes.object.isRequired
@@ -18,7 +19,7 @@ export class DisconnectForm extends React.Component {
     const { phoneService, navigation } = this.props;
     console.log(`Disconnecting user`);
     await phoneService.disconnectUser();
-    navigation.navigate("UnRegisterLoading");
+    navigation.navigate('Register');
   };
 
   /**
@@ -26,7 +27,6 @@ export class DisconnectForm extends React.Component {
    * @returns {*}
    */
   render() {
-    this.props.phoneService.testFunction();
     return (
       <View>
         <Button
@@ -44,11 +44,11 @@ export class DisconnectForm extends React.Component {
 const styles = StyleSheet.create({
   button: {
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 10
   },
   buttonTitle: {
-    color: "#FF0000"
+    color: '#FF0000'
   }
 });
 
-export default withNavigation(phoneService(DisconnectForm));
+export default withNavigation(withPhoneService(DisconnectForm));

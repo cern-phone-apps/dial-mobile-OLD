@@ -1,20 +1,22 @@
-import { createStackNavigator } from "react-navigation";
-import HomeScreenContainer from "../screens/Home/HomeContainer";
+import { createStackNavigator } from 'react-navigation';
+import DialpadScreenContainer from '../screens/DialpadScreen/DialpadScreenContainer';
 
-export const CallStack = createStackNavigator({
-  Home: {
-    screen: HomeScreenContainer,
+const DialpadStack = createStackNavigator({
+  Dialpad: {
+    screen: DialpadScreenContainer,
     navigationOptions: () => {
       return {
         headerTitleStyle: {
-          color: "white"
+          color: 'white'
         },
         title: `Dialer`,
         headerStyle: {
-          backgroundColor: "#2196F3"
+          backgroundColor: '#2196F3'
         },
-        headerTintColor: "white"
+        headerTintColor: 'white'
       };
     }
   }
 });
+
+export default DialpadStack;

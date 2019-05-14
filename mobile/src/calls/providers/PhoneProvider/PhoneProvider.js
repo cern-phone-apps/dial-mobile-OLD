@@ -100,7 +100,8 @@ export class PhoneProvider extends React.Component {
 
     this.setState({ phoneNumber: '' });
 
-    if (inCall) {
+    if (inCall === true) {
+      logMessage('Hanging up current call');
       this.hangupCurrentCall();
     }
     await requestDisconnection(true);
@@ -138,11 +139,9 @@ export class PhoneProvider extends React.Component {
     }
   };
 
-  hangupCurrentCall = (missed = false) => {
+  hangupCurrentCall = () => {
     const { dialAPI } = this.state;
-    const { setCallFinished } = this.props;
     toneOutMessage(`Hang up current call`);
-    setCallFinished(missed);
     return dialAPI.hangUp();
   };
 
@@ -152,17 +151,12 @@ export class PhoneProvider extends React.Component {
     dialAPI.answer();
   };
 
-  addCallToRecentCalls = missed => {
+  addCallToRecentCalls = () => {
     logMessage(`addCallToRecentCalls`);
     const {
       addRecentCall,
       call: { recipient, caller, receivingCall, startTime, inCall }
     } = this.props;
-    logMessage(recipient);
-    logMessage(caller);
-    logMessage(receivingCall);
-    logMessage(receivingCall);
-    logMessage(inCall);
     addRecentCall(
       receivingCall ? caller : recipient,
       receivingCall,
@@ -224,7 +218,8 @@ export class PhoneProvider extends React.Component {
   };
 
   rejectIncomingCall = () => {
-    this.state.dialAPI.hangUp();
+    const { dialAPI } = this.state;
+    dialAPI.hangUp();
   };
 
   handleRejectedEvent = () => {

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { ActivityIndicator, Dimensions, View, Image, Text } from 'react-native';
 import { Button, Card } from 'react-native-elements';
 import { Toast } from '../../../common/components/android';
+import cernLogo from '../../../../assets/assets_CERN-logo_outline.png';
 
 class LoginScreen extends React.Component {
   static propTypes = {
@@ -39,33 +40,35 @@ class LoginScreen extends React.Component {
         }}
       >
         <Image
-          source={require('../../../../assets/assets_CERN-logo_outline.png')}
+          source={cernLogo}
           resizeMode="contain"
           style={{
             height: 100,
             alignSelf: 'center'
           }}
         />
-        <Card title="CERN Phone">
-          <Text
-            style={{
-              textAlign: 'center',
-              paddingBottom: 10
-            }}
-          >
-            SignIn with your CERN account to access the CERN Phone app.
-          </Text>
-          <Button
-            onPress={() => {
-              if (!authInProgress) {
-                startAuth();
-                navigation.navigate('LoginWebView');
-              }
-            }}
-            title="Sign in"
-          />
-        </Card>
-        {authInProgress && <ActivityIndicator size="small" />}
+        {!authInProgress && (
+          <Card title="CERN Phone">
+            <Text
+              style={{
+                textAlign: 'center',
+                paddingBottom: 10
+              }}
+            >
+              SignIn with your CERN account to access the CERN Phone app.
+            </Text>
+            <Button
+              onPress={() => {
+                if (!authInProgress) {
+                  startAuth();
+                  navigation.navigate('LoginWebView');
+                }
+              }}
+              title="Sign in"
+            />
+          </Card>
+        )}
+        {authInProgress && <ActivityIndicator size="large" />}
         {error && <Toast message={`Sign in failed: ${error.message}`} />}
       </View>
     );

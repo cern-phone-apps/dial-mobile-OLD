@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
 
 function getPrintableDate(recentCall) {
   let printableDate;
-  if (recentCall.startTime) {
-    printableDate = moment(recentCall.startTime).calendar();
+  if (recentCall.endTime) {
+    printableDate = moment(recentCall.endTime).calendar();
   }
   return printableDate;
 }
@@ -78,7 +78,7 @@ class RecentCallDetails extends Component {
   };
 
   render() {
-    const { navigation, calling } = this.props;
+    const { navigation } = this.props;
     const { recentCall } = navigation.state.params;
 
     const printableDate = getPrintableDate(recentCall);
@@ -105,15 +105,8 @@ class RecentCallDetails extends Component {
         <View style={[styles.iconTextContainer]}>
           <Icon name="calendar" type="evilicon" size={40} />
           <Text>{printableDate}</Text>
-          <Text>{JSON.stringify(calling)}</Text>
         </View>
         <MakeCallButton phoneNumber={recentCall.phoneNumber} />
-        {/*<Button*/}
-        {/*  onPress={() => {*/}
-        {/*    navigation.navigate('Calling');*/}
-        {/*  }}*/}
-        {/*  title="Calling Screen"*/}
-        {/*/>*/}
       </View>
     );
   }

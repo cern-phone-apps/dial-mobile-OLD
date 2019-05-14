@@ -5,7 +5,7 @@ import RecentCallsScreenContainer from '../screens/RecentCallsScreen/RecentCalls
 import RecentCallDetailsContainer from '../screens/RecentCallDetails/RecentCallDetailsContainer';
 import RecentCallsMenuContainer from '../components/RecentCallsMenu/RecentCallsMenuContainer';
 
-export const RecentStack = createStackNavigator({
+const RecentStack = createStackNavigator({
   Recent: {
     screen: RecentCallsScreenContainer,
     navigationOptions: () => {

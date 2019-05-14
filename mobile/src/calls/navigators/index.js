@@ -5,18 +5,17 @@ import {
 } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import React from 'react';
-import { CallStack } from './call';
-import { RecentStack } from './recent';
+import DialpadStack from './call';
+import RecentStack from './recent';
 import SettingsStack from '../../settings/navigators/settings';
 import RegisterLoadingScreenContainer from '../screens/RegisterLoadingScreen/RegisterLoadingScreenContainer';
 import RegisterStack from './register';
-import UnRegisterLoadingScreenContainer from '../screens/UnRegisterLoadingScreen/UnRegisterLoadingScreenContainer';
 import ContactsStack from './contacts';
 import CallModalScreenContainer from '../screens/CallModalScreen/CallModalScreenContainer';
 
 export const AppStack = createBottomTabNavigator(
   {
-    Call: CallStack,
+    Call: DialpadStack,
     Recent: RecentStack,
     Contacts: ContactsStack,
     Settings: SettingsStack
@@ -62,7 +61,7 @@ export const AppStack = createBottomTabNavigator(
 export const CallingStack = createStackNavigator({
   AppTabs: {
     screen: AppStack,
-    headerMode: 'nonde',
+    headerMode: 'none',
     navigationOptions: () => ({ header: null })
   },
   Calling: {
@@ -77,8 +76,7 @@ export const AppFullStack = createSwitchNavigator(
   {
     RegisterLoading: RegisterLoadingScreenContainer,
     AppRegistered: CallingStack,
-    Register: RegisterStack,
-    UnRegisterLoading: UnRegisterLoadingScreenContainer
+    Register: RegisterStack
   },
   {
     initialRouteName: 'RegisterLoading'

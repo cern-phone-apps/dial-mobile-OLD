@@ -20,7 +20,7 @@ export default class ContactsScreen extends React.Component {
     getUserContacts();
   }
 
-  keyExtractor = item => item.personId;
+  keyExtractor = item => item.personId.toString();
 
   renderItem = ({ item }) => {
     const { getUserContacts, removeUserContact } = this.props;

@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { withPhoneService } from '../../providers/PhoneProvider/PhoneService';
 import { logMessage } from '../../../common/utils/logging';
 import Dialpad from './Dialpad/Dialpad';
+import { withNavigation } from 'react-navigation';
 
 const styles = StyleSheet.create({
   phoneNumberRow: {
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class MakeCallForm extends React.Component {
+class DialpadForm extends React.Component {
   static propTypes = {
     phoneService: PropTypes.shape({
       makeCall: PropTypes.func.isRequired
@@ -76,9 +77,10 @@ class MakeCallForm extends React.Component {
    */
   makeCall = () => {
     const { phoneNumber } = this.state;
-    const { phoneService } = this.props;
+    const { phoneService, navigation } = this.props;
     logMessage(`Calling user ${phoneNumber}`);
     phoneService.makeCall(undefined, phoneNumber);
+    navigation.navigate('Calling');
   };
 
   /**
@@ -118,4 +120,4 @@ class MakeCallForm extends React.Component {
   }
 }
 
-export default withPhoneService(MakeCallForm);
+export default withNavigation(withPhoneService(DialpadForm));

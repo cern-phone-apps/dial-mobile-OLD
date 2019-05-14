@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Icon } from 'react-native-elements';
 import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
+import { withNavigation } from 'react-navigation';
 
 import { withPhoneService } from '../../providers/PhoneProvider/PhoneService';
 import { logMessage } from '../../../common/utils/logging';
@@ -26,10 +27,11 @@ class MakeCallButton extends Component {
   };
 
   makeCall = () => {
-    const { phoneService, phoneNumber, name } = this.props;
+    const { phoneService, phoneNumber, name, navigation } = this.props;
 
     logMessage(`Calling user ${phoneNumber}`);
     phoneService.makeCall(name, phoneNumber);
+    navigation.navigate('Calling');
   };
 
   render() {
@@ -45,4 +47,4 @@ class MakeCallButton extends Component {
   }
 }
 
-export default withPhoneService(MakeCallButton);
+export default withNavigation(withPhoneService(MakeCallButton));

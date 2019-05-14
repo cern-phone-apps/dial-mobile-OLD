@@ -78,6 +78,7 @@ function processCallHangup(state) {
     ...state,
     inCall: false,
     calling: false,
+    receivingCall: false,
     caller: null,
     recipient: null
   };

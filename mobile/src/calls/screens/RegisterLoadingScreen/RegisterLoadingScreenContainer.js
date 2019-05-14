@@ -1,14 +1,11 @@
-import { connect } from "react-redux";
-import { RegisterLoadingScreen } from "./RegisterLoadingScreen";
-
+import { connect } from 'react-redux';
+import { RegisterLoadingScreen } from './RegisterLoadingScreen';
 
 function mapStateToProps(state) {
-  const {connection} = state.calls;
+  const { connection } = state.calls;
   return {
-    connected: connection? connection.connected : false,
+    connected: connection ? connection.connected : false
   };
 }
 
-export default connect(
-  mapStateToProps,
-)(RegisterLoadingScreen);
+export default connect(mapStateToProps)(RegisterLoadingScreen);

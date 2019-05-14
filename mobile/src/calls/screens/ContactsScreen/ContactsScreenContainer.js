@@ -6,6 +6,13 @@ import { callActions, contactsActionsFactory } from 'dial-core';
 import ContactsScreen from './ContactsScreen';
 import withOnGoingCallBanner from '../../../common/utils/calls';
 
+function mapStateToProps(state) {
+  const { contacts } = state;
+  return {
+    ...contacts
+  };
+}
+
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
@@ -17,6 +24,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(
-  ({ contacts }) => ({ ...contacts }),
+  mapStateToProps,
   mapDispatchToProps
 )(withOnGoingCallBanner(ContactsScreen));

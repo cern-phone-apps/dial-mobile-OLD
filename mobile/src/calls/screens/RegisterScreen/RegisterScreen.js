@@ -4,15 +4,16 @@ import { FlatList, View } from 'react-native';
 import RegisterForm from '../../components/RegisterForm/RegisterForm';
 
 export default class RegisterScreen extends React.Component {
-  static defaultProps = {
-    numbers: []
-  };
-
   static propTypes = {
     connected: PropTypes.bool.isRequired,
     numbers: PropTypes.arrayOf(PropTypes.object),
     getUserPhoneNumbers: PropTypes.func.isRequired,
-    token: PropTypes.string.isRequired
+    token: PropTypes.string
+  };
+
+  static defaultProps = {
+    token: '',
+    numbers: []
   };
 
   static navigationOptions = {

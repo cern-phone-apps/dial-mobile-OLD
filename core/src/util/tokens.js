@@ -61,7 +61,6 @@ export function isAuthenticated(state) {
  * the new headers
  */
 export function withAuth(headers = {}) {
-  console.log('Calling WithAuth');
   return state => ({
     ...headers,
     Authorization: `Bearer ${getAccessToken(state)}`

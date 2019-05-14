@@ -10,8 +10,8 @@ export const CLEAR_RECENT_CALLS = '@@call/CLEAR_RECENT_CALLS';
  * @returns {{incoming: *, missed: *, startTime: *, remote: *, type: string}}
  */
 export function addRecentCall(remote, incoming, missed, startTime) {
-  const newRemote = remote;
-  if (!remote.name) {
+  const newRemote = remote || {};
+  if (remote && !remote.name) {
     newRemote.name = remote.phoneNumber;
   }
 

@@ -4,63 +4,6 @@ import { ListItem } from 'react-native-elements';
 import { FlatList, View } from 'react-native';
 import moment from 'moment';
 
-const list = [
-  {
-    name: 'Amy Farha',
-    avatar_url:
-      'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Vice President'
-  },
-  {
-    name: 'Chris Jackson',
-    avatar_url:
-      'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    subtitle: 'Vice Chairman'
-  },
-  {
-    name: 'Amy Farha',
-    avatar_url:
-      'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Vice President'
-  },
-  {
-    name: 'Amy Farha',
-    avatar_url:
-      'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Vice President'
-  },
-  {
-    name: 'Amy Farha',
-    avatar_url:
-      'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Vice President'
-  },
-  {
-    name: 'Amy Farha',
-    avatar_url:
-      'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Vice President'
-  },
-  {
-    name: 'Amy Farha',
-    avatar_url:
-      'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Vice President'
-  },
-  {
-    name: 'Amy Farha',
-    avatar_url:
-      'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Vice President'
-  },
-  {
-    name: 'Amy Farha',
-    avatar_url:
-      'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Vice President'
-  }
-];
-
 export class RecentCallsScreen extends React.Component {
   static navigationOptions = {
     title: 'Recent Calls'
@@ -74,13 +17,11 @@ export class RecentCallsScreen extends React.Component {
 
   renderItem = ({ item }) => {
     const { navigation } = this.props;
-    const printableDate = moment(item.startTime).calendar();
+
+    const printableDate = moment(item.endTime).calendar();
     const duration = moment.duration(
       moment(item.endTime).diff(moment(item.startTime))
     );
-
-    console.log(duration);
-
     return (
       <ListItem
         title={`${item.name} (${item.phoneNumber})`}
@@ -102,10 +43,6 @@ export class RecentCallsScreen extends React.Component {
         rightSubtitle={item.missed ? 'missed' : duration.humanize()}
         bottomDivider
         onPress={() => {
-          console.log('Recent call pressed');
-          if (!navigation) {
-            console.log('Navigation is not defined');
-          }
           navigation.navigate('RecentCallDetails', {
             phoneNumber: item.phoneNumber,
             recentCall: item

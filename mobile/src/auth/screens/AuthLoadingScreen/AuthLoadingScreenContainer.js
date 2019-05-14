@@ -1,15 +1,13 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import {AuthLoadingScreen} from "./AuthLoadingScreen";
+import { AuthLoadingScreen } from './AuthLoadingScreen';
 
 function mapStateToProps(state) {
-  const {auth} = state;
+  const { auth } = state;
   return {
     loggedIn: auth.loggedIn,
     token: auth.token
   };
 }
 
-export default connect(
-  mapStateToProps,
-)(AuthLoadingScreen);
+export default connect(mapStateToProps)(AuthLoadingScreen);

@@ -1,4 +1,5 @@
 import * as connectionActions from '../actions/connection';
+import { DISCONNECTION_SUCCESS } from '../actions/connection';
 
 const initialState = {
   connected: false,
@@ -29,14 +30,14 @@ export default (state = initialState, action) => {
         ...state,
         disconnecting: true
       };
-    case connectionActions.DISCONNECT_SUCCESS:
+    case connectionActions.DISCONNECTION_SUCCESS:
       return {
         ...state,
         connected: false,
         disconnecting: false,
         error: {}
       };
-    case connectionActions.CONNECT_FAILURE:
+    case connectionActions.REGISTRATION_FAILURE:
     case connectionActions.DISCONNECTION_FAILURE:
       return {
         ...state,
