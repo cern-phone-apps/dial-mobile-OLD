@@ -10,21 +10,21 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case connectionActions.CONNECT_REQUEST:
+    case connectionActions.REGISTRATION_REQUEST:
       return {
         ...state,
         connected: false,
         connecting: true,
         error: {}
       };
-    case connectionActions.CONNECT_SUCCESS:
+    case connectionActions.REGISTRATION_SUCCESS:
       return {
         ...state,
         connected: true,
         connecting: false,
         error: {}
       };
-    case connectionActions.DISCONNECT_REQUEST:
+    case connectionActions.DISCONNECTION_REQUEST:
       return {
         ...state,
         disconnecting: true
@@ -37,7 +37,7 @@ export default (state = initialState, action) => {
         error: {}
       };
     case connectionActions.CONNECT_FAILURE:
-    case connectionActions.DISCONNECT_FAILURE:
+    case connectionActions.DISCONNECTION_FAILURE:
       return {
         ...state,
         connected: false,

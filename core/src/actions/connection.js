@@ -1,18 +1,18 @@
-export const CONNECT_REQUEST = '@@connection/CONNECT_REQUEST';
-export const CONNECT_SUCCESS = '@@connection/CONNECT_SUCCESS';
-export const CONNECT_FAILURE = '@@connection/CONNECT_FAILURE';
+export const REGISTRATION_REQUEST = '@@connection/REGISTRATION_REQUEST';
+export const REGISTRATION_SUCCESS = '@@connection/REGISTRATION_SUCCESS';
+export const REGISTRATION_FAILURE = '@@connection/REGISTRATION_FAILURE';
 
-export const DISCONNECT_REQUEST = '@@connection/DISCONNECT_REQUEST';
-export const DISCONNECT_SUCCESS = '@@connection/DISCONNECT_SUCCESS';
-export const DISCONNECT_FAILURE = '@@connection/DISCONNECT_FAILURE';
+export const DISCONNECTION_REQUEST = '@@connection/DISCONNECTION_REQUEST';
+export const DISCONNECTION_SUCCESS = '@@connection/DISCONNECTION_SUCCESS';
+export const DISCONNECTION_FAILURE = '@@connection/DISCONNECTION_FAILURE';
 
 /**
  * Action that triggers a request of connection to TONE API
  * @returns {{type: string}} A dict
  */
-export function requestConnection() {
+export function requestRegistration() {
   return {
-    type: CONNECT_REQUEST
+    type: REGISTRATION_REQUEST
   };
 }
 
@@ -20,9 +20,9 @@ export function requestConnection() {
  * Action that is triggered on a successful connection to TONE
  * @returns {{type: string}} A dict
  */
-export function setConnected() {
+export function setRegistrationSuccess() {
   return {
-    type: CONNECT_SUCCESS
+    type: REGISTRATION_SUCCESS
   };
 }
 
@@ -31,27 +31,27 @@ export function setConnected() {
  * @param errors A dict with information about the errors
  * @returns {{errors: *, type: string}} A dict
  */
-export function setConnectionFailure(errors) {
+export function setRegistrationFailure(errors) {
   return {
     errors,
-    type: CONNECT_FAILURE
+    type: REGISTRATION_FAILURE
   };
 }
 
 export function requestDisconnection() {
   return {
-    type: DISCONNECT_REQUEST
+    type: DISCONNECTION_REQUEST
   };
 }
 
-export function setDisconnected() {
+export function setDisconnectionSuccess() {
   return {
-    type: DISCONNECT_SUCCESS
+    type: DISCONNECTION_SUCCESS
   };
 }
 
 export function setDisconnectionFailure() {
   return {
-    type: DISCONNECT_FAILURE
+    type: DISCONNECTION_FAILURE
   };
 }
